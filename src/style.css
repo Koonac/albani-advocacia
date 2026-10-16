@@ -1,0 +1,200 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------
+   Albani Advocacia — tokens
+   Ardósia (pedra cinza-azulada fosca do mockup do logo) + latão dourado
+   --------------------------------------------------------------- */
+@theme {
+  --color-slate-deep: #121419;   /* faixas profundas, rodapé */
+  --color-slate: #1a1d23;        /* fundo base */
+  --color-slate-raised: #22262e; /* superfícies elevadas */
+  --color-slate-line: #353a44;   /* hairlines */
+  --color-brass-deep: #8c6a2e;   /* gradiente — sombra */
+  --color-brass: #c9a55a;        /* gradiente — meio / ícones */
+  --color-brass-light: #e8cf8e;  /* gradiente — brilho */
+  --color-brass-text: #d8b56c;   /* texto dourado sólido (AA: 8.6:1 sobre #1a1d23) */
+  --color-ivory: #f0e9dc;        /* texto principal (14.0:1) */
+  --color-mist: #aeb2ba;         /* texto secundário frio (8.0:1) */
+
+  --font-display: 'Marcellus', 'Times New Roman', serif;
+  --font-sans: 'Instrument Sans Variable', 'Segoe UI', system-ui, sans-serif;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-slate font-sans text-ivory antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+  /* Grão de pedra/papel sobre o ardósia + luz difusa do topo (como no mockup do logo) */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .78 0 0 0 0 .8 0 0 0 0 .86 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+      radial-gradient(120% 70% at 50% -10%, #2b313c 0%, rgba(26, 29, 35, 0) 60%),
+      var(--color-slate);
+  }
+  /* Mobile: sem o ruído feTurbulence numa camada fixa de tela cheia (caro para rasterizar e compor no scroll) */
+  @media (max-width: 1023.98px) {
+    body::before {
+      position: absolute;
+      height: 100svh;
+      background:
+        radial-gradient(120% 70% at 50% -10%, #2b313c 0%, rgba(26, 29, 35, 0) 60%),
+        var(--color-slate);
+    }
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: 0.005em;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  ::selection { background: var(--color-brass); color: var(--color-slate-deep); }
+  :focus-visible {
+    outline: 2px solid var(--color-brass-light);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  img { max-width: 100%; height: auto; }
+}
+
+@layer components {
+  .container-site {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) { .container-site { padding-inline: 2rem; } }
+  @media (min-width: 1280px) { .container-site { padding-inline: 3rem; } }
+
+  /* Texto em latão metálico (gradiente do logo) — só em display grande */
+  .text-metal {
+    background: linear-gradient(100deg, var(--color-brass-deep) 0%, var(--color-brass) 28%, var(--color-brass-light) 52%, var(--color-brass) 74%, var(--color-brass-deep) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Rótulo de contexto: frase curta em latão, precedida por um fio — sentence case */
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9375rem;
+    color: var(--color-brass-text);
+    letter-spacing: 0.01em;
+  }
+  .kicker::before {
+    flex-shrink: 0;
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-brass-deep), var(--color-brass-light));
+  }
+
+  /* Botão principal: placa de latão escovado */
+  .btn-brass {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3.25rem;
+    padding: 0.85rem 1.6rem;
+    border-radius: 2px;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.2;
+    color: #1a1408;
+    background: linear-gradient(105deg, #a9853f 0%, #d9b96e 38%, #ecd59a 52%, #c9a55a 70%, #9c7a37 100%);
+    background-size: 220% 100%;
+    background-position: 0% 0;
+    box-shadow: inset 0 1px 0 rgba(255, 244, 214, 0.55), inset 0 -1px 0 rgba(90, 64, 20, 0.5), 0 10px 30px -12px rgba(201, 165, 90, 0.45);
+    transition: background-position 0.6s var(--ease-out-soft), transform 0.2s ease, box-shadow 0.3s ease;
+    text-align: center;
+  }
+  .btn-brass:hover { background-position: 100% 0; box-shadow: inset 0 1px 0 rgba(255, 244, 214, 0.6), inset 0 -1px 0 rgba(90, 64, 20, 0.5), 0 14px 36px -12px rgba(232, 207, 142, 0.55); }
+  .btn-brass:active { transform: translateY(1px); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3.25rem;
+    padding: 0.85rem 1.4rem;
+    border-radius: 2px;
+    font-weight: 500;
+    color: var(--color-ivory);
+    border: 1px solid rgba(201, 165, 90, 0.45);
+    transition: border-color 0.25s ease, color 0.25s ease, background-color 0.25s ease;
+    text-align: center;
+  }
+  .btn-ghost:hover { border-color: var(--color-brass-light); color: var(--color-brass-light); background-color: rgba(201, 165, 90, 0.06); }
+
+  /* Link de texto com sublinhado de latão que cresce */
+  .link-brass {
+    color: var(--color-brass-text);
+    background-image: linear-gradient(var(--color-brass-light), var(--color-brass-light));
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.35s var(--ease-out-soft), color 0.2s ease;
+    padding-bottom: 2px;
+  }
+  .link-brass:hover { background-size: 100% 1px; color: var(--color-brass-light); }
+
+  /* Fio dourado (hairline com brilho central) */
+  .rule-brass {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(90deg, rgba(140, 106, 46, 0), rgba(201, 165, 90, 0.7) 30%, rgba(232, 207, 142, 0.9) 50%, rgba(201, 165, 90, 0.7) 70%, rgba(140, 106, 46, 0));
+  }
+
+  .section { padding-block: 5rem; }
+  @media (min-width: 1024px) { .section { padding-block: 7.5rem; } }
+
+  /* Corpo de artigo — coluna mais larga e tipografia confortável para leitura */
+  .prose-albani {
+    font-size: 1.2rem;
+    line-height: 1.85;
+    letter-spacing: 0.01em;
+  }
+  .prose-albani p {
+    margin-bottom: 1.55em;
+    color: #ddd6c9;
+    max-width: 70ch;
+  }
+  .prose-albani p:first-child::first-letter {
+    font-family: var(--font-display);
+    float: left;
+    font-size: 3.4em;
+    line-height: 0.9;
+    padding: 0.08em 0.12em 0 0;
+    color: var(--color-brass-text);
+  }
+}
+
+/* Reveal discreto (aplicado via diretiva v-reveal só no cliente; SSR = visível) */
+.reveal-init { opacity: 0; transform: translateY(14px); }
+.reveal-in { opacity: 1; transform: none; transition: opacity 0.9s var(--ease-out-soft), transform 0.9s var(--ease-out-soft); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  .reveal-init { opacity: 1; transform: none; }
+}
