@@ -349,8 +349,11 @@ async function ensureFlow() {
 // - some o painel lateral direito (informações, revisões, comentários) e o botão que o abre
 // Seletores conferidos no código do app do Directus 11.17 (module-bar*.vue, private-view-*.vue).
 const ED = 'html:not(:has(.module-bar a[href$="/settings"]))'
-// Módulo de usuários aberto (o menu dele lista links /users...). :has() não pode ser aninhado
-const OUT = `${ED}:has(.module-nav-content a[href*="/users"])`
+// Fora do módulo de conteúdo (perfil, arquivos, ou rotas que o Editor não pode abrir, como
+// configurações e insights, que mostram "Página não encontrada" com o menu vazio). Sem a barra
+// de módulos, nessas telas o único caminho de volta é o atalho abaixo. :has() não pode ser
+// aninhado em :has(), mas pode ficar dentro de :not().
+const OUT = `${ED}:not(:has(.module-nav-content a[href*="/content/"]))`
 const EDITOR_CSS = `
 ${ED} .module-bar :is(.module-bar-logo, .modules) { display: none !important; }
 ${ED} .module-bar { justify-content: flex-end; }
@@ -392,7 +395,7 @@ ${ED} :is(.private-view, .panel) > .module-bar .sign-out {
   transform: none !important;
 }
 
-/* No módulo de usuários (é onde "Meu perfil" abre): some a navegação
+/* Fora do conteúdo (ex.: "Meu perfil", que abre no módulo de usuários): some a navegação
    daquele módulo e o botão de voltar do cabeçalho (que leva à lista de usuários); no lugar,
    o botão do módulo de conteúdo vira um atalho "Voltar ao blog" no topo do menu */
 ${OUT} .module-nav-content > *,
