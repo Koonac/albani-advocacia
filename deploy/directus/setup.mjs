@@ -1,9 +1,16 @@
 // Configura o Directus para o blog (idempotente: pode rodar de novo sem duplicar nada).
 // - coleção `posts` com campos PT/EN no mesmo formato que o site usa
-// - perfil "Editor" (Dr. Ivan): cria/edita posts e envia imagens
-// - usuário "build" com token estático só de leitura (BUILD_TOKEN), usado pelo fetch-posts
-// - Flow que chama o builder (POST /rebuild) quando um post é criado, alterado ou apagado
-import { api, findOne, login, pt, requireEnv } from './lib.mjs'
+// - coleção singleton `pagina_inicial` (link do vídeo do YouTube da home)
+// - perfil "Editor" (Dr. Ivan): cria/edita posts, edita a página inicial e envia imagens,
+//   com o painel enxuto (CSS abaixo)
+// - usuário "build" com token estático só de leitura (BUILD_TOKEN), usado pelo fetch-posts/fetch-home
+// - Flow que chama o builder (POST /rebuild) quando um post ou a página inicial muda
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { CONTACT } from '../../src/config/site.js'
+import { api, findOne, login, pt, requireEnv, uploadFile } from './lib.mjs'
+
+const BRANDING = join(dirname(fileURLToPath(import.meta.url)), 'branding')
 
 requireEnv('BUILD_TOKEN', 'REBUILD_SECRET')
 
@@ -172,13 +179,99 @@ async function ensureCollection() {
   }
 }
 
+// Links aceitos: youtube.com/watch?v=, youtu.be/, /shorts/, /embed/ e /live/ (o fetch-home extrai o id)
+const YOUTUBE_RE = '^https?://((www|m)\\.)?(youtube\\.com/(watch\\?(.*&)?v=|shorts/|embed/|live/)|youtu\\.be/)[A-Za-z0-9_-]{11}'
+
+const HOME_FIELDS = [
+  {
+    field: 'video_url',
+    type: 'string',
+    meta: {
+      interface: 'input',
+      options: { placeholder: 'https://www.youtube.com/watch?v=...', trim: true, iconLeft: 'smart_display' },
+      required: true,
+      translations: pt('Link do vídeo no YouTube'),
+      note: 'Vídeo que aparece logo abaixo do topo da página inicial. Cole o link copiado do YouTube.',
+      validation: { _and: [{ video_url: { _regex: YOUTUBE_RE } }] },
+      validation_message: 'Cole um link de vídeo do YouTube (ex.: https://www.youtube.com/watch?v=...).',
+      sort: 1,
+      width: 'full',
+    },
+    schema: {},
+  },
+  {
+    field: 'video_capa',
+    type: 'uuid',
+    meta: {
+      interface: 'file-image',
+      special: ['file'],
+      display: 'image',
+      translations: pt('Miniatura do vídeo (opcional)'),
+      note: 'Imagem mostrada antes de dar play. Se vazio, usa a miniatura do próprio YouTube. Ideal: 1280×720.',
+      sort: 2,
+      width: 'full',
+    },
+    schema: {},
+  },
+]
+
+async function ensureHome() {
+  try {
+    await api('GET', '/collections/pagina_inicial')
+    console.log('coleção pagina_inicial: já existe')
+  } catch {
+    await api('POST', '/collections', {
+      collection: 'pagina_inicial',
+      meta: {
+        icon: 'home',
+        note: 'Conteúdo editável da página inicial do site',
+        singleton: true,
+        sort: 2,
+        translations: [{ language: 'pt-BR', translation: 'Página inicial', singular: 'Página inicial', plural: 'Página inicial' }],
+      },
+      schema: {},
+      fields: [{ field: 'id', type: 'integer', meta: { hidden: true, readonly: true, interface: 'input' }, schema: { is_primary_key: true, has_auto_increment: true } }],
+    })
+    // Posts primeiro no menu
+    await api('PATCH', '/collections/posts', { meta: { sort: 1 } })
+    console.log('coleção pagina_inicial: criada')
+  }
+
+  const existing = new Set((await api('GET', '/fields/pagina_inicial')).map((f) => f.field))
+  for (const def of HOME_FIELDS) {
+    if (existing.has(def.field)) continue
+    await api('POST', '/fields/pagina_inicial', def)
+    console.log(`  campo ${def.field}: criado`)
+  }
+
+  const relations = await api('GET', '/relations/pagina_inicial')
+  if (!relations.some((r) => r.field === 'video_capa')) {
+    await api('POST', '/relations', { collection: 'pagina_inicial', field: 'video_capa', related_collection: 'directus_files', schema: { on_delete: 'SET NULL' } })
+    console.log('  relação video_capa -> directus_files: criada')
+  }
+
+  // Já abre preenchido com o vídeo atual do site
+  const home = await api('GET', '/items/pagina_inicial')
+  if (!home?.video_url) {
+    await api('PATCH', '/items/pagina_inicial', { video_url: `https://www.youtube.com/watch?v=${CONTACT.videoId}` })
+    console.log('  vídeo atual da página inicial: gravado')
+  }
+}
+
 /** Política + papel com as permissões dadas; devolve o id do papel */
 async function ensureRole({ name, icon, description, appAccess, permissions }) {
   let policy = await findOne('/policies', { name })
   if (!policy) {
     policy = await api('POST', '/policies', { name, icon, description, app_access: appAccess, admin_access: false })
-    await api('POST', '/permissions', permissions.map((p) => ({ policy: policy.id, fields: ['*'], permissions: {}, validation: {}, ...p })))
     console.log(`política "${name}": criada`)
+  }
+  // Acrescenta as permissões que faltam (instalações antigas ganham as coleções novas)
+  const current = await api('GET', `/permissions?filter[policy][_eq]=${policy.id}&limit=-1&fields=collection,action`)
+  const has = new Set(current.map((p) => `${p.collection}:${p.action}`))
+  const missing = permissions.filter((p) => !has.has(`${p.collection}:${p.action}`))
+  if (missing.length) {
+    await api('POST', '/permissions', missing.map((p) => ({ policy: policy.id, fields: ['*'], permissions: {}, validation: {}, ...p })))
+    console.log(`política "${name}": ${missing.length} permissões adicionadas`)
   }
   let role = await findOne('/roles', { name })
   if (!role) {
@@ -216,22 +309,24 @@ async function ensureFlow() {
     headers: [{ header: 'x-rebuild-secret', value: process.env.REBUILD_SECRET }],
     body: '{}',
   }
+  const flowOptions = { type: 'action', scope: ['items.create', 'items.update', 'items.delete'], collections: ['posts', 'pagina_inicial'] }
   const flow = await findOne('/flows', { name })
   if (flow) {
+    await api('PATCH', `/flows/${flow.id}`, { options: flowOptions })
     const op = await findOne('/operations', { flow: flow.id, key: 'rebuild' })
     if (op) await api('PATCH', `/operations/${op.id}`, { options: operationOptions })
-    console.log(`flow "${name}": já existe (segredo atualizado)`)
+    console.log(`flow "${name}": já existe (coleções e segredo atualizados)`)
     return
   }
   const created = await api('POST', '/flows', {
     name,
     icon: 'rocket_launch',
     color: '#C9A55A',
-    description: 'Refaz o site estático quando um post muda',
+    description: 'Refaz o site estático quando um post ou a página inicial muda',
     status: 'active',
     trigger: 'event',
     accountability: 'all',
-    options: { type: 'action', scope: ['items.create', 'items.update', 'items.delete'], collections: ['posts'] },
+    options: flowOptions,
   })
   const op = await api('POST', '/operations', {
     flow: created.id,
@@ -246,15 +341,110 @@ async function ensureFlow() {
   console.log(`flow "${name}": criado`)
 }
 
+// Painel enxuto para quem não é admin (o Editor). O CSS do projeto vale para todos, então as
+// regras ficam sob ED, que só casa quando a barra de módulos não tem o link de Configurações
+// (exclusivo de admins). Para o Editor:
+// - some a barra de módulos (logo, Conteúdo, Usuários, Arquivos, Ajuda); notificações, sair e
+//   perfil viram um rodapé dentro do menu "Posts do blog / Página inicial", de largura fixa
+// - some o painel lateral direito (informações, revisões, comentários) e o botão que o abre
+// Seletores conferidos no código do app do Directus 11.17 (module-bar*.vue, private-view-*.vue).
+const ED = 'html:not(:has(.module-bar a[href$="/settings"]))'
+const EDITOR_CSS = `
+${ED} .module-bar :is(.module-bar-logo, .modules) { display: none !important; }
+${ED} .module-bar { justify-content: flex-end; }
+
+${ED} .private-view { position: relative; }
+${ED} .root-split:not(.sp-collapsed) { grid-template-columns: 15rem 0 minmax(0, 1fr) !important; }
+${ED} .root-split > .sp-divider { visibility: hidden; pointer-events: none; }
+${ED} .project-info .nav-toggle { display: none !important; }
+${ED} :is(.root-split:not(.sp-collapsed), .panel) .module-nav-content { padding-block-end: 4rem; }
+
+/* Rodapé: no menu fixo (telas largas) e na gaveta (.panel) que o substitui nas menores */
+${ED} .private-view:has(> .root-split.sp-collapsed) > .module-bar { display: none !important; }
+${ED} .panel > .module-bar { inline-size: 100% !important; }
+${ED} .private-view > .module-bar { inline-size: 15rem !important; }
+${ED} :is(.private-view, .panel) > .module-bar {
+  --theme--navigation--modules--background: var(--theme--navigation--background);
+  --theme--navigation--modules--button--foreground: var(--theme--navigation--list--icon--foreground);
+  --theme--navigation--modules--button--foreground-hover: var(--theme--navigation--list--foreground-hover);
+  position: absolute !important;
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  z-index: 5;
+  flex-direction: row !important;
+  box-sizing: border-box !important;
+  block-size: auto !important;
+  border-inline-end: var(--theme--navigation--border-width) solid var(--theme--navigation--border-color) !important;
+  border-block-start: 1px solid var(--theme--navigation--list--divider--border-color);
+}
+${ED} :is(.private-view, .panel) > .module-bar .module-bar-avatar { display: flex; align-items: center; inline-size: 100%; }
+${ED} :is(.private-view, .panel) > .module-bar .space-bar { display: contents; }
+${ED} :is(.private-view, .panel) > .module-bar .avatar-btn { order: 0; margin-inline-end: auto; display: flex; align-items: center; gap: 0.5rem; color: var(--theme--navigation--list--foreground); }
+${ED} :is(.private-view, .panel) > .module-bar .avatar-btn::after { content: 'Meu perfil'; font-size: 0.8125rem; }
+${ED} :is(.private-view, .panel) > .module-bar .v-avatar.no-avatar::after { display: none; }
+${ED} :is(.private-view, .panel) > .module-bar .notifications-badge { order: 1; }
+${ED} :is(.private-view, .panel) > .module-bar .sign-out {
+  order: 2;
+  position: static !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+${ED} .main-split { grid-template-columns: minmax(0, 1fr) !important; }
+${ED} .main-split > :is(.sp-divider, .sp-end),
+${ED} .header-bar .sidebar-toggle { display: none !important; }
+`
+
+// Identidade na tela de login e na barra lateral: símbolo no quadrado (fundo grafite, porque
+// o dourado do símbolo some sobre a cor do projeto) e a logo completa grande e desfocada à direita.
+// As regras do Directus são escopadas ([data-v-*]) e por isso pedem !important.
+const CUSTOM_CSS = `
+.public-view .logo,
+.module-bar-logo { background-color: #1f232a !important; }
+.public-view .logo img,
+.module-bar-logo .custom-logo { inline-size: 2.6rem !important; block-size: 2.6rem !important; }
+.public-view .art .foreground {
+  inline-size: 88% !important;
+  max-inline-size: 60rem !important;
+  filter: blur(5px);
+  opacity: 0.7;
+}
+${EDITOR_CSS}`
+
+async function ensureLogo(file, title, type) {
+  const existing = await findOne('/files', { title })
+  return existing ? existing.id : uploadFile(join(BRANDING, file), { title, type })
+}
+
+async function ensureBranding() {
+  const symbol = await ensureLogo('logo-simbolo.png', 'Albani · símbolo', 'image/png')
+  const full = await ensureLogo('logo-completo.webp', 'Albani · logo completa', 'image/webp')
+  await api('PATCH', '/settings', {
+    project_name: 'Albani Advocacia · Blog',
+    project_color: '#C9A55A',
+    default_language: 'pt-BR',
+    project_logo: symbol,
+    public_foreground: full,
+    custom_css: CUSTOM_CSS,
+  })
+  console.log('identidade visual (logos, cores, CSS): aplicada')
+}
+
 await login()
-await api('PATCH', '/settings', { project_name: 'Albani Advocacia · Blog', project_color: '#C9A55A', default_language: 'pt-BR' })
+await ensureBranding()
 await ensureCollection()
+await ensureHome()
 const editorRole = await ensureRole({
   name: 'Editor',
   icon: 'edit_note',
   description: 'Escreve e publica os posts do blog',
   appAccess: true,
-  permissions: [...crud('posts'), ...crud('directus_files'), { collection: 'directus_folders', action: 'read' }],
+  permissions: [
+    ...crud('posts'),
+    ...['create', 'read', 'update'].map((action) => ({ collection: 'pagina_inicial', action })),
+    ...crud('directus_files'),
+    { collection: 'directus_folders', action: 'read' },
+  ],
 })
 const buildRole = await ensureRole({
   name: 'Build',
@@ -263,6 +453,7 @@ const buildRole = await ensureRole({
   appAccess: false,
   permissions: [
     { collection: 'posts', action: 'read' },
+    { collection: 'pagina_inicial', action: 'read' },
     { collection: 'directus_files', action: 'read' },
   ],
 })

@@ -9,6 +9,8 @@ const props = defineProps({
   title: { type: String, required: true },
   thumbAlt: { type: String, required: true },
   playLabel: { type: String, required: true },
+  // prefixo das miniaturas locais: <thumb>-640/-1280 em .avif e .webp
+  thumb: { type: String, default: '/img/video-thumb' },
 })
 const active = ref(false)
 </script>
@@ -26,10 +28,10 @@ const active = ref(false)
     ></iframe>
     <button v-else type="button" class="group absolute inset-0 block h-full w-full" :aria-label="`${props.playLabel}: ${props.title}`" @click="active = true">
       <picture>
-        <source type="image/avif" srcset="/img/video-thumb-640.avif 640w, /img/video-thumb-1280.avif 1280w" sizes="(min-width: 1024px) 900px, 100vw" />
-        <source type="image/webp" srcset="/img/video-thumb-640.webp 640w, /img/video-thumb-1280.webp 1280w" sizes="(min-width: 1024px) 900px, 100vw" />
+        <source type="image/avif" :srcset="`${props.thumb}-640.avif 640w, ${props.thumb}-1280.avif 1280w`" sizes="(min-width: 1024px) 900px, 100vw" />
+        <source type="image/webp" :srcset="`${props.thumb}-640.webp 640w, ${props.thumb}-1280.webp 1280w`" sizes="(min-width: 1024px) 900px, 100vw" />
         <img
-          src="/img/video-thumb-1280.webp"
+          :src="`${props.thumb}-1280.webp`"
           width="1280"
           height="720"
           :alt="props.thumbAlt"

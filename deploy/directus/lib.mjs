@@ -35,6 +35,20 @@ export async function login() {
   token = data.access_token
 }
 
+/** Envia um arquivo local para a biblioteca do Directus; devolve o id */
+export async function uploadFile(path, { title, type }) {
+  const { readFile } = await import('node:fs/promises')
+  const { basename } = await import('node:path')
+  const form = new FormData()
+  form.append('title', title)
+  // o campo "file" precisa ser o último do formulário
+  form.append('file', new Blob([await readFile(path)], { type }), basename(path))
+  const res = await fetch(`${CMS_URL}/files`, { method: 'POST', headers: { authorization: `Bearer ${token}` }, body: form })
+  const json = await res.json().catch(() => ({}))
+  if (!res.ok) throw new Error(`upload ${path} -> ${res.status}: ${JSON.stringify(json.errors ?? json)}`)
+  return json.data.id
+}
+
 /** Primeiro item que casa com o filtro { campo: valor }, ou null */
 export async function findOne(path, filter) {
   const qs = Object.entries(filter)

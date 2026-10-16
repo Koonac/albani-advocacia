@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useSite } from '../composables/useSite.js'
 import { useSeo } from '../composables/useSeo.js'
 import { CONTACT } from '../config/site.js'
+import { HOME_VIDEO } from '../content/home.js'
 import AppIcon from '../components/AppIcon.vue'
 import HeroMap from '../components/HeroMap.vue'
 import VideoFacade from '../components/VideoFacade.vue'
@@ -101,7 +102,7 @@ const areaHref = (anchor) => `${lp('areas')}#${anchor}`
       <div class="relative lg:col-span-8">
         <div class="absolute -inset-px bg-gradient-to-br from-brass-light/50 via-brass/10 to-brass-deep/40" aria-hidden="true"></div>
         <div class="relative">
-          <VideoFacade :id="CONTACT.videoId" :title="c.home.video.iframeTitle" :thumb-alt="c.home.video.thumbAlt" :play-label="c.ui.playVideo" />
+          <VideoFacade :id="HOME_VIDEO.id" :thumb="HOME_VIDEO.thumb" :title="c.home.video.iframeTitle" :thumb-alt="c.home.video.thumbAlt" :play-label="c.ui.playVideo" />
         </div>
       </div>
     </div>
