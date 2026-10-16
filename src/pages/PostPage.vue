@@ -5,7 +5,7 @@ import { useSite } from '../composables/useSite.js'
 import { useSeo, orgJsonLd } from '../composables/useSeo.js'
 import { SITE_URL } from '../config/site.js'
 import { postPath } from '../config/routes-map.js'
-import { POSTS, findPostBySlug, readingMinutes } from '../content/posts/index.js'
+import { POSTS, findPostBySlug, readingMinutes, bodyHtml } from '../content/posts/index.js'
 import AppIcon from '../components/AppIcon.vue'
 import PostListItem from '../components/PostListItem.vue'
 
@@ -62,7 +62,7 @@ useSeo(() => {
           mainEntityOfPage: `${SITE_URL}${postPath(p, l)}`,
           author: { '@id': `${SITE_URL}/#ivan` },
           publisher: { '@id': `${SITE_URL}/#office` },
-          image: `${SITE_URL}/img/og-albani.jpg`,
+          image: `${SITE_URL}${p.cover || '/img/og-albani.jpg'}`,
         },
       ],
     },
@@ -120,9 +120,8 @@ useSeo(() => {
 
     <div class="container-site mt-10 lg:mt-12">
       <div class="paper mx-auto max-w-[52rem] rounded-[6px] px-6 py-9 sm:px-12 sm:py-14">
-        <div class="prose-albani prose-light">
-          <p v-for="(para, i) in post.body[locale]" :key="i">{{ para }}</p>
-        </div>
+        <!-- HTML sanitizado no build (scripts/fetch-posts.mjs) ou gerado de texto escapado -->
+        <div class="prose-albani prose-light" v-html="bodyHtml(post, locale)"></div>
       </div>
     </div>
 
@@ -164,14 +163,72 @@ useSeo(() => {
   box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.8);
   border-top: 3px solid var(--color-brass);
 }
-.prose-light :deep(p) {
+.prose-light :deep(p),
+.prose-light :deep(li) {
   color: #2a2d33;
 }
 .prose-light :deep(p:first-child::first-letter) {
   color: #8c6a2e;
 }
-.prose-light :deep(p:last-child) {
+.prose-light > :deep(:last-child) {
   margin-bottom: 0;
+}
+/* Elementos que o editor do CMS pode gerar */
+.prose-light :deep(h2),
+.prose-light :deep(h3) {
+  font-family: var(--font-display);
+  color: #1b1e23;
+  line-height: 1.25;
+  margin: 1.6em 0 0.6em;
+}
+.prose-light :deep(h2) {
+  font-size: 1.55em;
+}
+.prose-light :deep(h3) {
+  font-size: 1.25em;
+}
+.prose-light :deep(ul),
+.prose-light :deep(ol) {
+  margin: 0 0 1.55em;
+  padding-left: 1.4em;
+  max-width: 70ch;
+}
+.prose-light :deep(ul) {
+  list-style: disc;
+}
+.prose-light :deep(ol) {
+  list-style: decimal;
+}
+.prose-light :deep(li) {
+  margin-bottom: 0.4em;
+}
+.prose-light :deep(li::marker) {
+  color: #8c6a2e;
+}
+.prose-light :deep(a) {
+  color: #7a5a22;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-light :deep(a:hover) {
+  color: #4f3a14;
+}
+.prose-light :deep(strong) {
+  color: #1b1e23;
+  font-weight: 600;
+}
+.prose-light :deep(blockquote) {
+  margin: 0 0 1.55em;
+  padding-left: 1.1em;
+  border-left: 3px solid var(--color-brass);
+  font-style: italic;
+}
+.prose-light :deep(img) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 0 1.55em;
+  border-radius: 4px;
 }
 .cta-box {
   background: radial-gradient(80% 140% at 0% 0%, rgba(201, 165, 90, 0.12), transparent 60%), #1f232a;

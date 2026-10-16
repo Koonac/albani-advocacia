@@ -1,0 +1,43 @@
+# CMS do blog (Directus + SQLite) e builder do site estático.
+# O nginx do host serve /var/www/albani/current (site) e faz proxy de cms.<domínio> para 127.0.0.1:8055.
+# Passo a passo em deploy/README.md.
+services:
+  directus:
+    image: directus/directus:11
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:8055:8055'
+    volumes:
+      - ./data/database:/directus/database
+      - ./data/uploads:/directus/uploads
+    environment:
+      KEY: ${DIRECTUS_KEY}
+      SECRET: ${DIRECTUS_SECRET}
+      PUBLIC_URL: ${CMS_PUBLIC_URL}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      DB_CLIENT: sqlite3
+      DB_FILENAME: /directus/database/data.db
+      DEFAULT_LANGUAGE: pt-BR
+      TELEMETRY: 'false'
+
+  builder:
+    image: node:22-alpine
+    restart: unless-stopped
+    depends_on:
+      - directus
+    working_dir: /app
+    command: node deploy/builder/server.mjs
+    volumes:
+      - ..:/app
+      - node_modules:/app/node_modules
+      - ${SITE_ROOT:-/var/www/albani}:/site
+    env_file: .env
+    environment:
+      DIRECTUS_URL: http://directus:8055
+      CMS_URL: http://directus:8055
+      DIRECTUS_TOKEN: ${BUILD_TOKEN}
+    # Sem "ports": só o Directus (rede interna do compose) chama o /rebuild.
+
+volumes:
+  node_modules:

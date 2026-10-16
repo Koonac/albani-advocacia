@@ -1,3 +1,11 @@
 node_modules
 dist
 .vite-ssg-temp
+
+# CMS (gerados pelo scripts/fetch-posts.mjs)
+src/content/posts/cms-posts.json
+public/img/blog/cms/
+
+# Deploy
+.env
+deploy/data/
