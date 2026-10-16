@@ -36,7 +36,7 @@ ${urls}
 </urlset>
 `
       writeFileSync(resolve('dist/sitemap.xml'), xml)
-      writeFileSync(resolve('dist/robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`)
+      writeFileSync(resolve('dist/robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /cms/\n\nSitemap: ${SITE_URL}/sitemap.xml\n`)
       console.log(`[sitemap] ${allRoutePairs().length * 2} URLs -> dist/sitemap.xml`)
     },
   },

@@ -1,5 +1,12 @@
-// Configuração central do site. ATENÇÃO: domínio provisório, confirmar com o cliente.
-export const SITE_URL = 'https://albaniadv.com'
+// Configuração central do site.
+// Domínio usado em canonical, hreflang, Open Graph e sitemap. No deploy vem de VITE_SITE_URL
+// (deploy/.env); lido via process.env no Node (vite.config e pré-renderização) e via
+// import.meta.env no bundle do navegador, para os dois lados gerarem o mesmo valor.
+export const SITE_URL = (
+  (typeof process !== 'undefined' && process.env.VITE_SITE_URL) ||
+  (import.meta.env && import.meta.env.VITE_SITE_URL) ||
+  'https://albaniadv.com'
+).replace(/\/$/, '')
 
 export const CONTACT = {
   whatsappPT: '351931759247',

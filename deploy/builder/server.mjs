@@ -26,12 +26,19 @@ function run(cmd, args) {
 
 /** Instala dependências só quando o package-lock.json mudou (node_modules fica num volume) */
 async function ensureDeps() {
-  const hash = createHash('sha256').update(readFileSync(join(APP, 'package-lock.json'))).digest('hex')
+  const lockPath = join(APP, 'package-lock.json')
+  const lock = readFileSync(lockPath)
+  const hash = createHash('sha256').update(lock).digest('hex')
   const marker = join(APP, 'node_modules', '.lock-hash')
   if (existsSync(marker) && readFileSync(marker, 'utf8') === hash) return
   log('instalando dependências...')
-  // `npm install` e não `npm ci`: o ci tenta apagar node_modules, que aqui é ponto de montagem
-  await run('npm', ['install', '--no-audit', '--no-fund'])
+  // `npm install` e não `npm ci`: o ci tenta apagar node_modules, que aqui é ponto de montagem.
+  // O lockfile é restaurado depois, para o `git pull` no host nunca encontrar alterações locais.
+  try {
+    await run('npm', ['install', '--no-audit', '--no-fund'])
+  } finally {
+    writeFileSync(lockPath, lock)
+  }
   writeFileSync(marker, hash)
 }
 
