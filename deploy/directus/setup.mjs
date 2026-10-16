@@ -349,6 +349,8 @@ async function ensureFlow() {
 // - some o painel lateral direito (informações, revisões, comentários) e o botão que o abre
 // Seletores conferidos no código do app do Directus 11.17 (module-bar*.vue, private-view-*.vue).
 const ED = 'html:not(:has(.module-bar a[href$="/settings"]))'
+// Módulo de usuários aberto (o menu dele lista links /users...). :has() não pode ser aninhado
+const OUT = `${ED}:has(.module-nav-content a[href*="/users"])`
 const EDITOR_CSS = `
 ${ED} .module-bar :is(.module-bar-logo, .modules) { display: none !important; }
 ${ED} .module-bar { justify-content: flex-end; }
@@ -389,6 +391,36 @@ ${ED} :is(.private-view, .panel) > .module-bar .sign-out {
   opacity: 1 !important;
   transform: none !important;
 }
+
+/* No módulo de usuários (é onde "Meu perfil" abre): some a navegação
+   daquele módulo e o botão de voltar do cabeçalho (que leva à lista de usuários); no lugar,
+   o botão do módulo de conteúdo vira um atalho "Voltar ao blog" no topo do menu */
+${OUT} .module-nav-content > *,
+${OUT} .header-bar .title-outer-prepend { display: none !important; }
+${OUT} .module-bar .modules {
+  display: block !important;
+  position: fixed;
+  inset-block-start: 4.25rem;
+  inset-inline-start: 0.75rem;
+  inline-size: 13.5rem;
+  overflow: visible;
+}
+${OUT} .module-bar .modules > .v-button { inline-size: 100%; }
+${OUT} .module-bar .modules > .v-button:not(:has(a[href$="/content"])) { display: none; }
+${OUT} .module-bar .modules a[href$="/content"] {
+  inline-size: 100% !important;
+  block-size: 2.25rem !important;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  padding-inline: 0.625rem;
+  border-radius: var(--theme--border-radius);
+  color: var(--theme--navigation--list--foreground);
+  background-color: var(--theme--navigation--list--background-hover);
+  font-size: 0.8125rem;
+}
+${OUT} .module-bar .modules a[href$="/content"] .content { display: flex; align-items: center; gap: 0.5rem; }
+${OUT} .module-bar .modules a[href$="/content"] .content::after { content: 'Voltar ao blog'; }
+${OUT} .module-bar .modules a[href$="/content"] .v-icon { --v-icon-color: var(--theme--navigation--list--icon--foreground); }
 
 ${ED} .main-split { grid-template-columns: minmax(0, 1fr) !important; }
 ${ED} .main-split > :is(.sp-divider, .sp-end),
