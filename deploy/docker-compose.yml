@@ -1,5 +1,5 @@
 # CMS do blog (Directus + SQLite) e builder do site estático.
-# O nginx do host serve /var/www/albani/current (site) e faz proxy de cms.<domínio> para 127.0.0.1:8055.
+# O nginx do host serve /var/www/albani/current (site) e faz proxy de <domínio>/cms/ para 127.0.0.1:8055.
 # Passo a passo em deploy/README.md.
 services:
   directus:
@@ -10,6 +10,8 @@ services:
     volumes:
       - ./data/database:/directus/database
       - ./data/uploads:/directus/uploads
+      # Extensões do projeto (ex.: slug gerado a partir do título). Mudou algo aqui: restart directus
+      - ./directus/extensions:/directus/extensions:ro
     environment:
       KEY: ${DIRECTUS_KEY}
       SECRET: ${DIRECTUS_SECRET}

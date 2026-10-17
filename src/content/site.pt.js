@@ -26,7 +26,7 @@ export default {
     faq: {
       title: 'Perguntas frequentes | Albani Advocacia',
       description:
-        'Respostas às dúvidas mais comuns sobre vistos, residência, nacionalidade portuguesa, documentos e empresas em Portugal.',
+        'Respostas às dúvidas mais comuns sobre imigração em Portugal: vistos, regularização, CPLP, renovação da residência, processos na AIMA e reagrupamento familiar.',
     },
     contact: {
       title: 'Contato | Albani Advocacia',
@@ -261,8 +261,24 @@ export default {
     ivan: {
       title: 'Dr. Ivan Albani',
       credentials: 'Cédula Profissional OA 67498E · OAB/SC 62.722',
-      text: 'Com inscrição na Ordem dos Advogados de Portugal (OA-PT) e na Ordem dos Advogados do Brasil (OAB-SC), o Dr. Ivan Albani acompanha pessoalmente cada processo, da análise inicial à entrega do documento. A atuação concentra-se em imigração e nacionalidade e em direito empresarial e societário, área em que apoia empreendedores e investidores a estruturarem negócios em Portugal com planeamento jurídico e fiscal desde o início.',
+      text: 'Inscrito na Ordem dos Advogados de Portugal (OA-PT) e na Ordem dos Advogados do Brasil (OAB-SC), o Dr. Ivan Albani acompanha pessoalmente cada processo, da análise inicial à entrega do documento. Sua atuação concentra-se em duas frentes: imigração e nacionalidade, e direito empresarial e societário, em que apoia empreendedores e investidores na estruturação de negócios em Portugal, com planeamento jurídico e fiscal desde o início.',
       photoAlt: 'Retrato do Dr. Ivan Albani, de terno e gravata',
+    },
+    story: {
+      eyebrow: 'Minha história',
+      title: 'O “Advogado dos Anjos”',
+      paragraphs: [
+        'Fui criado numa realidade muito triste e desfavorecida. Ainda na gestação, fui rejeitado pelo meu pai biológico e, depois do meu nascimento, minha mãe se mudou para Florianópolis (SC). Na infância, eu era tão comunicativo que uma tia me apelidou de “Advogado dos Anjos”, porque eu falava demais.',
+        'Cresci com um padrasto alcoólatra e agressivo, em meio à violência doméstica, desprezado por ser o “bastardo” entre as três filhas dele, minhas irmãs. Quando eu tinha 13 anos, minha mãe criou coragem e deixou o agressor. Fomos morar numa favela no centro de Curitiba (PR), e eu comecei a trabalhar muito cedo, puxando carrinho de papel e catando papelão e latinhas.',
+        'Aos 15 anos, entrei no mundo das drogas e larguei a escola sem concluir a 8ª série. Trabalhava para ajudar em casa e para sustentar o vício. Cheguei a tal ponto que, por volta dos 20 anos, tinha dívidas em todas as bocas de fumo do bairro. Minha mãe deixou a casa e voltou para Florianópolis, e eu transformei a casa dela numa boca de fumo. Na pior fase, ela deu um jeito de me levar para Florianópolis, onde fui morar num porão mofado e úmido, levando a mesma vida: trabalhava de dia e usava drogas à noite.',
+        'Foi nessa altura, aos 23 anos, que tive um encontro com Deus, diante de uma mesa cheia de cocaína. Larguei tudo aquilo, aceitei Jesus e, na mesma semana, abandonei as drogas; para deixar o cigarro, levei cinco dias. Ali encontrei também a minha esposa e um novo sentido para viver.',
+        'Voltei a estudar. Trabalhava como ajudante de pedreiro durante o dia e estudava à noite: fiz o CEJA para terminar o ensino fundamental, concluí o ensino médio e entrei na faculdade. Comecei a estagiar no 6º período, fui aprovado na OAB em 2021 e abri meu escritório ainda no fim da pandemia. Conquistei uma boa carteira de clientes, montei o escritório Dr. Ivan Albani, e as coisas deram certo.',
+        'Em meados de 2022, recebi a proposta e a oportunidade de me mudar para Portugal. Fui beneficiado pelo regime de reciprocidade entre advogados brasileiros e portugueses e aprofundei meus conhecimentos em imigração, por ser também imigrante, e em direito empresarial, que era o meu principal nicho no Brasil. Ainda em 2023, só com indicações, alcancei uma carteira de clientes suficiente para firmar parcerias com advogados que atuam há muito tempo em Portugal. Foi assim que nasceu a Albani Advocacia.',
+        'Hoje atuamos em diversas áreas, em parceria com advogados experientes. Aperfeiçoei-me em imigração para o Brasil, Portugal e Estados Unidos, e em abertura de empresas e compliance jurídico.',
+      ],
+      closing:
+        'Hoje, aquele menino sem perspectiva de vida, destinado ao fracasso, é advogado inscrito e atuante no Brasil e em Portugal, marido da Mari, pai do Calebe e da Ana Laura, pastor e escritor em construção.',
+      signature: 'Ivan Albani',
     },
     valuesTitle: 'Valores',
     values: [
@@ -485,42 +501,279 @@ export default {
 
   faq: {
     eyebrow: 'Perguntas frequentes',
-    title: 'Dúvidas comuns, respostas claras.',
+    title: 'Perguntas frequentes sobre imigração em Portugal',
     intro: 'Reunimos as perguntas que mais recebemos. Se a sua não estiver aqui, fale connosco.',
+    // {q} = total de perguntas, {t} = total de temas
+    count: '{q} perguntas · {t} temas',
+    navLabel: 'Temas das perguntas',
+    search: {
+      label: 'Buscar nas perguntas',
+      placeholder: 'Buscar: CPLP, renovação, AIMA...',
+      clear: 'Limpar busca',
+      // {n} = número de perguntas encontradas
+      results: '{n} perguntas encontradas',
+      resultsOne: '1 pergunta encontrada',
+      empty: 'Nenhuma pergunta encontrada para “{q}”.',
+      emptyHint: 'Tente outras palavras, ou fale connosco: respondemos à sua dúvida diretamente.',
+    },
     more: 'Ver todas as perguntas →',
     ctaLead: 'Não encontrou a resposta?',
-    items: [
+    groups: [
       {
-        q: 'Preciso de estar em Portugal para iniciar o meu processo?',
-        a: 'Não. Grande parte do trabalho pode ser feita à distância: a análise do caso, a preparação do dossiê e o acompanhamento junto às entidades. Atendemos clientes no Brasil, nos EUA e em Portugal, presencialmente em Palmela ou online.',
+        id: 'vistos',
+        short: 'Vistos',
+        title: 'Vistos para Portugal',
+        items: [
+          {
+            q: 'Estou decidido a sair do Brasil e vir morar em Portugal, mas não sei nem por onde começar. O que eu faço primeiro?',
+            a: 'O ponto de partida é definir o motivo da mudança: trabalhar, empreender, estudar, viver de rendimentos ou acompanhar um familiar. É isso que define o visto, a documentação e as etapas. No nosso escritório, começamos sempre por esse enquadramento, porque juntar documentos sem ele é o erro mais comum que encontramos.',
+          },
+          {
+            q: 'Sempre confundo visto com autorização de residência. Não é a mesma coisa?',
+            a: 'Não. O visto autoriza a entrada em Portugal para uma finalidade específica. O visto de residência serve, em regra, para você entrar e então pedir a autorização de residência, que é o que permite morar legalmente no país durante a validade dela.',
+          },
+          {
+            q: 'Recebi uma proposta de emprego de uma empresa portuguesa. Com isso eu já consigo o visto de trabalho?',
+            a: 'A proposta ou o contrato pode fundamentar o pedido, conforme a modalidade e os requisitos. Na nossa análise, também verificamos seus documentos pessoais, as condições da contratação e, se a profissão exigir, a habilitação para exercê-la.',
+          },
+          {
+            q: 'Penso em abrir uma empresa ou trabalhar por conta própria aí. Existe visto para isso?',
+            a: 'Existe, é o chamado D2, para empreendedores e profissionais independentes. É preciso demonstrar o projeto ou a atividade e cumprir os requisitos documentais e financeiros. Alertamos nossos clientes: abrir uma empresa, por si só, não garante o visto.',
+          },
+          {
+            q: 'Sou aposentado e queria passar essa fase da vida em Portugal. Tem visto para mim?',
+            a: 'O D7 costuma ser o caminho para aposentados e para quem vive de rendimentos próprios. Na análise, pesam a origem, a regularidade e a disponibilidade desses recursos, além dos demais requisitos.',
+          },
+          {
+            q: 'Trabalho home office para uma empresa do Brasil. Dá para continuar trabalhando assim morando em Portugal?',
+            a: 'Dá, pelo visto de trabalho remoto, o D8, para quem presta serviços a pessoas ou empresas fora de Portugal. Será necessário comprovar o vínculo ou os serviços prestados, os rendimentos exigidos e os demais requisitos.',
+          },
+          {
+            q: 'Fui aceito num curso em Portugal! Isso já garante meu visto de estudante?',
+            a: 'Não. A matrícula ou admissão é apenas parte da documentação. O pedido também depende do enquadramento da instituição e do curso, dos meios de subsistência, do alojamento e dos demais requisitos.',
+          },
+          {
+            q: 'Ouvi falar de um visto para ir procurar emprego aí. Ele ainda existe?',
+            a: 'A lei passou a prever o visto para procura de trabalho qualificado. Não parta do princípio de que o modelo antigo continua igual: antes de qualquer pedido, confirmamos a regulamentação e se o consulado está aceitando essa modalidade.',
+          },
+          {
+            q: 'Quanto dinheiro eu preciso ter na conta para pedir o visto?',
+            a: 'Não existe um valor único. Depende da modalidade, de quantas pessoas vão com você e dos critérios em vigor. E não basta ter o dinheiro: é preciso demonstrar de onde ele vem e que está disponível. Fazemos esse cálculo caso a caso.',
+          },
+          {
+            q: 'Quanto tempo demora e quanto vou gastar com o processo todo?',
+            a: 'Varia conforme a modalidade, o local do pedido e a necessidade de documentos adicionais. Nos nossos orçamentos, separamos taxas oficiais, despesas com documentos e honorários, para que você saiba exatamente o que está pagando. Prazo de aprovação, porém, nenhum escritório sério pode garantir.',
+          },
+        ],
       },
       {
-        q: 'Como funciona a primeira consulta?',
-        a: 'Você agenda um horário, conta-nos o seu caso e analisamos a documentação disponível. Na consulta apresentamos o caminho mais seguro, os prazos realistas e o que será necessário para avançar.',
+        id: 'regularizacao',
+        short: 'Regularização',
+        title: 'Regularização de quem já está em Portugal',
+        items: [
+          {
+            q: 'Entrei em Portugal como turista e acabei ficando. Consigo me regularizar sem ter que voltar ao Brasil?',
+            a: 'Ter entrado como turista não gera, por si só, direito à residência. O nosso trabalho é verificar se existe alguma hipótese legal no seu caso que permita o pedido em Portugal, incluindo regras transitórias.',
+          },
+          {
+            q: 'Já tenho NIF, NISS e contrato de trabalho. Isso quer dizer que estou legal, certo?',
+            a: 'Não. Esses documentos mostram sua situação fiscal, contributiva ou profissional, mas não substituem um visto, uma autorização de residência ou outro fundamento válido de permanência.',
+          },
+          {
+            q: 'Ainda dá para fazer uma manifestação de interesse?',
+            a: 'Como via geral, não. A manifestação de interesse foi revogada em junho de 2024. Processos anteriores e situações abrangidas pelas normas transitórias exigem análise específica, que podemos fazer para você.',
+          },
+          {
+            q: 'Eu já trabalhava e descontava antes de junho de 2024. Isso conta a meu favor?',
+            a: 'Pode contar, para verificar o enquadramento no regime transitório. Analisamos a sua situação naquela data, os documentos e se o prazo legal foi cumprido. Os descontos, sozinhos, não garantem o direito.',
+          },
+          {
+            q: 'Já moro em Portugal há anos. Depois de tanto tempo, a residência não sai automaticamente?',
+            a: 'Não sai. O tempo de permanência, sozinho, não substitui os requisitos da autorização. Avaliamos o seu histórico migratório, seus vínculos familiares e profissionais e as hipóteses legais disponíveis.',
+          },
+          {
+            q: 'Recebi uma notificação mandando eu sair de Portugal. Estou desesperado, o que eu faço?',
+            a: 'Procure-nos o quanto antes: o fundamento da notificação e o prazo de resposta são decisivos. Guarde o documento completo e a prova da data em que o recebeu. As medidas possíveis dependem do seu caso.',
+          },
+        ],
       },
       {
-        q: 'Qual visto é o mais indicado para o meu caso?',
-        a: 'Depende do motivo da mudança, da sua fonte de rendimento e da sua situação familiar. Os vistos D1 a D8 têm requisitos diferentes. Por isso, a escolha é feita depois de uma análise individual.',
+        id: 'cplp',
+        short: 'CPLP',
+        title: 'Autorização de residência CPLP',
+        items: [
+          {
+            q: 'Todo mundo fala da CPLP. O que é isso, afinal?',
+            a: 'É uma autorização de residência para cidadãos dos países abrangidos pelo Acordo de Mobilidade da Comunidade dos Países de Língua Portuguesa, desde que cumpram os requisitos legais.',
+          },
+          {
+            q: 'Sou brasileiro. Então a CPLP é automática para mim?',
+            a: 'Não. A nacionalidade brasileira permite o enquadramento no acordo, mas não dispensa os requisitos para a concessão.',
+          },
+          {
+            q: 'Posso entrar como turista e pedir a CPLP só por ser brasileiro?',
+            a: 'Não recomendamos contar com isso. Para pedidos novos, a regra atual exige visto de residência prévio. Situações antigas ou transitórias precisam de análise própria.',
+          },
+          {
+            q: 'O visto CPLP e a autorização de residência CPLP são o mesmo papel?',
+            a: 'Não. O visto é obtido no consulado. A autorização de residência é pedida em Portugal, junto da AIMA. Ter o visto não elimina as etapas para emissão do título.',
+          },
+          {
+            q: 'Com a CPLP eu posso trabalhar normalmente?',
+            a: 'Pode, nos termos aplicáveis aos residentes. Se a sua profissão for regulamentada, pode ser necessário o reconhecimento das qualificações ou a inscrição na ordem profissional.',
+          },
+          {
+            q: 'Tendo a CPLP, já sou cidadão português?',
+            a: 'Não. A CPLP é uma autorização de residência. A nacionalidade portuguesa tem procedimento e requisitos próprios.',
+          },
+        ],
       },
       {
-        q: 'O meu processo está parado na AIMA. O que pode ser feito?',
-        a: 'Avaliamos a fase do processo e os prazos legais aplicáveis e indicamos as medidas possíveis, administrativas ou judiciais, para que o pedido volte a andar.',
+        id: 'troca-cplp',
+        short: 'Troca da CPLP',
+        title: 'Troca da CPLP pelo cartão de residência',
+        items: [
+          {
+            q: 'Meu certificado CPLP é aquele de papel. Dá para trocar pelo cartão?',
+            a: 'Dá. Foi criado um procedimento de renovação e substituição do certificado CPLP pelo título de residência no modelo uniforme.',
+          },
+          {
+            q: 'Essa troca acontece sozinha ou eu tenho que fazer alguma coisa?',
+            a: 'Não é automática. O procedimento envolve validação de dados, pagamento quando houver taxa, apresentação de documentos e atendimento para recolha da biometria.',
+          },
+          {
+            q: 'Por onde eu começo o pedido da troca?',
+            a: 'Consulte o procedimento oficial da AIMA e a notificação enviada para o seu caso. A AIMA disponibilizou a opção “Renovar AR CPLP” na plataforma de serviços para esse pedido.',
+          },
+          {
+            q: 'Preciso ir pessoalmente ou o escritório resolve por mim?',
+            a: 'O procedimento prevê atendimento presencial para a biometria. Podemos acompanhar e preparar todo o processo, mas isso não substitui a sua presença quando ela é exigida.',
+          },
+          {
+            q: 'Que documentos eu levo no dia da troca?',
+            a: 'Siga a lista da sua notificação e leve tudo atualizado. Confira com atenção a identificação, o certificado anterior e os comprovativos solicitados. Se preferir, revisamos a documentação com você antes do atendimento.',
+          },
+          {
+            q: 'Nunca recebi o e-mail da troca, ou então perdi acesso ao e-mail antigo. E agora?',
+            a: 'Verifique primeiro o spam e os dados associados ao processo. Se o e-mail estiver errado ou inacessível, use o procedimento oficial de atualização. Guarde prova de todas as tentativas e pedidos.',
+          },
+          {
+            q: 'Trocando o papel pelo cartão, minha residência passa a ser de trabalho?',
+            a: 'Não. A substituição muda o documento, não o fundamento da residência. Alterar o fundamento é outra questão, com enquadramento e procedimento próprios.',
+          },
+        ],
       },
       {
-        q: 'Sou neto de portugueses. Posso pedir a nacionalidade portuguesa?',
-        a: 'Em muitos casos, sim. Netos de portugueses podem pedir a nacionalidade, desde que cumpridos os requisitos legais. Verificamos a documentação da sua linha familiar e preparamos o pedido junto às Conservatórias.',
+        id: 'renovacao',
+        short: 'Renovação',
+        title: 'Renovação da autorização de residência',
+        items: [
+          {
+            q: 'Com quanto tempo de antecedência eu começo a cuidar da renovação?',
+            a: 'Antes do vencimento, sem deixar para a última hora. Confira a validade do passaporte, organize os documentos e acompanhe a abertura do procedimento do seu título.',
+          },
+          {
+            q: 'Toda renovação é feita no mesmo portal?',
+            a: 'Não. O canal varia conforme o tipo de autorização e a situação do documento. A CPLP, por exemplo, tem procedimento próprio.',
+          },
+          {
+            q: 'Minha residência venceu. Perdi tudo?',
+            a: 'Não existe resposta única. Precisamos verificar a data de caducidade, as regras aplicáveis e se há pedido de renovação. Não presuma que prorrogações antigas continuam valendo para o seu caso.',
+          },
+          {
+            q: 'O comprovativo de renovação vale como cartão?',
+            a: 'Ele comprova o pedido e produz os efeitos previstos no regime aplicável, durante a sua validade. Mas não equivale ao cartão para todas as finalidades, especialmente em viagens internacionais.',
+          },
+          {
+            q: 'Fiquei desempregado. Ainda consigo renovar?',
+            a: 'O ponto central passa a ser como demonstrar meios de subsistência e os demais requisitos. Avaliamos a sua modalidade de residência, os recursos disponíveis e as suas circunstâncias pessoais.',
+          },
+          {
+            q: 'Tenho dívidas nas Finanças ou na Segurança Social. Isso atrapalha a renovação?',
+            a: 'Pode atrapalhar. A situação fiscal e contributiva é relevante para o pedido. Orientamos a verificar as pendências e regularizá-las, ou comprovar um acordo de pagamento válido.',
+          },
+          {
+            q: 'Mudei de endereço, de passaporte ou casei. Tenho que avisar alguém?',
+            a: 'Sim, pelo procedimento adequado. Dados desatualizados podem prejudicar notificações, a análise documental e a entrega do cartão.',
+          },
+        ],
       },
       {
-        q: 'Vocês tratam de apostila de Haia, traduções e procurações?',
-        a: 'Sim. Tratamos de apostila e legalização, traduções jurídicas certificadas, procurações, reconhecimento de assinaturas e autenticação de documentos, para que os seus documentos tenham validade no país onde serão usados.',
+        id: 'aima',
+        short: 'AIMA',
+        title: 'Processos parados na AIMA',
+        items: [
+          {
+            q: 'Meu processo está parado há meses e ninguém me dá resposta. Por onde começo?',
+            a: 'Identificando exatamente em que etapa ele está: agendamento, análise, documentos em falta, decisão ou emissão do cartão. Reúna o número do processo, os comprovativos de entrega e pagamento e todas as comunicações da AIMA. Com isso, conseguimos traçar o próximo passo.',
+          },
+          {
+            q: 'Não consigo agendamento de jeito nenhum. O escritório consegue ajudar?',
+            a: 'Sim: identificamos o canal adequado, preparamos requerimentos e avaliamos medidas administrativas ou judiciais. Somos transparentes, porém: a contratação não garante vaga imediata nem dispensa os requisitos do pedido.',
+          },
+          {
+            q: 'Posso processar a AIMA pela demora?',
+            a: 'Pode haver fundamento, conforme o dever de atuação da AIMA, o prazo aplicável e o histórico do seu processo. Avaliamos qual medida corresponde à sua situação concreta.',
+          },
+          {
+            q: 'Qualquer processo atrasado dá direito a uma ação urgente?',
+            a: 'Não. A intimação para proteção de direitos, liberdades e garantias tem requisitos específicos. A demora, isoladamente, não torna o processo elegível para esse meio urgente.',
+          },
+          {
+            q: 'Que provas mostram que meu caso é urgente?',
+            a: 'Documentos que comprovem prejuízo concreto: risco de perder o emprego, questões de saúde, impacto grave na vida familiar. A prova precisa mostrar a ligação entre a omissão da AIMA e o direito afetado.',
+          },
+          {
+            q: 'Se eu ganhar na Justiça, minha residência está aprovada?',
+            a: 'Não necessariamente. A decisão pode obrigar a AIMA a praticar um ato ou decidir o pedido, o que não equivale, por si só, à concessão da residência.',
+          },
+          {
+            q: 'Já fiz a biometria, já paguei, e o cartão nunca chegou. O que eu faço?',
+            a: 'Confirme se já houve decisão, se há alguma exigência pendente e se o endereço está correto. Pagamento e biometria não comprovam, sozinhos, a aprovação. Com o histórico organizado, avaliamos um pedido de informação ou outra medida adequada.',
+          },
+        ],
       },
       {
-        q: 'Posso abrir uma empresa em Portugal morando no Brasil ou nos EUA?',
-        a: 'Sim. Acompanhamos a constituição da empresa, a obtenção do NIF, a estrutura societária e o planeamento fiscal, mesmo que você ainda não viva em Portugal.',
+        id: 'familia',
+        short: 'Família',
+        title: 'Família e reagrupamento familiar',
+        items: [
+          {
+            q: 'Quero trazer minha esposa e meus filhos. É possível?',
+            a: 'Pode haver uma via de acompanhamento ou reagrupamento familiar, conforme o seu título e a situação dos familiares. Verificamos vínculos, idades, onde estão os familiares e os requisitos de residência, alojamento e subsistência.',
+          },
+          {
+            q: 'Não sou casado no papel, tenho união estável. Isso vale?',
+            a: 'A união de facto pode ser considerada para o reagrupamento, se cumprir os requisitos e estiver bem comprovada. Analisamos o documento brasileiro quanto ao conteúdo, às formalidades e à suficiência como prova.',
+          },
+          {
+            q: 'E meus pais, ou meus filhos que já são maiores de idade? Posso trazê-los?',
+            a: 'Há hipóteses legais, mas o parentesco sozinho pode não bastar. Dependência econômica, idade, estudos e outras condições costumam ser determinantes.',
+          },
+          {
+            q: 'Minha família já está aqui em Portugal comigo. Dá para pedir o reagrupamento daqui?',
+            a: 'Depende de onde o familiar está, como entrou, da idade e da data do pedido. As regras para pedidos dentro do país mudaram, e nem todos os familiares podem usar a mesma via.',
+          },
+        ],
       },
       {
-        q: 'Em que idiomas é feito o atendimento?',
-        a: 'O atendimento é feito em português e em inglês.',
+        id: 'viagens',
+        short: 'Viagens e documentos',
+        title: 'Viagens, documentos e análise do caso',
+        items: [
+          {
+            q: 'Posso ir ao Brasil enquanto espero a residência ou a renovação?',
+            a: 'Antes de viajar, verifique os documentos necessários para sair, fazer escala e regressar a Portugal. Agendamento ou comprovativo de pedido não deve ser considerado suficiente para embarque ou reentrada. Na dúvida, consulte-nos antes de comprar a passagem.',
+          },
+          {
+            q: 'Com a residência portuguesa, posso morar e trabalhar em qualquer país da Europa?',
+            a: 'Não automaticamente. Viagens de curta duração e mudança de residência são situações diferentes, e a mudança segue as regras do país de destino.',
+          },
+          {
+            q: 'Quero marcar uma consulta com o escritório. O que eu levo?',
+            a: 'Passaporte, visto ou título de residência, comprovativos de entrada, notificações, número do processo, pagamentos e comunicações com a AIMA. Conforme o caso, documentos profissionais, familiares e de alojamento. Uma linha do tempo simples, com as datas principais, ajuda a nossa equipe a identificar o problema e as opções disponíveis.',
+          },
+        ],
       },
     ],
   },

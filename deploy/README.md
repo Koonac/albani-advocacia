@@ -10,6 +10,7 @@ deploy/
 ├─ .env.example           variáveis (referência)
 ├─ builder/server.mjs     recebe o webhook, builda e publica
 ├─ directus/setup.mjs     cria coleção, perfis, token e Flow (idempotente)
+├─ directus/extensions/   extensões do painel (ex.: slug gerado a partir do título)
 ├─ directus/import-posts.mjs  importa os posts de src/content/posts/*.js
 └─ nginx/albani.conf      site + proxy do CMS
 ```
@@ -97,6 +98,13 @@ O certbot pede um e-mail, adiciona os blocos HTTPS ao `albani.conf` e agenda a r
 ```bash
 cd /opt/apps/albani-advocacia && git pull
 cd deploy && docker compose restart builder   # reinstala deps se o lockfile mudou e builda
+```
+
+Se o `git pull` trouxe mudanças em `deploy/directus/` (extensões ou `setup.mjs`), aplique também:
+
+```bash
+docker compose up -d directus                                     # recria o container se o docker-compose.yml mudou; senão, use restart
+docker compose run --rm builder node deploy/directus/setup.mjs    # reaplica campos e configurações
 ```
 
 ## Trocar para o domínio definitivo

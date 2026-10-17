@@ -26,6 +26,12 @@ const CATEGORY_CHOICES = [
 const TOOLBAR = ['bold', 'italic', 'h2', 'h3', 'bullist', 'numlist', 'blockquote', 'customLink', 'customImage', 'removeformat', 'undo', 'redo', 'code', 'fullscreen']
 const SLUG_RE = '^[a-z0-9]+(-[a-z0-9]+)*$'
 
+const SLUG_NOTE = {
+  pt: 'Gerado a partir do título enquanto você digita (pode editar). Fica em /blog/<slug>. Não altere depois de publicado: o link antigo deixa de existir.',
+  en: 'Gerado a partir do título em inglês enquanto você digita (pode editar). Fica em /en/blog/<slug>.',
+}
+const SLUG_PLACEHOLDER = { pt: 'ex.: visto-d7-ou-d8', en: 'e.g. d7-or-d8-visa' }
+
 function localeFields(l, label, sort) {
   const group = `grupo_${l}`
   return [
@@ -52,10 +58,10 @@ function localeFields(l, label, sort) {
       meta: {
         group,
         interface: 'input',
-        options: { slug: true, trim: true, placeholder: l === 'pt' ? 'ex.: visto-d7-ou-d8' : 'e.g. d7-or-d8-visa' },
+        options: { slug: true, trim: true, placeholder: SLUG_PLACEHOLDER[l] },
         required: true,
         translations: pt('Endereço (slug)'),
-        note: l === 'pt' ? 'Fica em /blog/<slug>. Não altere depois de publicado: o link antigo deixa de existir.' : 'Fica em /en/blog/<slug>.',
+        note: SLUG_NOTE[l],
         validation: { _and: [{ [`slug_${l}`]: { _regex: SLUG_RE } }] },
         validation_message: 'Use só letras minúsculas, números e hífens.',
         sort: 3,
@@ -135,6 +141,23 @@ const FIELDS = [
   ...localeFields('pt', 'Português', 5),
   ...localeFields('en', 'English', 6),
 ]
+
+// Slugs com a interface "Slug do título" (deploy/directus/extensions/slug-do-titulo), que
+// preenche o slug a partir do título enquanto se digita. Vale também para instalações antigas.
+// Sem a extensão carregada (pasta não montada no container), fica o campo de texto comum.
+const SLUG_EXTENSION = 'directus-extension-slug-do-titulo'
+
+async function ensureSlugInterface() {
+  const extensions = await api('GET', '/extensions')
+  const installed = extensions.some((e) => (e.schema?.name ?? e.name) === SLUG_EXTENSION && e.meta?.enabled !== false)
+  for (const l of ['pt', 'en']) {
+    const meta = installed
+      ? { interface: 'slug-do-titulo', options: { source: `title_${l}`, placeholder: SLUG_PLACEHOLDER[l] }, note: SLUG_NOTE[l] }
+      : { interface: 'input', options: { slug: true, trim: true, placeholder: SLUG_PLACEHOLDER[l] }, note: SLUG_NOTE[l] }
+    await api('PATCH', `/fields/posts/slug_${l}`, { meta })
+  }
+  console.log(installed ? 'slugs: gerados a partir do título' : `slugs: extensão ${SLUG_EXTENSION} não carregada, campo de texto comum`)
+}
 
 async function ensureCollection() {
   try {
@@ -522,6 +545,7 @@ async function ensureBranding() {
 await login()
 await ensureBranding()
 await ensureCollection()
+await ensureSlugInterface()
 await ensureHome()
 const editorRole = await ensureRole({
   name: 'Editor',

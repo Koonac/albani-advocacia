@@ -25,7 +25,7 @@ export default {
     faq: {
       title: 'FAQ | Albani Advocacia',
       description:
-        'Answers to the most common questions about visas, residence, Portuguese nationality, documents and companies in Portugal.',
+        'Answers to the most common questions about immigration to Portugal: visas, regularisation, CPLP, residence permit renewal, AIMA cases and family reunification.',
     },
     contact: {
       title: 'Contact | Albani Advocacia',
@@ -260,8 +260,24 @@ export default {
     ivan: {
       title: 'Dr. Ivan Albani',
       credentials: 'Portuguese Bar licence OA 67498E · OAB/SC 62.722',
-      text: 'Admitted to the Portuguese Bar Association (OA-PT) and the Brazilian Bar Association (OAB-SC), Dr. Ivan Albani personally follows every case, from the initial analysis to the delivery of the document. His practice focuses on immigration and nationality and on corporate and company law, where he supports entrepreneurs and investors in structuring businesses in Portugal with legal and tax planning from the outset.',
+      text: 'Admitted to the Portuguese Bar Association (OA-PT) and the Brazilian Bar Association (OAB-SC), Dr. Ivan Albani personally follows every case, from the initial analysis to the delivery of the document. His practice focuses on two areas: immigration and nationality, and corporate and company law, where he helps entrepreneurs and investors structure their businesses in Portugal, with legal and tax planning from the outset.',
       photoAlt: 'Portrait of Dr. Ivan Albani in a suit and tie',
+    },
+    story: {
+      eyebrow: 'My story',
+      title: 'The “Angels’ Lawyer”',
+      paragraphs: [
+        'I grew up in a very sad and deprived situation. My biological father rejected me before I was even born and, after my birth, my mother moved to Florianópolis, in Santa Catarina. As a child I was so talkative that an aunt nicknamed me the “Angels’ Lawyer”, because I never stopped talking.',
+        'I was raised by an alcoholic, violent stepfather, amid domestic violence, and looked down on as the “bastard” among his three daughters, my sisters. When I was 13, my mother found the courage to leave him. We moved to a favela in central Curitiba, in Paraná, and I started working very young, pulling a paper cart and collecting cardboard and cans.',
+        'At 15 I got into drugs and dropped out of school before finishing the 8th grade. I worked to help at home and to feed my addiction. It got so bad that, by around 20, I owed money to every drug den in the neighbourhood. My mother left the house and went back to Florianópolis, and I turned her house into a drug den. At my lowest point, she found a way to take me to Florianópolis, where I lived in a damp, mouldy basement, leading the same life: working by day and using drugs at night.',
+        'It was then, at 23, in front of a table covered in cocaine, that I had an encounter with God. I left all that behind, accepted Jesus and quit drugs that same week; giving up cigarettes took five days. That is also where I met my wife and found a new purpose in life.',
+        'I went back to school. I worked as a bricklayer’s assistant during the day and studied at night: I completed primary school through an adult education programme (CEJA), finished secondary school and went on to university. I started an internship in my 6th semester, passed the Brazilian Bar exam in 2021 and opened my own practice as the pandemic was winding down. I built a solid client base, set up the Dr. Ivan Albani law office, and things worked out.',
+        'In mid-2022 I received the offer and the opportunity to move to Portugal. I benefited from the reciprocity arrangement between Brazilian and Portuguese lawyers and deepened my knowledge of immigration, being an immigrant myself, and of business law, which had been my main niche in Brazil. By 2023, through referrals alone, I had built a client base large enough to form partnerships with lawyers long established in Portugal. That is how Albani Advocacia was born.',
+        'Today we work across a range of areas, in partnership with experienced lawyers. I have specialised in immigration to Brazil, Portugal and the United States, and in company formation and legal compliance.',
+      ],
+      closing:
+        'Today, that boy with no prospects, destined to fail, is a lawyer admitted and practising in Brazil and Portugal, husband to Mari, father to Calebe and Ana Laura, a pastor and a writer in the making.',
+      signature: 'Ivan Albani',
     },
     valuesTitle: 'Values',
     values: [
@@ -484,42 +500,279 @@ export default {
 
   faq: {
     eyebrow: 'Frequently asked questions',
-    title: 'Common questions, clear answers.',
+    title: 'Frequently asked questions about immigration to Portugal',
     intro: 'These are the questions we hear most often. If yours is not here, get in touch.',
+    // {q} = number of questions, {t} = number of topics
+    count: '{q} questions · {t} topics',
+    navLabel: 'Question topics',
+    search: {
+      label: 'Search the questions',
+      placeholder: 'Search: CPLP, renewal, AIMA...',
+      clear: 'Clear search',
+      // {n} = number of questions found
+      results: '{n} questions found',
+      resultsOne: '1 question found',
+      empty: 'No questions found for “{q}”.',
+      emptyHint: 'Try other words, or get in touch: we will answer your question directly.',
+    },
     more: 'See all questions →',
     ctaLead: 'Didn’t find the answer?',
-    items: [
+    groups: [
       {
-        q: 'Do I need to be in Portugal to start my case?',
-        a: 'No. Most of the work can be done remotely: the case analysis, preparing the file and following up with the authorities. We serve clients in Brazil, the USA and Portugal, in person in Palmela or online.',
+        id: 'visas',
+        short: 'Visas',
+        title: 'Visas for Portugal',
+        items: [
+          {
+            q: 'I’ve decided to leave Brazil and move to Portugal, but I don’t even know where to start. What do I do first?',
+            a: 'The starting point is defining the reason for the move: working, starting a business, studying, living on your own income or joining a family member. That is what determines the visa, the documents and the steps. At our firm we always begin with this assessment, because gathering documents without it is the most common mistake we see.',
+          },
+          {
+            q: 'I always mix up a visa and a residence permit. Aren’t they the same thing?',
+            a: 'No. A visa authorises entry into Portugal for a specific purpose. A residence visa is, as a rule, used to enter the country and then apply for the residence permit, which is what allows you to live in Portugal legally while it is valid.',
+          },
+          {
+            q: 'I’ve received a job offer from a Portuguese company. Is that enough to get a work visa?',
+            a: 'The offer or contract can support the application, depending on the type of visa and its requirements. In our analysis we also check your personal documents, the terms of employment and, if your profession requires it, your qualification to practise it.',
+          },
+          {
+            q: 'I’m thinking of opening a company or working for myself there. Is there a visa for that?',
+            a: 'Yes, the D2, for entrepreneurs and independent professionals. You must show the business project or activity and meet the documentary and financial requirements. We always warn our clients: opening a company does not, on its own, guarantee the visa.',
+          },
+          {
+            q: 'I’m retired and would like to spend this stage of my life in Portugal. Is there a visa for me?',
+            a: 'The D7 is usually the route for retirees and people living on their own income. The analysis weighs the source, regularity and availability of that income, as well as the other requirements.',
+          },
+          {
+            q: 'I work remotely for a Brazilian company. Can I keep working this way while living in Portugal?',
+            a: 'Yes, through the remote work visa, the D8, for people who provide services to individuals or companies outside Portugal. You will need to prove the employment relationship or the services provided, the required income and the other requirements.',
+          },
+          {
+            q: 'I’ve been accepted onto a course in Portugal! Does that guarantee my student visa?',
+            a: 'No. Enrolment or admission is only part of the documentation. The application also depends on the status of the institution and the course, means of subsistence, accommodation and the other requirements.',
+          },
+          {
+            q: 'I’ve heard of a visa to go and look for work there. Does it still exist?',
+            a: 'The law now provides for a visa to look for qualified work. Don’t assume the old model still works the same way: before any application, we confirm the regulations and whether the consulate is accepting this type of visa.',
+          },
+          {
+            q: 'How much money do I need in my account to apply for the visa?',
+            a: 'There is no single amount. It depends on the type of visa, how many people are coming with you and the criteria in force. And having the money is not enough: you need to show where it comes from and that it is available. We work this out case by case.',
+          },
+          {
+            q: 'How long does it take and how much will the whole process cost?',
+            a: 'It varies with the type of visa, where you apply and whether additional documents are needed. In our quotes we separate official fees, document costs and legal fees, so you know exactly what you are paying for. No serious law firm, however, can guarantee an approval timeframe.',
+          },
+        ],
       },
       {
-        q: 'How does the first consultation work?',
-        a: 'You book a slot, tell us about your case and we review the documents available. In the consultation we present the safest path, realistic timeframes and what is needed to move forward.',
+        id: 'regularisation',
+        short: 'Regularisation',
+        title: 'Regularising your status in Portugal',
+        items: [
+          {
+            q: 'I entered Portugal as a tourist and ended up staying. Can I regularise my status without going back to Brazil?',
+            a: 'Having entered as a tourist does not, in itself, give you a right to residence. Our job is to check whether there is any legal route in your case that allows you to apply from within Portugal, including transitional rules.',
+          },
+          {
+            q: 'I already have a NIF, a NISS and an employment contract. That means I’m legal, right?',
+            a: 'No. These documents show your tax, social security or employment situation, but they do not replace a visa, a residence permit or another valid basis for staying.',
+          },
+          {
+            q: 'Can I still file an expression of interest (manifestação de interesse)?',
+            a: 'Not as a general route. The expression of interest was revoked in June 2024. Earlier applications and situations covered by the transitional rules require a specific analysis, which we can carry out for you.',
+          },
+          {
+            q: 'I was already working and paying social security before June 2024. Does that count in my favour?',
+            a: 'It may, when assessing whether you fall under the transitional regime. We analyse your situation on that date, your documents and whether the legal deadline was met. Contributions alone do not guarantee the right.',
+          },
+          {
+            q: 'I’ve lived in Portugal for years. After so long, isn’t residence granted automatically?',
+            a: 'No. Time spent in the country does not, on its own, replace the requirements for the permit. We assess your immigration history, your family and professional ties and the legal routes available.',
+          },
+          {
+            q: 'I received a notice ordering me to leave Portugal. I’m desperate, what do I do?',
+            a: 'Contact us as soon as possible: the grounds of the notice and the deadline to respond are decisive. Keep the full document and proof of the date you received it. The possible measures depend on your case.',
+          },
+        ],
       },
       {
-        q: 'Which visa is right for me?',
-        a: 'It depends on the reason for the move, your source of income and your family situation. The D1 to D8 visas have different requirements, so the choice is made after an individual analysis.',
+        id: 'cplp',
+        short: 'CPLP',
+        title: 'CPLP residence permit',
+        items: [
+          {
+            q: 'Everyone talks about the CPLP. What is it, exactly?',
+            a: 'It is a residence permit for citizens of the countries covered by the Mobility Agreement of the Community of Portuguese Language Countries (CPLP), provided they meet the legal requirements.',
+          },
+          {
+            q: 'I’m Brazilian. So is the CPLP automatic for me?',
+            a: 'No. Brazilian nationality makes you eligible under the agreement, but it does not exempt you from the requirements for the permit to be granted.',
+          },
+          {
+            q: 'Can I enter as a tourist and apply for the CPLP just because I’m Brazilian?',
+            a: 'We don’t recommend counting on it. For new applications, the current rule requires a prior residence visa. Older or transitional situations need their own analysis.',
+          },
+          {
+            q: 'Are the CPLP visa and the CPLP residence permit the same document?',
+            a: 'No. The visa is obtained at the consulate. The residence permit is applied for in Portugal, with AIMA. Having the visa does not remove the steps needed to issue the residence card.',
+          },
+          {
+            q: 'Can I work normally with the CPLP?',
+            a: 'Yes, on the terms that apply to residents. If your profession is regulated, you may need recognition of your qualifications or registration with the professional body.',
+          },
+          {
+            q: 'Once I have the CPLP, am I a Portuguese citizen?',
+            a: 'No. The CPLP is a residence permit. Portuguese nationality has its own procedure and requirements.',
+          },
+        ],
       },
       {
-        q: 'My application is stuck at AIMA. What can be done?',
-        a: 'We assess the stage of the application and the applicable legal deadlines and tell you which administrative or judicial measures can get it moving again.',
+        id: 'cplp-card',
+        short: 'CPLP card exchange',
+        title: 'Exchanging the CPLP certificate for a residence card',
+        items: [
+          {
+            q: 'My CPLP certificate is the paper one. Can I exchange it for the card?',
+            a: 'Yes. A procedure was created to renew and replace the CPLP certificate with a residence permit in the uniform card format.',
+          },
+          {
+            q: 'Does the exchange happen on its own, or do I have to do something?',
+            a: 'It is not automatic. The procedure involves validating your details, paying the fee where applicable, submitting documents and attending an appointment to collect your biometrics.',
+          },
+          {
+            q: 'Where do I start the exchange application?',
+            a: 'Check AIMA’s official procedure and the notification sent for your case. AIMA has made the “Renovar AR CPLP” option available on its services platform for this application.',
+          },
+          {
+            q: 'Do I need to go in person, or can the firm handle it for me?',
+            a: 'The procedure requires an in-person appointment for biometrics. We can follow and prepare the whole process, but that does not replace your attendance when it is required.',
+          },
+          {
+            q: 'Which documents should I bring on the day of the exchange?',
+            a: 'Follow the list in your notification and bring everything up to date. Check your identification, the previous certificate and the requested supporting documents carefully. If you prefer, we can review the documents with you before the appointment.',
+          },
+          {
+            q: 'I never received the exchange email, or I lost access to my old email. What now?',
+            a: 'First check your spam folder and the details linked to your case. If the email address is wrong or inaccessible, use the official procedure to update it. Keep proof of every attempt and request.',
+          },
+          {
+            q: 'If I swap the paper certificate for the card, does my residence become work-based?',
+            a: 'No. The replacement changes the document, not the basis of your residence. Changing the basis is a separate matter, with its own assessment and procedure.',
+          },
+        ],
       },
       {
-        q: 'I am the grandchild of Portuguese citizens. Can I apply for Portuguese nationality?',
-        a: 'In many cases, yes. Grandchildren of Portuguese citizens can apply, provided the legal requirements are met. We check the documents of your family line and prepare the application before the Registry Offices.',
+        id: 'renewal',
+        short: 'Renewal',
+        title: 'Renewing your residence permit',
+        items: [
+          {
+            q: 'How far in advance should I start dealing with the renewal?',
+            a: 'Before it expires, without leaving it to the last minute. Check your passport’s validity, organise your documents and keep track of when the procedure for your permit opens.',
+          },
+          {
+            q: 'Are all renewals done on the same portal?',
+            a: 'No. The channel varies with the type of permit and the status of the document. The CPLP, for example, has its own procedure.',
+          },
+          {
+            q: 'My residence permit has expired. Have I lost everything?',
+            a: 'There is no single answer. We need to check the expiry date, the applicable rules and whether a renewal application has been filed. Don’t assume that old extensions still apply to your case.',
+          },
+          {
+            q: 'Does the renewal receipt count as a card?',
+            a: 'It proves the application and has the effects provided for in the applicable regime while it is valid. But it is not equivalent to the card for every purpose, especially for international travel.',
+          },
+          {
+            q: 'I’ve lost my job. Can I still renew?',
+            a: 'The key issue becomes how to show means of subsistence and meet the other requirements. We assess your type of residence, the resources available and your personal circumstances.',
+          },
+          {
+            q: 'I have debts with the Tax Authority or Social Security. Will that affect my renewal?',
+            a: 'It may. Your tax and social security situation is relevant to the application. We advise checking any outstanding debts and settling them, or showing a valid payment agreement.',
+          },
+          {
+            q: 'I’ve changed address or passport, or got married. Do I need to tell anyone?',
+            a: 'Yes, through the appropriate procedure. Out-of-date details can affect notifications, the document review and the delivery of your card.',
+          },
+        ],
       },
       {
-        q: 'Do you handle Hague apostilles, translations and powers of attorney?',
-        a: 'Yes. We handle apostilles and legalisation, certified legal translations, powers of attorney, signature recognition and document authentication, so your documents are valid in the country where they will be used.',
+        id: 'aima',
+        short: 'AIMA',
+        title: 'Stalled cases at AIMA',
+        items: [
+          {
+            q: 'My case has been stuck for months and nobody gives me an answer. Where do I start?',
+            a: 'By identifying exactly which stage it is at: appointment, review, missing documents, decision or card issuance. Gather the case number, proof of submission and payment and every communication from AIMA. With that, we can map out the next step.',
+          },
+          {
+            q: 'I just can’t get an appointment. Can the firm help?',
+            a: 'Yes: we identify the right channel, prepare formal requests and assess administrative or legal action. We are transparent, though: hiring us does not guarantee an immediate slot or waive the application requirements.',
+          },
+          {
+            q: 'Can I sue AIMA for the delay?',
+            a: 'There may be grounds, depending on AIMA’s duty to act, the applicable deadline and the history of your case. We assess which measure fits your specific situation.',
+          },
+          {
+            q: 'Does every delayed case entitle me to urgent legal action?',
+            a: 'No. The urgent summons for the protection of rights, freedoms and guarantees (intimação para proteção de direitos, liberdades e garantias) has specific requirements. Delay alone does not make a case eligible for this urgent procedure.',
+          },
+          {
+            q: 'What evidence shows that my case is urgent?',
+            a: 'Documents proving concrete harm: risk of losing your job, health issues, serious impact on family life. The evidence must show the link between AIMA’s failure to act and the right affected.',
+          },
+          {
+            q: 'If I win in court, is my residence approved?',
+            a: 'Not necessarily. The ruling may order AIMA to take an action or decide on the application, which does not, in itself, amount to granting residence.',
+          },
+          {
+            q: 'I’ve done my biometrics and paid, but the card never arrived. What do I do?',
+            a: 'Check whether a decision has been made, whether any requirement is pending and whether your address is correct. Payment and biometrics do not, on their own, prove approval. With your history organised, we can assess a request for information or another suitable measure.',
+          },
+        ],
       },
       {
-        q: 'Can I open a company in Portugal while living in Brazil or the USA?',
-        a: 'Yes. We handle the incorporation, the NIF, the corporate structure and tax planning, even if you do not live in Portugal yet.',
+        id: 'family',
+        short: 'Family',
+        title: 'Family and family reunification',
+        items: [
+          {
+            q: 'I want to bring my wife and children. Is that possible?',
+            a: 'There may be a route as accompanying family members or through family reunification, depending on your permit and your family’s situation. We check family ties, ages, where your family members are and the residence, accommodation and subsistence requirements.',
+          },
+          {
+            q: 'I’m not formally married; we have a stable union (união estável). Does that count?',
+            a: 'A de facto union can be considered for family reunification if it meets the requirements and is well documented. We review the Brazilian document for its content, formalities and adequacy as evidence.',
+          },
+          {
+            q: 'What about my parents, or my adult children? Can I bring them?',
+            a: 'There are legal routes, but the family relationship alone may not be enough. Financial dependency, age, studies and other conditions are often decisive.',
+          },
+          {
+            q: 'My family is already here in Portugal with me. Can I apply for reunification from here?',
+            a: 'It depends on where the family member is, how they entered, their age and the date of the application. The rules for applications from within the country have changed, and not every family member can use the same route.',
+          },
+        ],
       },
       {
-        q: 'In which languages do you work?',
-        a: 'We work in Portuguese and English.',
+        id: 'travel',
+        short: 'Travel & documents',
+        title: 'Travel, documents and case review',
+        items: [
+          {
+            q: 'Can I travel to Brazil while waiting for my residence permit or renewal?',
+            a: 'Before travelling, check which documents you need to leave, make connections and return to Portugal. An appointment or application receipt should not be considered sufficient for boarding or re-entry. If in doubt, ask us before buying your ticket.',
+          },
+          {
+            q: 'With Portuguese residence, can I live and work anywhere in Europe?',
+            a: 'Not automatically. Short trips and moving your residence are different situations, and moving follows the rules of the destination country.',
+          },
+          {
+            q: 'I’d like to book a consultation with the firm. What should I bring?',
+            a: 'Passport, visa or residence permit, proof of entry, notifications, case number, payments and communications with AIMA. Depending on the case, professional, family and accommodation documents. A simple timeline with the key dates helps our team identify the problem and the options available.',
+          },
+        ],
       },
     ],
   },

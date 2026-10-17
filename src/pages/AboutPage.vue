@@ -48,6 +48,28 @@ useSeo(() => ({ key: 'about', title: c.value.meta.about.title, description: c.va
     </div>
   </section>
 
+  <!-- Minha história (primeira pessoa, do Dr. Ivan) -->
+  <section class="section border-t border-slate-line/70" aria-labelledby="historia-title">
+    <div class="container-site grid gap-10 lg:grid-cols-12 lg:gap-16">
+      <header class="lg:col-span-4">
+        <div class="lg:sticky lg:top-32">
+          <p class="kicker">{{ c.about.story.eyebrow }}</p>
+          <h2 id="historia-title" class="mt-6 text-[2.2rem] leading-tight text-ivory sm:text-[2.8rem]">{{ c.about.story.title }}</h2>
+          <hr class="rule-brass mt-8 max-w-[8rem]" />
+        </div>
+      </header>
+      <div class="lg:col-span-8">
+        <div class="max-w-[42rem] space-y-6 text-lg leading-relaxed text-ivory/80">
+          <p v-for="(p, i) in c.about.story.paragraphs" :key="i">{{ p }}</p>
+        </div>
+        <figure class="mt-12 max-w-[42rem] border-l-2 border-brass pl-6 sm:pl-8" v-reveal>
+          <blockquote class="font-display text-[1.55rem] leading-snug text-ivory sm:text-[1.9rem]">{{ c.about.story.closing }}</blockquote>
+          <figcaption class="mt-5 text-sm tracking-wide text-brass-text">— {{ c.about.story.signature }}</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
   <!-- Valores -->
   <section class="section border-y border-slate-line/70 bg-slate-deep/40" aria-labelledby="valores-title">
     <div class="container-site grid gap-12 lg:grid-cols-12">

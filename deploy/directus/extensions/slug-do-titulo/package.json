@@ -1,0 +1,13 @@
+{
+  "name": "directus-extension-slug-do-titulo",
+  "description": "Campo de slug que acompanha o título enquanto se digita (só em itens novos) e continua editável",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "directus:extension": {
+    "type": "interface",
+    "path": "index.js",
+    "source": "index.js",
+    "host": "^11.0.0"
+  }
+}
