@@ -1,6 +1,7 @@
 // Configura o Directus para o blog (idempotente: pode rodar de novo sem duplicar nada).
 // - coleção `posts` com campos PT/EN no mesmo formato que o site usa
-// - coleção singleton `pagina_inicial` (link do vídeo do YouTube da home)
+// - coleção singleton `pagina_inicial`, no painel "Configurações do site": vídeo do YouTube da
+//   home e destino do botão "Agendar consulta" (WhatsApp ou link de agendamento)
 // - perfil "Editor" (Dr. Ivan): cria/edita posts, edita a página inicial e envia imagens,
 //   com o painel enxuto (CSS abaixo)
 // - usuário "build" com token estático só de leitura (BUILD_TOKEN), usado pelo fetch-posts/fetch-home
@@ -182,7 +183,14 @@ async function ensureCollection() {
 // Links aceitos: youtube.com/watch?v=, youtu.be/, /shorts/, /embed/ e /live/ (o fetch-home extrai o id)
 const YOUTUBE_RE = '^https?://((www|m)\\.)?(youtube\\.com/(watch\\?(.*&)?v=|shorts/|embed/|live/)|youtu\\.be/)[A-Za-z0-9_-]{11}'
 
+const divider = (field, title, icon, sort) => ({
+  field,
+  type: 'alias',
+  meta: { interface: 'presentation-divider', special: ['alias', 'no-data'], options: { title, icon, inlineTitle: true }, sort, width: 'full' },
+})
+
 const HOME_FIELDS = [
+  divider('divisor_video', 'Vídeo da página inicial', 'smart_display', 0),
   {
     field: 'video_url',
     type: 'string',
@@ -213,6 +221,44 @@ const HOME_FIELDS = [
     },
     schema: {},
   },
+  divider('divisor_cta', 'Botão "Agendar consulta"', 'event', 3),
+  {
+    field: 'cta_tipo',
+    type: 'string',
+    meta: {
+      interface: 'select-radio',
+      options: {
+        choices: [
+          { text: 'WhatsApp', value: 'whatsapp' },
+          { text: 'Link de agendamento (ex.: Google Agenda)', value: 'agenda' },
+        ],
+      },
+      required: true,
+      translations: pt('Para onde o botão leva'),
+      note: 'Vale para todos os botões de agendar do site (topo, página inicial, artigos, perguntas frequentes...).',
+      sort: 4,
+      width: 'full',
+    },
+    schema: { default_value: 'whatsapp' },
+  },
+  {
+    field: 'cta_link',
+    type: 'string',
+    meta: {
+      interface: 'input',
+      options: { placeholder: 'https://calendar.app.google/...', trim: true, iconLeft: 'event' },
+      translations: pt('Link de agendamento'),
+      note: 'No Google Agenda: crie uma "Agenda de horários", clique em Compartilhar e copie o link da página de agendamento.',
+      // Só aparece (e é obrigatório) com "Link de agendamento" escolhido
+      hidden: true,
+      conditions: [{ name: 'Com agenda', rule: { _and: [{ cta_tipo: { _eq: 'agenda' } }] }, hidden: false, required: true }],
+      validation: { _and: [{ cta_link: { _regex: '^https://' } }] },
+      validation_message: 'Cole o link completo, começando com https://',
+      sort: 5,
+      width: 'full',
+    },
+    schema: {},
+  },
 ]
 
 async function ensureHome() {
@@ -236,6 +282,14 @@ async function ensureHome() {
     await api('PATCH', '/collections/posts', { meta: { sort: 1 } })
     console.log('coleção pagina_inicial: criada')
   }
+  // Nome no painel: além do vídeo da home, guarda o botão de agendar do site todo
+  await api('PATCH', '/collections/pagina_inicial', {
+    meta: {
+      icon: 'tune',
+      note: 'Vídeo da página inicial e botão "Agendar consulta"',
+      translations: [{ language: 'pt-BR', translation: 'Configurações do site', singular: 'Configurações do site', plural: 'Configurações do site' }],
+    },
+  })
 
   const existing = new Set((await api('GET', '/fields/pagina_inicial')).map((f) => f.field))
   for (const def of HOME_FIELDS) {

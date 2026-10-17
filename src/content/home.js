@@ -1,5 +1,6 @@
-// Vídeo da página inicial: editável no CMS (Directus, "Página inicial"). `scripts/fetch-home.mjs`
-// roda antes do dev/build e grava `home-cms.json` (fora do git); vazio, vale o padrão de config/site.js.
+// Configurações editáveis no CMS (Directus, "Configurações do site"). `scripts/fetch-home.mjs`
+// roda antes do dev/build e grava `home-cms.json` (fora do git); o que faltar nele usa o padrão
+// de config/site.js.
 import cms from './home-cms.json'
 import { CONTACT } from '../config/site.js'
 
@@ -8,3 +9,7 @@ export const HOME_VIDEO = {
   // prefixo das miniaturas: <thumb>-640/-1280 em .avif e .webp
   thumb: cms.thumb || '/img/video-thumb',
 }
+
+// Destino dos botões "Agendar consulta": link de agendamento, ou '' para usar o WhatsApp.
+// Com o CMS, a escolha dele vale mesmo quando é o WhatsApp ('' no JSON).
+export const BOOKING_URL = 'bookingUrl' in cms ? cms.bookingUrl : CONTACT.bookingUrl

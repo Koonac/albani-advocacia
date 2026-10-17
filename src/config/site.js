@@ -23,6 +23,7 @@ export const CONTACT = {
   facebookHandle: '/albaniadvocacia',
   // Link de agendamento do Google Calendar (página de "Agendamento de horários" do Google Agenda).
   // Enquanto estiver vazio, os botões "Agendar consulta" caem no WhatsApp.
+  // Com o CMS ligado, vale a escolha de "Configurações do site" no painel (src/content/home.js).
   bookingUrl: '',
   // Ficha do escritório no Google Maps (CID extraído do link das avaliações)
   googleMaps: 'https://maps.google.com/?cid=15702313322506232491',
