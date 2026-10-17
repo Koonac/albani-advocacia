@@ -29,8 +29,29 @@ export async function api(method, path, body) {
   return json.data
 }
 
+/** Espera o Directus responder (logo após um `docker compose up` ele leva ~30 s para subir) */
+async function waitForServer(timeoutMs = 120_000) {
+  const until = Date.now() + timeoutMs
+  let warned = false
+  while (true) {
+    try {
+      const res = await fetch(`${CMS_URL}/server/health`)
+      if (res.ok) return
+    } catch {
+      // ainda não está ouvindo
+    }
+    if (Date.now() > until) {
+      console.error(`O Directus não respondeu em ${CMS_URL} após ${timeoutMs / 1000}s. Veja: docker compose logs directus`)
+      process.exit(1)
+    }
+    if (!warned) console.log('aguardando o Directus subir...'), (warned = true)
+    await new Promise((r) => setTimeout(r, 2000))
+  }
+}
+
 export async function login() {
   requireEnv('ADMIN_EMAIL', 'ADMIN_PASSWORD')
+  await waitForServer()
   const data = await api('POST', '/auth/login', { email: process.env.ADMIN_EMAIL, password: process.env.ADMIN_PASSWORD })
   token = data.access_token
 }
