@@ -266,17 +266,40 @@ export default {
     story: {
       eyebrow: 'My story',
       title: 'The “Angels’ Lawyer”',
-      paragraphs: [
-        'I grew up in a very sad and deprived situation. My biological father rejected me before I was even born and, after my birth, my mother moved to Florianópolis, in Santa Catarina. As a child I was so talkative that an aunt nicknamed me the “Angels’ Lawyer”, because I never stopped talking.',
-        'I was raised by an alcoholic, violent stepfather, amid domestic violence, and looked down on as the “bastard” among his three daughters, my sisters. When I was 13, my mother found the courage to leave him. We moved to a favela in central Curitiba, in Paraná, and I started working very young, pulling a paper cart and collecting cardboard and cans.',
-        'At 15 I got into drugs and dropped out of school before finishing the 8th grade. I worked to help at home and to feed my addiction. It got so bad that, by around 20, I owed money to every drug den in the neighbourhood. My mother left the house and went back to Florianópolis, and I turned her house into a drug den. At my lowest point, she found a way to take me to Florianópolis, where I lived in a damp, mouldy basement, leading the same life: working by day and using drugs at night.',
-        'It was then, at 23, in front of a table covered in cocaine, that I had an encounter with God. I left all that behind, accepted Jesus and quit drugs that same week; giving up cigarettes took five days. That is also where I met my wife and found a new purpose in life.',
-        'I went back to school. I worked as a bricklayer’s assistant during the day and studied at night: I completed primary school through an adult education programme (CEJA), finished secondary school and went on to university. I started an internship in my 6th semester, passed the Brazilian Bar exam in 2021 and opened my own practice as the pandemic was winding down. I built a solid client base, set up the Dr. Ivan Albani law office, and things worked out.',
-        'In mid-2022 I received the offer and the opportunity to move to Portugal. I benefited from the reciprocity arrangement between Brazilian and Portuguese lawyers and deepened my knowledge of immigration, being an immigrant myself, and of business law, which had been my main niche in Brazil. By 2023, through referrals alone, I had built a client base large enough to form partnerships with lawyers long established in Portugal. That is how Albani Advocacia was born.',
-        'Today we work across a range of areas, in partnership with experienced lawyers. I have specialised in immigration to Brazil, Portugal and the United States, and in company formation and legal compliance.',
+      lead: 'Long before I knew the law, an aunt gave me the nickname “Angels’ Lawyer”. I was a talkative child who always had something to say. Years later, that nickname would take on a meaning no one could have imagined.',
+      sections: [
+        {
+          title: 'Where I come from',
+          paragraphs: [
+            'My childhood was marked by my father’s rejection, by domestic violence and by financial hardship. At 13, I went to live with my mother in a community in Curitiba and started working, collecting cardboard and recyclable materials.',
+            'In my teens, I left school and struggled with drug addiction. Those were difficult years. They interrupted my studies and took away any prospect of a future.',
+          ],
+        },
+        {
+          title: 'The decision to start again',
+          paragraphs: [
+            'At 23, an encounter with God marked a profound change in my life. I left drugs behind, found a new sense of purpose in faith and began to rebuild my path.',
+            'I worked as a bricklayer’s assistant during the day and studied at night. I returned to basic education, finished secondary school and entered law school. In 2021, I passed the Brazilian Bar exam and began my career at the head of my own practice.',
+          ],
+        },
+        {
+          title: 'Building Albani Advocacia',
+          paragraphs: [
+            'In 2022, I moved to Portugal. Being an immigrant brought a personal dimension to my work: I came to know, in practice, the questions and the challenges of building a life in another country.',
+            'I deepened my work in immigration and business law. In 2023, with a client base built through referrals and partnerships with experienced lawyers in Portugal, Albani Advocacia was born.',
+            'Today, I am a lawyer admitted in Brazil and in Portugal. My practice brings together immigration, company structuring and legal compliance, with attention to the needs of individuals, families and entrepreneurs.',
+          ],
+        },
+        {
+          title: 'What this story means in my work',
+          paragraphs: [
+            'I am Mari’s husband, father to Calebe and Ana Laura, a pastor and a writer in the making. My faith, my family and my path are part of who I am.',
+            'I know how much a fresh start can bring both hope and uncertainty. That experience shapes the way I work with clients: listening carefully, explaining the options clearly and handling each case with responsibility.',
+          ],
+        },
       ],
       closing:
-        'Today, that boy with no prospects, destined to fail, is a lawyer admitted and practising in Brazil and Portugal, husband to Mari, father to Calebe and Ana Laura, a pastor and a writer in the making.',
+        'The nickname stayed in childhood. The commitment to put my voice at the service of people accompanies my work every day.',
       signature: 'Ivan Albani',
     },
     valuesTitle: 'Values',

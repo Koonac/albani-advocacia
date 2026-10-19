@@ -59,8 +59,14 @@ useSeo(() => ({ key: 'about', title: c.value.meta.about.title, description: c.va
         </div>
       </header>
       <div class="lg:col-span-8">
-        <div class="max-w-[42rem] space-y-6 text-lg leading-relaxed text-ivory/80">
-          <p v-for="(p, i) in c.about.story.paragraphs" :key="i">{{ p }}</p>
+        <div class="max-w-[42rem]">
+          <p class="text-lg leading-relaxed text-ivory/85">{{ c.about.story.lead }}</p>
+          <div v-for="section in c.about.story.sections" :key="section.title" class="mt-12">
+            <h3 class="font-display text-[1.55rem] leading-snug text-ivory sm:text-[1.85rem]">{{ section.title }}</h3>
+            <div class="mt-5 space-y-6 text-lg leading-relaxed text-ivory/80">
+              <p v-for="(p, i) in section.paragraphs" :key="i">{{ p }}</p>
+            </div>
+          </div>
         </div>
         <figure class="mt-12 max-w-[42rem] border-l-2 border-brass pl-6 sm:pl-8" v-reveal>
           <blockquote class="font-display text-[1.55rem] leading-snug text-ivory sm:text-[1.9rem]">{{ c.about.story.closing }}</blockquote>

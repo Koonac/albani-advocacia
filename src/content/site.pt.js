@@ -267,17 +267,40 @@ export default {
     story: {
       eyebrow: 'Minha história',
       title: 'O “Advogado dos Anjos”',
-      paragraphs: [
-        'Fui criado numa realidade muito triste e desfavorecida. Ainda na gestação, fui rejeitado pelo meu pai biológico e, depois do meu nascimento, minha mãe se mudou para Florianópolis (SC). Na infância, eu era tão comunicativo que uma tia me apelidou de “Advogado dos Anjos”, porque eu falava demais.',
-        'Cresci com um padrasto alcoólatra e agressivo, em meio à violência doméstica, desprezado por ser o “bastardo” entre as três filhas dele, minhas irmãs. Quando eu tinha 13 anos, minha mãe criou coragem e deixou o agressor. Fomos morar numa favela no centro de Curitiba (PR), e eu comecei a trabalhar muito cedo, puxando carrinho de papel e catando papelão e latinhas.',
-        'Aos 15 anos, entrei no mundo das drogas e larguei a escola sem concluir a 8ª série. Trabalhava para ajudar em casa e para sustentar o vício. Cheguei a tal ponto que, por volta dos 20 anos, tinha dívidas em todas as bocas de fumo do bairro. Minha mãe deixou a casa e voltou para Florianópolis, e eu transformei a casa dela numa boca de fumo. Na pior fase, ela deu um jeito de me levar para Florianópolis, onde fui morar num porão mofado e úmido, levando a mesma vida: trabalhava de dia e usava drogas à noite.',
-        'Foi nessa altura, aos 23 anos, que tive um encontro com Deus, diante de uma mesa cheia de cocaína. Larguei tudo aquilo, aceitei Jesus e, na mesma semana, abandonei as drogas; para deixar o cigarro, levei cinco dias. Ali encontrei também a minha esposa e um novo sentido para viver.',
-        'Voltei a estudar. Trabalhava como ajudante de pedreiro durante o dia e estudava à noite: fiz o CEJA para terminar o ensino fundamental, concluí o ensino médio e entrei na faculdade. Comecei a estagiar no 6º período, fui aprovado na OAB em 2021 e abri meu escritório ainda no fim da pandemia. Conquistei uma boa carteira de clientes, montei o escritório Dr. Ivan Albani, e as coisas deram certo.',
-        'Em meados de 2022, recebi a proposta e a oportunidade de me mudar para Portugal. Fui beneficiado pelo regime de reciprocidade entre advogados brasileiros e portugueses e aprofundei meus conhecimentos em imigração, por ser também imigrante, e em direito empresarial, que era o meu principal nicho no Brasil. Ainda em 2023, só com indicações, alcancei uma carteira de clientes suficiente para firmar parcerias com advogados que atuam há muito tempo em Portugal. Foi assim que nasceu a Albani Advocacia.',
-        'Hoje atuamos em diversas áreas, em parceria com advogados experientes. Aperfeiçoei-me em imigração para o Brasil, Portugal e Estados Unidos, e em abertura de empresas e compliance jurídico.',
+      lead: 'Muito antes de conhecer o Direito, ganhei de uma tia o apelido de “Advogado dos Anjos”. Eu era uma criança comunicativa, que sempre tinha algo a dizer. Anos depois, aquele apelido ganharia um significado que ninguém poderia imaginar.',
+      sections: [
+        {
+          title: 'De onde eu vim',
+          paragraphs: [
+            'Minha infância foi marcada pela rejeição paterna, pela violência doméstica e por dificuldades financeiras. Aos 13 anos, fui morar com minha mãe em uma comunidade de Curitiba e comecei a trabalhar recolhendo papelão e materiais recicláveis.',
+            'Na adolescência, abandonei a escola e enfrentei a dependência de drogas. Foram anos difíceis, que interromperam meus estudos e me afastaram de qualquer perspectiva de futuro.',
+          ],
+        },
+        {
+          title: 'A decisão de recomeçar',
+          paragraphs: [
+            'Aos 23 anos, um encontro com Deus marcou uma mudança profunda na minha vida. Deixei as drogas, encontrei na fé um novo sentido e comecei a reconstruir minha trajetória.',
+            'Trabalhava como ajudante de pedreiro durante o dia e estudava à noite. Retomei a educação básica, concluí o ensino médio e ingressei na faculdade de Direito. Em 2021, fui aprovado no exame da OAB e iniciei minha trajetória à frente do próprio escritório.',
+          ],
+        },
+        {
+          title: 'A construção da Albani Advocacia',
+          paragraphs: [
+            'Em 2022, mudei-me para Portugal. A experiência de ser imigrante trouxe uma dimensão pessoal ao meu trabalho: passei a conhecer também, na prática, as dúvidas e os desafios de construir uma vida em outro país.',
+            'Aprofundei minha atuação em Direito Imigratório e Empresarial. Em 2023, com uma carteira de clientes formada por indicações e parcerias com advogados experientes em Portugal, nasceu a Albani Advocacia.',
+            'Hoje, sou advogado inscrito no Brasil e em Portugal. Minha atuação reúne imigração, estruturação de empresas e compliance jurídico, com atenção às necessidades de pessoas, famílias e empreendedores.',
+          ],
+        },
+        {
+          title: 'O que essa história significa no meu trabalho',
+          paragraphs: [
+            'Sou marido da Mari, pai do Calebe e da Ana Laura, pastor e escritor em construção. Minha fé, minha família e minha trajetória fazem parte de quem sou.',
+            'Sei o quanto um recomeço pode trazer esperança e incerteza. Essa experiência orienta minha forma de atender: ouvir com atenção, explicar as possibilidades com clareza e conduzir cada caso com responsabilidade.',
+          ],
+        },
       ],
       closing:
-        'Hoje, aquele menino sem perspectiva de vida, destinado ao fracasso, é advogado inscrito e atuante no Brasil e em Portugal, marido da Mari, pai do Calebe e da Ana Laura, pastor e escritor em construção.',
+        'O apelido ficou na infância. O compromisso de colocar minha voz a serviço das pessoas acompanha meu trabalho todos os dias.',
       signature: 'Ivan Albani',
     },
     valuesTitle: 'Valores',
