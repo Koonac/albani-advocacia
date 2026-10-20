@@ -4,33 +4,57 @@
 export default {
   meta: {
     siteName: 'Albani Advocacia',
+    // Títulos até ~60 caracteres e descriptions até ~160, com as buscas principais no início.
+    // `keywords` alimenta a meta keywords (ignorada pelo Google, lida por Bing e outros buscadores).
     home: {
-      title: 'Albani Advocacia | Imigração, nacionalidade e empresas em Portugal',
+      title: 'Advogado em Portugal para Brasileiros | Albani Advocacia',
       description:
-        'Vistos, residência, nacionalidade e empresas, conduzidos de ponta a ponta por um advogado inscrito na Ordem dos Advogados de Portugal (OA-PT) e na Ordem dos Advogados do Brasil (OAB-SC).',
+        'Advogado inscrito na Ordem dos Advogados de Portugal e na OAB: vistos D7 e D8, autorização de residência, nacionalidade portuguesa, AIMA e empresas em Portugal.',
+      keywords:
+        'advogado em Portugal, advogado brasileiro em Portugal, advogado de imigração Portugal, morar em Portugal, visto para Portugal, visto D7, visto D8, nacionalidade portuguesa, autorização de residência, AIMA, abrir empresa em Portugal',
     },
     about: {
-      title: 'Sobre o escritório e o Dr. Ivan Albani | Albani Advocacia',
+      title: 'Dr. Ivan Albani | Advogado em Portugal e no Brasil',
       description:
-        'Escritório de advocacia com atuação no Brasil, nos EUA e em Portugal. Dr. Ivan Albani, Cédula Profissional OA 67498E · OAB/SC 62.722.',
+        'Conheça o Dr. Ivan Albani, advogado inscrito na Ordem dos Advogados de Portugal (67498E) e na OAB/SC (62.722), com atuação em imigração, nacionalidade e direito empresarial.',
+      keywords:
+        'Ivan Albani, Dr. Ivan Albani, advogado luso-brasileiro, advogado OA e OAB, escritório de advocacia em Portugal, advogado em Palmela, Albani Advocacia',
     },
     areas: {
-      title: 'Áreas de atuação | Albani Advocacia',
+      title: 'Vistos, Nacionalidade e Empresas em Portugal | Albani',
       description:
-        'Serviços jurídicos completos para pessoas e empresas que vivem, investem ou empreendem entre Brasil e Portugal.',
+        'Vistos D1 a D8, golden visa, autorização de residência, nacionalidade portuguesa, apostila de Haia, abertura de empresa, holding e imobiliário em Portugal.',
+      keywords:
+        'vistos para Portugal, visto de trabalho Portugal, visto D2 empreendedor, visto D7, visto D8 nómada digital, golden visa Portugal, reagrupamento familiar, nacionalidade portuguesa, apostila de Haia, abrir empresa em Portugal, holding em Portugal, comprar imóvel em Portugal',
     },
     blog: {
-      title: 'Blog | Albani Advocacia',
-      description: 'Guias práticos sobre imigração, documentos e negócios em Portugal.',
+      title: 'Blog sobre Imigração em Portugal | Albani Advocacia',
+      description:
+        'Guias práticos para morar em Portugal: vistos, processos na AIMA, nacionalidade portuguesa, apostila de Haia, carta de condução e como abrir empresa em Portugal.',
+      keywords:
+        'como morar em Portugal, imigração Portugal, guia visto Portugal, processo AIMA, nacionalidade portuguesa para netos, troca de carta de condução, apostila de Haia, golden visa',
     },
     faq: {
-      title: 'Perguntas frequentes | Albani Advocacia',
+      title: 'Dúvidas sobre Imigração em Portugal | Albani Advocacia',
       description:
         'Respostas às dúvidas mais comuns sobre imigração em Portugal: vistos, regularização, CPLP, renovação da residência, processos na AIMA e reagrupamento familiar.',
+      keywords:
+        'dúvidas imigração Portugal, visto ou autorização de residência, autorização de residência CPLP, renovação de residência AIMA, reagrupamento familiar Portugal, regularização em Portugal',
     },
     contact: {
-      title: 'Contato | Albani Advocacia',
-      description: 'Respondemos com rapidez. Escolha o canal mais conveniente.',
+      title: 'Contato | Advogado em Palmela, Portugal | Albani Advocacia',
+      description:
+        'Agende uma consulta com advogado em Portugal pelo WhatsApp de Portugal ou do Brasil, ou por e-mail. Escritório em Palmela, distrito de Setúbal.',
+      keywords:
+        'contato advogado Portugal, consulta advogado imigração, advogado Palmela, advogado Setúbal, WhatsApp advogado Portugal',
+    },
+    // Meta keywords dos artigos, por categoria (somadas ao título do artigo)
+    categoryKeywords: {
+      imigracao: 'imigração Portugal, visto para Portugal, autorização de residência, AIMA',
+      nacionalidade: 'nacionalidade portuguesa, cidadania portuguesa, passaporte português',
+      documentos: 'documentos para Portugal, apostila de Haia, reconhecimento de documentos',
+      empresas: 'abrir empresa em Portugal, empresa em Portugal, direito empresarial Portugal',
+      investimento: 'investir em Portugal, golden visa Portugal, imóveis em Portugal',
     },
   },
 
@@ -68,6 +92,7 @@ export default {
     reviewsFrom: 'Avaliação no Google',
     book: 'Agendar consulta',
     bookWa: 'Agendar consulta pelo WhatsApp',
+    close: 'Fechar',
   },
 
   megaMenu: {
@@ -103,13 +128,19 @@ export default {
 
   home: {
     hero: {
-      eyebrow: 'Advocacia luso-brasileira · Brasil · EUA · Portugal',
-      headline: 'Sua vida em Portugal começa com o passo jurídico certo.',
-      sub: 'Vistos, residência, nacionalidade e empresas, conduzidos de ponta a ponta por um advogado inscrito na Ordem dos Advogados de Portugal (OA-PT) e na Ordem dos Advogados do Brasil (OAB-SC).',
-      ctaPrimary: 'Agendar consulta pelo WhatsApp',
-      ctaSecondary: 'Ver áreas de atuação',
+      eyebrow: 'Brasil · Portugal · Estados Unidos',
+      headline: 'Seu próximo passo começa com',
+      headlineEm: 'orientação jurídica.',
+      lead: 'Para viver e empreender em Portugal ou nos Estados Unidos.',
+      description:
+        'Imigração, nacionalidade e negócios em Portugal. Vistos de imigrante e de não imigrante e abertura de LLC nos Estados Unidos.',
+      ctaPrimary: 'Conhecer os serviços',
+      ctaSecondary: 'Fale com o escritório',
+      credential: 'Advogado inscrito no Brasil e em Portugal',
+      credentialNumbers: 'OA 67498E · OAB/SC 62.722',
       proof: '★★★★★ 5,0 no Google · 46 avaliações',
-      badge: { name: 'Dr. Ivan Albani', credentials: 'OA 67498E · OAB/SC 62.722' },
+      badge: { name: 'Dr. Ivan Albani', role: 'Imigração e direito empresarial' },
+      scrollNote: 'Conheça nossas áreas',
       photoAlt: 'Dr. Ivan Albani, advogado, de terno preto',
       mapLabels: { pt: 'Portugal', br: 'Brasil', us: 'EUA' },
     },
@@ -137,30 +168,64 @@ export default {
       closing: 'Cada caso começa com uma análise honesta do que é possível e do caminho mais seguro.',
       cta: 'Quero analisar o meu caso',
     },
-    areas: {
-      title: 'Do primeiro visto à sua empresa em Portugal.',
-      intro: 'Atuamos nas questões que mais pesam na vida de quem se muda, investe ou empreende entre Brasil e Portugal.',
-      link: 'Ver serviços →',
+    services: {
+      eyebrow: 'Áreas de atuação',
+      title: 'Novos caminhos.',
+      titleEm: 'Decisões bem orientadas.',
+      intro: 'Encontre o atendimento para o seu momento — da mudança de país à estruturação de um negócio.',
+      cardLink: 'Conhecer o serviço',
+      footLead: 'Não encontrou o que procura?',
+      footLink: 'Conte seu caso ao escritório →',
+      dialogNote: 'O escopo, os responsáveis por cada etapa e as condições são definidos antes da contratação.',
+      dialogCta: 'Falar sobre este serviço',
       items: [
         {
-          title: 'Imigração e Nacionalidade',
-          anchor: 'imigracao',
-          text: 'Vistos D1 a D8, residência, reagrupamento familiar e nacionalidade portuguesa, com acompanhamento integral junto à AIMA.',
+          country: 'Portugal',
+          title: 'Imigração e nacionalidade',
+          summary: 'Vistos, residência, reagrupamento familiar e nacionalidade portuguesa.',
+          description:
+            'Analisamos seu objetivo e a documentação para identificar o enquadramento adequado. O atendimento pode envolver preparação do pedido, acompanhamento e análise de questões relacionadas à residência e à nacionalidade.',
+          bullets: ['Análise da situação e dos documentos', 'Preparação das etapas contratadas', 'Orientação durante o procedimento'],
         },
         {
-          title: 'Documentos e Registos',
-          anchor: 'documentos',
-          text: 'Troca de carta de condução, apostila de Haia, traduções certificadas, procurações e autenticações. Resolvido sem filas e sem idas e voltas.',
+          country: 'Portugal',
+          title: 'Empresas e negócios',
+          summary: 'Constituição de empresas, contratos, estrutura societária e compliance jurídico.',
+          description:
+            'Apoiamos empreendedores na organização jurídica dos seus negócios em Portugal. O trabalho é definido conforme o projeto, a estrutura pretendida e as necessidades da empresa.',
+          bullets: ['Constituição e organização societária', 'Contratos e acordos de sócios', 'Assessoria empresarial e compliance'],
         },
         {
-          title: 'Empresarial e Societário',
-          anchor: 'empresarial',
-          text: 'Abertura de empresas, holdings, startups, acordos de sócios e internacionalização, com planeamento societário e fiscal desde o primeiro dia.',
+          country: 'Documentação',
+          title: 'Documentos e registos',
+          summary: 'Procurações, autenticações, apostilas e documentação para diferentes procedimentos.',
+          description:
+            'A documentação necessária varia conforme o país e a entidade que irá recebê-la. A análise inicial permite conferir a finalidade do documento e os serviços necessários.',
+          bullets: ['Procurações e autenticações', 'Apostila e legalização documental', 'Orientação sobre documentos e registos'],
         },
         {
-          title: 'Imobiliário e Investidores',
-          anchor: 'imobiliario',
-          text: 'Análise de imóveis, CPCV e escritura, com assessoria completa para quem investe em Portugal a partir do estrangeiro.',
+          country: 'Portugal',
+          title: 'Imobiliário e investidores',
+          summary: 'Análise documental e acompanhamento jurídico em operações imobiliárias.',
+          description:
+            'Apoiamos a análise jurídica de operações imobiliárias em Portugal, com atenção à documentação, aos contratos e às responsabilidades envolvidas.',
+          bullets: ['Análise documental do imóvel', 'Contratos e acompanhamento de escrituras', 'Orientação para investidores'],
+        },
+        {
+          country: 'Estados Unidos',
+          title: 'Vistos americanos',
+          summary: 'Assessoria em vistos de imigrante e de não imigrante, conforme seu objetivo.',
+          description:
+            'Atendemos interessados em vistos de imigrante e de não imigrante para os Estados Unidos. O primeiro passo é compreender o objetivo da mudança ou viagem e o perfil do interessado. As categorias atendidas e o escopo da assessoria são confirmados na análise inicial.',
+          bullets: ['Compreensão do objetivo e do perfil', 'Orientação sobre a documentação', 'Definição do escopo da assessoria'],
+        },
+        {
+          country: 'Estados Unidos',
+          title: 'Abertura de LLC',
+          summary: 'Apoio à constituição de empresas LLC, com escopo definido para cada contratação.',
+          description:
+            'Apoiamos a abertura de empresas LLC nos Estados Unidos. Antes da contratação, são definidos os serviços incluídos, os custos de terceiros e as necessidades específicas do projeto. A constituição da empresa é tratada separadamente de qualquer pedido migratório.',
+          bullets: ['Análise do projeto empresarial', 'Definição dos itens incluídos', 'Apoio às etapas de constituição'],
         },
       ],
     },
@@ -185,20 +250,20 @@ export default {
       photoAlt: 'Retrato do Dr. Ivan Albani, de terno e gravata',
     },
     steps: {
-      title: 'Simples, do primeiro contato à decisão.',
+      eyebrow: 'Do primeiro contato ao acompanhamento',
+      title: 'Clareza em cada etapa.',
       items: [
-        { title: 'Conversa inicial', text: 'Você nos conta o seu caso pelo WhatsApp ou e-mail.' },
         {
-          title: 'Análise e estratégia',
-          text: 'Avaliamos a documentação e apresentamos o caminho mais seguro, com prazos realistas.',
+          title: 'Conte o seu caso',
+          text: 'Informe seu objetivo e o serviço que procura. Orientamos os próximos passos para a consulta e os documentos necessários à análise.',
         },
         {
-          title: 'Execução',
-          text: 'Preparamos o dossiê, damos entrada e tratamos com AIMA, Conservatórias, consulados e Finanças.',
+          title: 'Conheça as possibilidades',
+          text: 'Na consulta, analisamos sua situação e esclarecemos os caminhos possíveis. O escopo do trabalho e os honorários são definidos antes da contratação.',
         },
         {
-          title: 'Acompanhamento',
-          text: 'Você recebe atualizações a cada etapa, até o documento chegar às suas mãos.',
+          title: 'Tenha acompanhamento',
+          text: 'Após a contratação, conduzimos as etapas acordadas e orientamos sobre documentos, providências e andamento do caso.',
         },
       ],
     },
@@ -259,15 +324,22 @@ export default {
     intro:
       'Somos um escritório de advocacia com atuação no Brasil, nos EUA e em Portugal, comprometidos em oferecer serviços jurídicos e compliance empresarial de excelência. Nossa missão é auxiliar indivíduos e empresas a navegarem com segurança e confiança no universo jurídico luso-brasileiro.',
     ivan: {
+      eyebrow: 'Conheça o advogado',
       title: 'Dr. Ivan Albani',
-      credentials: 'Cédula Profissional OA 67498E · OAB/SC 62.722',
-      text: 'Inscrito na Ordem dos Advogados de Portugal (OA-PT) e na Ordem dos Advogados do Brasil (OAB-SC), o Dr. Ivan Albani acompanha pessoalmente cada processo, da análise inicial à entrega do documento. Sua atuação concentra-se em duas frentes: imigração e nacionalidade, e direito empresarial e societário, em que apoia empreendedores e investidores na estruturação de negócios em Portugal, com planeamento jurídico e fiscal desde o início.',
+      credentials: 'OA 67498E · OAB/SC 62.722',
+      paragraphs: [
+        'Sou advogado inscrito no Brasil e em Portugal, com atuação em imigração e direito empresarial.',
+        'Minha trajetória também passa pela experiência de recomeçar em outro país. Como imigrante, conheço de perto as dúvidas e decisões que acompanham essa mudança.',
+        'Na Albani Advocacia, essa experiência se soma ao trabalho jurídico para orientar pessoas, famílias e empreendedores com clareza e responsabilidade.',
+      ],
       photoAlt: 'Retrato do Dr. Ivan Albani, de terno e gravata',
     },
     story: {
       eyebrow: 'Minha história',
       title: 'O “Advogado dos Anjos”',
-      lead: 'Muito antes de conhecer o Direito, ganhei de uma tia o apelido de “Advogado dos Anjos”. Eu era uma criança comunicativa, que sempre tinha algo a dizer. Anos depois, aquele apelido ganharia um significado que ninguém poderia imaginar.',
+      teaser: 'Da infância difícil à construção do escritório, conheça o caminho que me trouxe até aqui.',
+      open: 'Conheça minha história',
+      lead: 'Muito antes de conhecer o Direito, ganhei de uma tia o apelido de “Advogado dos Anjos”. Eu era uma criança comunicativa, que sempre tinha algo a dizer.',
       sections: [
         {
           title: 'De onde eu vim',
@@ -286,21 +358,11 @@ export default {
         {
           title: 'A construção da Albani Advocacia',
           paragraphs: [
-            'Em 2022, mudei-me para Portugal. A experiência de ser imigrante trouxe uma dimensão pessoal ao meu trabalho: passei a conhecer também, na prática, as dúvidas e os desafios de construir uma vida em outro país.',
-            'Aprofundei minha atuação em Direito Imigratório e Empresarial. Em 2023, com uma carteira de clientes formada por indicações e parcerias com advogados experientes em Portugal, nasceu a Albani Advocacia.',
-            'Hoje, sou advogado inscrito no Brasil e em Portugal. Minha atuação reúne imigração, estruturação de empresas e compliance jurídico, com atenção às necessidades de pessoas, famílias e empreendedores.',
-          ],
-        },
-        {
-          title: 'O que essa história significa no meu trabalho',
-          paragraphs: [
-            'Sou marido da Mari, pai do Calebe e da Ana Laura, pastor e escritor em construção. Minha fé, minha família e minha trajetória fazem parte de quem sou.',
-            'Sei o quanto um recomeço pode trazer esperança e incerteza. Essa experiência orienta minha forma de atender: ouvir com atenção, explicar as possibilidades com clareza e conduzir cada caso com responsabilidade.',
+            'Em 2022, mudei-me para Portugal. A experiência de ser imigrante trouxe uma dimensão pessoal ao meu trabalho. Aprofundei minha atuação em Direito Imigratório e Empresarial. Em 2023, com uma carteira de clientes formada por indicações e parcerias com advogados experientes em Portugal, nasceu a Albani Advocacia.',
+            'Sou marido da Mari, pai do Calebe e da Ana Laura, pastor e escritor em construção. Sei o quanto um recomeço pode trazer esperança e incerteza. Essa experiência orienta minha forma de atender: ouvir com atenção, explicar as possibilidades com clareza e conduzir cada caso com responsabilidade.',
           ],
         },
       ],
-      closing:
-        'O apelido ficou na infância. O compromisso de colocar minha voz a serviço das pessoas acompanha meu trabalho todos os dias.',
       signature: 'Ivan Albani',
     },
     valuesTitle: 'Valores',

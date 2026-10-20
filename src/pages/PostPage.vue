@@ -2,10 +2,10 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useSite } from '../composables/useSite.js'
-import { useSeo, orgJsonLd } from '../composables/useSeo.js'
+import { useSeo, orgJsonLd, OG_IMAGE } from '../composables/useSeo.js'
 import { SITE_URL } from '../config/site.js'
-import { postPath } from '../config/routes-map.js'
-import { POSTS, findPostBySlug, readingMinutes, bodyHtml } from '../content/posts/index.js'
+import { pathFor, postPath } from '../config/routes-map.js'
+import { POSTS, findPostBySlug, readingMinutes, bodyHtml, categoryLabel } from '../content/posts/index.js'
 import AppIcon from '../components/AppIcon.vue'
 import PostListItem from '../components/PostListItem.vue'
 
@@ -43,12 +43,19 @@ useSeo(() => {
   if (!p) return { key: 'blog', title: c.value.meta.blog.title, description: c.value.meta.blog.description }
   const l = locale.value
   const org = orgJsonLd(l)
+  const section = categoryLabel(p.category, l)
+  const pageUrl = `${SITE_URL}${postPath(p, l)}`
+  // Google não aceita SVG como imagem de artigo: capas por categoria (SVG) caem na imagem Open Graph
+  const image = p.cover && !p.cover.endsWith('.svg') ? `${SITE_URL}${p.cover}` : OG_IMAGE
   return {
     key: 'post',
     params: { id: p.id },
     type: 'article',
     title: `${p.title[l]} | Albani Advocacia`,
     description: p.excerpt[l],
+    keywords: `${p.title[l]}, ${c.value.meta.categoryKeywords[p.category]}`,
+    published: p.date,
+    section,
     jsonLd: {
       '@context': 'https://schema.org',
       '@graph': [
@@ -58,11 +65,21 @@ useSeo(() => {
           headline: p.title[l],
           description: p.excerpt[l],
           datePublished: p.date,
+          dateModified: p.date,
           inLanguage: l === 'en' ? 'en' : 'pt-BR',
-          mainEntityOfPage: `${SITE_URL}${postPath(p, l)}`,
+          articleSection: section,
+          mainEntityOfPage: pageUrl,
           author: { '@id': `${SITE_URL}/#ivan` },
           publisher: { '@id': `${SITE_URL}/#office` },
-          image: `${SITE_URL}${p.cover || '/img/og-albani.jpg'}`,
+          image,
+        },
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Albani Advocacia', item: `${SITE_URL}${pathFor('home', l)}` },
+            { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}${pathFor('blog', l)}` },
+            { '@type': 'ListItem', position: 3, name: p.title[l], item: pageUrl },
+          ],
         },
       ],
     },

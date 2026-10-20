@@ -38,7 +38,7 @@ writeFileSync(new URL('../public/img/world-dots.svg', import.meta.url), svg)
 
 const places = {
   pt: { lon: -8.9, lat: 38.6 },   // Palmela / Lisboa
-  br: { lon: -48.5, lat: -27.6 }, // Florianópolis (OAB/SC)
+  br: { lon: -52.5, lat: -10.5 }, // centro geográfico do Brasil
   us: { lon: -74.0, lat: 40.7 },  // Nova Iorque
 }
 const out = { width: W, height: H, places: {} }

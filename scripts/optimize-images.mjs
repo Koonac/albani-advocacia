@@ -55,4 +55,12 @@ await sharp(src('logo-mockup-fundo-escuro.jpg')).resize(1200, 630, { fit: 'cover
 
 // 7) Thumbnail do vídeo (servida localmente: nada carrega do YouTube antes do clique)
 await responsive(src('video-thumb.jpg'), 'video-thumb', [640, 1280], { avif: true })
+
+// 8) Fundo do hero: Estátua da Liberdade + Torre de Belém (composição ilustrativa, bem escura;
+//    a versão "composto" aproxima a estátua — ver scripts/compose-hero-bg.cjs)
+for (const w of [960, 1536, 2304]) {
+  const base = sharp(src('hero-monumentos-composto.png')).resize({ width: w })
+  await base.clone().webp({ quality: 72 }).toFile(out(`hero-monumentos-${w}.webp`))
+  await base.clone().avif({ quality: 50 }).toFile(out(`hero-monumentos-${w}.avif`))
+}
 console.log('ok')

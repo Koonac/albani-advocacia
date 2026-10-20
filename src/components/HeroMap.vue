@@ -91,6 +91,8 @@ onBeforeUnmount(() => {
   </div>
   <!-- Camada da frente (sobre a foto): pontos pulsantes + rótulos -->
   <div class="hero-map map-geo pointer-events-none absolute z-[2] select-none" :class="{ 'is-live': live, 'is-paused': paused }" aria-hidden="true">
+    <!-- Brasil por cima da foto (recorte da mesma imagem): o contorno do país aparece sobre o terno -->
+    <img src="/img/world-dots.svg" :width="W" :height="H" alt="" class="map-dots-br absolute inset-0 h-full w-full" loading="eager" decoding="async" fetchpriority="low" />
     <svg :viewBox="`0 0 ${W} ${H}`" class="absolute inset-0 h-full w-full overflow-visible">
       <defs>
         <radialGradient id="glow">
@@ -134,6 +136,22 @@ onBeforeUnmount(() => {
   opacity: 0.5;
   -webkit-mask-image: radial-gradient(farthest-side at 51% 30%, #000 50%, transparent 100%);
   mask-image: radial-gradient(farthest-side at 51% 30%, #000 50%, transparent 100%);
+}
+/* América do Sul ≈ x 540–1000, y 710–1280 do mapa: recorte retangular sem esfumar, para o contorno
+   do continente (e do Brasil) ficar inteiro por cima da foto */
+.map-dots-br {
+  opacity: 0.55;
+  -webkit-mask-image: linear-gradient(90deg, transparent 27.5%, #000 27.5%, #000 54%, transparent 54%), linear-gradient(transparent 55%, #000 55%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent 27.5%, #000 27.5%, #000 54%, transparent 54%), linear-gradient(transparent 55%, #000 55%);
+  mask-composite: intersect;
+}
+.hero-map.is-live .map-dots-br {
+  animation: dots-br-in 1.6s ease-out both;
+}
+@keyframes dots-br-in {
+  from { opacity: 0; }
+  to { opacity: 0.55; }
 }
 .hero-map.is-live .map-dots {
   animation: dots-in 1.6s ease-out both;
@@ -221,11 +239,15 @@ onBeforeUnmount(() => {
 @media (min-width: 1024px) {
   .map-label { font-size: 0.875rem; }
 }
+@media (max-width: 760px) {
+  .map-label { font-size: 11px; }
+}
 
 .is-paused * { animation-play-state: paused !important; }
 
 @media (prefers-reduced-motion: reduce) {
   .map-dots, .hero-map.is-live .map-dots { animation: none; opacity: 0.5; }
+  .map-dots-br, .hero-map.is-live .map-dots-br { animation: none; opacity: 0.55; }
   .arc-base, .is-live .arc-base { animation: none; opacity: 0.55; stroke-dashoffset: 0; }
   .arc-comet, .arc-comet-glow, .pt-ring { display: none; }
 }

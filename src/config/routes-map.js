@@ -24,6 +24,6 @@ export function pathFor(key, locale, params = {}) {
 export function allRoutePairs() {
   return [
     ...Object.values(PAGES).map(({ pt, en }) => ({ pt, en })),
-    ...POSTS.map((p) => ({ pt: postPath(p, 'pt'), en: postPath(p, 'en') })),
+    ...POSTS.map((p) => ({ pt: postPath(p, 'pt'), en: postPath(p, 'en'), date: p.date })),
   ]
 }

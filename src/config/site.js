@@ -8,6 +8,14 @@ export const SITE_URL = (
   'https://albaniadv.com'
 ).replace(/\/$/, '')
 
+// Código da meta "google-site-verification" do Google Search Console (só o valor de content="...").
+// Vem de VITE_GOOGLE_SITE_VERIFICATION no deploy/.env; vazio = meta não é gerada (pode-se
+// verificar o domínio por DNS no Search Console, sem mexer no site).
+export const GOOGLE_SITE_VERIFICATION =
+  (typeof process !== 'undefined' && process.env.VITE_GOOGLE_SITE_VERIFICATION) ||
+  (import.meta.env && import.meta.env.VITE_GOOGLE_SITE_VERIFICATION) ||
+  ''
+
 export const CONTACT = {
   whatsappPT: '351931759247',
   whatsappPTLabel: '+351 931 759 247',

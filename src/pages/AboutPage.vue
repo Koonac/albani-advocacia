@@ -1,9 +1,12 @@
 <script setup>
+import { ref } from 'vue'
 import { useSite } from '../composables/useSite.js'
 import { useSeo } from '../composables/useSeo.js'
 import AppIcon from '../components/AppIcon.vue'
+import AppDialog from '../components/AppDialog.vue'
 
 const { c, book, hasBooking } = useSite()
+const storyDialog = ref(null)
 useSeo(() => ({ key: 'about', title: c.value.meta.about.title, description: c.value.meta.about.description }))
 </script>
 
@@ -37,10 +40,21 @@ useSeo(() => ({ key: 'about', title: c.value.meta.about.title, description: c.va
         </picture>
       </div>
       <div class="lg:col-span-6" v-reveal>
-        <h2 id="ivan-title" class="text-[2.6rem] text-ivory sm:text-[3.4rem]">{{ c.about.ivan.title }}</h2>
+        <p class="eyebrow">{{ c.about.ivan.eyebrow }}</p>
+        <h2 id="ivan-title" class="mt-6 text-[2.6rem] text-ivory sm:text-[3.4rem]">{{ c.about.ivan.title }}</h2>
         <p class="mt-4 text-brass-text">{{ c.about.ivan.credentials }}</p>
         <hr class="rule-brass mt-8 max-w-xs" />
-        <p class="mt-8 text-lg leading-relaxed text-ivory/85">{{ c.about.ivan.text }}</p>
+        <div class="mt-8 space-y-5 text-lg leading-relaxed text-ivory/85">
+          <p v-for="(p, i) in c.about.ivan.paragraphs" :key="i">{{ p }}</p>
+        </div>
+        <!-- Minha história: o texto completo abre no modal -->
+        <div class="mt-10 border-t border-[#665b42] pt-6">
+          <h3 class="font-display text-[1.5rem] text-ivory">{{ c.about.story.title }}</h3>
+          <p class="mt-3 text-mist">{{ c.about.story.teaser }}</p>
+          <button type="button" class="link-brass mt-4 font-semibold" aria-haspopup="dialog" @click="storyDialog.open()">
+            {{ c.about.story.open }} <span aria-hidden="true">↗</span>
+          </button>
+        </div>
         <a :href="book()" target="_blank" rel="noopener" class="btn-brass mt-10"
           ><AppIcon :name="hasBooking ? 'calendar' : 'whatsapp'" :size="20" />{{ hasBooking ? c.ui.book : c.about.cta }}</a
         >
@@ -48,33 +62,16 @@ useSeo(() => ({ key: 'about', title: c.value.meta.about.title, description: c.va
     </div>
   </section>
 
-  <!-- Minha história (primeira pessoa, do Dr. Ivan) -->
-  <section class="section border-t border-slate-line/70" aria-labelledby="historia-title">
-    <div class="container-site grid gap-10 lg:grid-cols-12 lg:gap-16">
-      <header class="lg:col-span-4">
-        <div class="lg:sticky lg:top-32">
-          <p class="kicker">{{ c.about.story.eyebrow }}</p>
-          <h2 id="historia-title" class="mt-6 text-[2.2rem] leading-tight text-ivory sm:text-[2.8rem]">{{ c.about.story.title }}</h2>
-          <hr class="rule-brass mt-8 max-w-[8rem]" />
-        </div>
-      </header>
-      <div class="lg:col-span-8">
-        <div class="max-w-[42rem]">
-          <p class="text-lg leading-relaxed text-ivory/85">{{ c.about.story.lead }}</p>
-          <div v-for="section in c.about.story.sections" :key="section.title" class="mt-12">
-            <h3 class="font-display text-[1.55rem] leading-snug text-ivory sm:text-[1.85rem]">{{ section.title }}</h3>
-            <div class="mt-5 space-y-6 text-lg leading-relaxed text-ivory/80">
-              <p v-for="(p, i) in section.paragraphs" :key="i">{{ p }}</p>
-            </div>
-          </div>
-        </div>
-        <figure class="mt-12 max-w-[42rem] border-l-2 border-brass pl-6 sm:pl-8" v-reveal>
-          <blockquote class="font-display text-[1.55rem] leading-snug text-ivory sm:text-[1.9rem]">{{ c.about.story.closing }}</blockquote>
-          <figcaption class="mt-5 text-sm tracking-wide text-brass-text">— {{ c.about.story.signature }}</figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
+  <AppDialog ref="storyDialog" :close-label="c.ui.close">
+    <p class="eyebrow">{{ c.about.story.eyebrow }}</p>
+    <h2 class="text-ivory">{{ c.about.story.title }}</h2>
+    <p>{{ c.about.story.lead }}</p>
+    <template v-for="section in c.about.story.sections" :key="section.title">
+      <h3 class="text-ivory">{{ section.title }}</h3>
+      <p v-for="(p, i) in section.paragraphs" :key="i">{{ p }}</p>
+    </template>
+    <p class="!text-[#d6b777]">— {{ c.about.story.signature }}</p>
+  </AppDialog>
 
   <!-- Valores -->
   <section class="section border-y border-slate-line/70 bg-slate-deep/40" aria-labelledby="valores-title">

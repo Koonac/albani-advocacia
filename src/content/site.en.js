@@ -4,32 +4,52 @@ export default {
   meta: {
     siteName: 'Albani Advocacia',
     home: {
-      title: 'Albani Advocacia | Immigration, nationality and business in Portugal',
+      title: 'Portugal Immigration Lawyer | Albani Advocacia',
       description:
-        'Visas, residence, nationality and companies, handled end to end by a lawyer admitted to the Portuguese Bar Association (OA-PT) and the Brazilian Bar Association (OAB-SC).',
+        'Lawyer admitted to the Portuguese and Brazilian Bars: D7 and D8 visas, residence permits, Portuguese citizenship, AIMA cases and setting up a company in Portugal.',
+      keywords:
+        'Portugal immigration lawyer, lawyer in Portugal, move to Portugal, Portugal visa, D7 visa, D8 digital nomad visa, Portuguese citizenship, residence permit Portugal, AIMA, company formation Portugal',
     },
     about: {
-      title: 'About the firm and Dr. Ivan Albani | Albani Advocacia',
+      title: 'Dr. Ivan Albani | Lawyer in Portugal and Brazil',
       description:
-        'Law firm practising in Brazil, Portugal and the USA. Dr. Ivan Albani, Portuguese Bar licence OA 67498E · OAB/SC 62.722.',
+        'Meet Dr. Ivan Albani, admitted to the Portuguese Bar Association (67498E) and the Brazilian Bar OAB/SC (62.722), practising immigration, nationality and corporate law.',
+      keywords:
+        'Ivan Albani, Dr. Ivan Albani, Portuguese lawyer, Brazilian lawyer in Portugal, law firm Portugal, lawyer Palmela, Albani Advocacia',
     },
     areas: {
-      title: 'Practice areas | Albani Advocacia',
+      title: 'Visas, Citizenship and Business in Portugal | Albani',
       description:
-        'Comprehensive legal services for individuals and companies who live, invest or do business between Brazil and Portugal.',
+        'D1 to D8 visas, golden visa, residence permits, Portuguese citizenship, Hague apostille, company formation, holding companies and real estate in Portugal.',
+      keywords:
+        'Portugal visas, Portugal work visa, D2 entrepreneur visa, D7 passive income visa, D8 digital nomad visa, Portugal golden visa, family reunification Portugal, Portuguese citizenship, Hague apostille, company formation Portugal, holding company Portugal, buy property in Portugal',
     },
     blog: {
-      title: 'Blog | Albani Advocacia',
-      description: 'Practical guides on immigration, documents and business in Portugal.',
+      title: 'Portugal Immigration Blog | Albani Advocacia',
+      description:
+        'Practical guides to living in Portugal: visas, AIMA cases, Portuguese citizenship, Hague apostille, driving licence exchange and setting up a company in Portugal.',
+      keywords:
+        'how to move to Portugal, Portugal immigration guide, Portugal visa guide, AIMA delays, Portuguese citizenship grandchildren, driving licence exchange Portugal, Hague apostille, golden visa',
     },
     faq: {
-      title: 'FAQ | Albani Advocacia',
+      title: 'Portugal Immigration FAQ | Albani Advocacia',
       description:
         'Answers to the most common questions about immigration to Portugal: visas, regularisation, CPLP, residence permit renewal, AIMA cases and family reunification.',
+      keywords:
+        'Portugal immigration FAQ, visa vs residence permit, CPLP residence permit, AIMA residence renewal, family reunification Portugal, regularisation Portugal',
     },
     contact: {
-      title: 'Contact | Albani Advocacia',
-      description: 'We reply quickly. Choose the most convenient channel.',
+      title: 'Contact | Lawyer in Palmela, Portugal | Albani Advocacia',
+      description:
+        'Book a consultation with a lawyer in Portugal via WhatsApp (Portugal or Brazil) or email. Office in Palmela, Setúbal district.',
+      keywords: 'contact lawyer Portugal, immigration lawyer consultation, lawyer Palmela, lawyer Setúbal, WhatsApp lawyer Portugal',
+    },
+    categoryKeywords: {
+      imigracao: 'Portugal immigration, Portugal visa, residence permit Portugal, AIMA',
+      nacionalidade: 'Portuguese citizenship, Portuguese nationality, Portuguese passport',
+      documentos: 'documents for Portugal, Hague apostille, document recognition Portugal',
+      empresas: 'company formation Portugal, business in Portugal, corporate law Portugal',
+      investimento: 'invest in Portugal, Portugal golden visa, real estate Portugal',
     },
   },
 
@@ -67,6 +87,7 @@ export default {
     reviewsFrom: 'Google review',
     book: 'Book a consultation',
     bookWa: 'Book a consultation on WhatsApp',
+    close: 'Close',
   },
 
   megaMenu: {
@@ -102,13 +123,19 @@ export default {
 
   home: {
     hero: {
-      eyebrow: 'Luso-Brazilian law firm · Brazil · USA · Portugal',
-      headline: 'Your life in Portugal starts with the right legal step.',
-      sub: 'Visas, residence, nationality and companies, handled end to end by a lawyer admitted to the Portuguese Bar Association (OA-PT) and the Brazilian Bar Association (OAB-SC).',
-      ctaPrimary: 'Book a consultation on WhatsApp',
-      ctaSecondary: 'See practice areas',
+      eyebrow: 'Brazil · Portugal · United States',
+      headline: 'Your next step starts with',
+      headlineEm: 'sound legal guidance.',
+      lead: 'To live and do business in Portugal or the United States.',
+      description:
+        'Immigration, nationality and business in Portugal. Immigrant and non-immigrant visas and LLC formation in the United States.',
+      ctaPrimary: 'Explore our services',
+      ctaSecondary: 'Talk to the firm',
+      credential: 'Lawyer admitted in Brazil and Portugal',
+      credentialNumbers: 'OA 67498E · OAB/SC 62.722',
       proof: '★★★★★ 5.0 on Google · 46 reviews',
-      badge: { name: 'Dr. Ivan Albani', credentials: 'OA 67498E · OAB/SC 62.722' },
+      badge: { name: 'Dr. Ivan Albani', role: 'Immigration and business law' },
+      scrollNote: 'Explore our practice areas',
       photoAlt: 'Dr. Ivan Albani, lawyer, wearing a black suit',
       mapLabels: { pt: 'Portugal', br: 'Brazil', us: 'USA' },
     },
@@ -136,30 +163,64 @@ export default {
       closing: 'Every case starts with an honest analysis of what is possible and of the safest path.',
       cta: 'I want my case analysed',
     },
-    areas: {
-      title: 'From your first visa to your company in Portugal.',
-      intro: 'We work on the issues that weigh most on the lives of those who move, invest or do business between Brazil and Portugal.',
-      link: 'See services →',
+    services: {
+      eyebrow: 'Practice areas',
+      title: 'New paths.',
+      titleEm: 'Well-guided decisions.',
+      intro: 'Find the right support for where you are — from moving country to structuring a business.',
+      cardLink: 'About this service',
+      footLead: 'Didn’t find what you’re looking for?',
+      footLink: 'Tell the firm about your case →',
+      dialogNote: 'The scope, who is responsible for each stage and the terms are agreed before you hire us.',
+      dialogCta: 'Talk about this service',
       items: [
         {
-          title: 'Immigration and Nationality',
-          anchor: 'imigracao',
-          text: 'D1 to D8 visas, residence, family reunification and Portuguese nationality, with full support before AIMA.',
+          country: 'Portugal',
+          title: 'Immigration and nationality',
+          summary: 'Visas, residence, family reunification and Portuguese nationality.',
+          description:
+            'We review your goal and your documents to identify the right legal route. The work may include preparing the application, following it up and advising on residence and nationality matters.',
+          bullets: ['Review of your situation and documents', 'Preparation of the agreed stages', 'Guidance throughout the procedure'],
         },
         {
-          title: 'Documents and Registrations',
-          anchor: 'documentos',
-          text: 'Driving licence exchange, Hague apostille, certified translations, powers of attorney and certifications. Sorted without queues and without back-and-forth.',
+          country: 'Portugal',
+          title: 'Companies and business',
+          summary: 'Company formation, contracts, corporate structure and legal compliance.',
+          description:
+            'We help entrepreneurs organise the legal side of their businesses in Portugal. The work is defined according to the project, the intended structure and the company’s needs.',
+          bullets: ['Company formation and corporate organisation', 'Contracts and shareholders’ agreements', 'Business advisory and compliance'],
         },
         {
-          title: 'Corporate and Company Law',
-          anchor: 'empresarial',
-          text: 'Company formation, holdings, startups, shareholders’ agreements and internationalisation, with corporate and tax planning from day one.',
+          country: 'Documents',
+          title: 'Documents and registrations',
+          summary: 'Powers of attorney, certifications, apostilles and documents for different procedures.',
+          description:
+            'The documents required vary with the country and the authority that will receive them. The initial review confirms what each document is for and which services are needed.',
+          bullets: ['Powers of attorney and certifications', 'Apostille and document legalisation', 'Guidance on documents and registrations'],
         },
         {
-          title: 'Real Estate and Investors',
-          anchor: 'imobiliario',
-          text: 'Property analysis, promissory contract (CPCV) and deed, with full advisory for those investing in Portugal from abroad.',
+          country: 'Portugal',
+          title: 'Real estate and investors',
+          summary: 'Document review and legal support in property transactions.',
+          description:
+            'We support the legal review of property transactions in Portugal, with attention to the documents, the contracts and the responsibilities involved.',
+          bullets: ['Property document review', 'Contracts and support at the deed', 'Guidance for investors'],
+        },
+        {
+          country: 'United States',
+          title: 'US visas',
+          summary: 'Advice on immigrant and non-immigrant visas, according to your goal.',
+          description:
+            'We assist people interested in immigrant and non-immigrant visas for the United States. The first step is to understand the purpose of the move or trip and the applicant’s profile. The categories covered and the scope of the advice are confirmed in the initial review.',
+          bullets: ['Understanding your goal and profile', 'Guidance on the documents', 'Defining the scope of the advice'],
+        },
+        {
+          country: 'United States',
+          title: 'LLC formation',
+          summary: 'Support in forming LLC companies, with a defined scope for each engagement.',
+          description:
+            'We support the formation of LLC companies in the United States. Before you hire us, the included services, third-party costs and the specific needs of the project are defined. Forming the company is handled separately from any immigration application.',
+          bullets: ['Review of the business project', 'Definition of the included items', 'Support through the formation stages'],
         },
       ],
     },
@@ -184,20 +245,20 @@ export default {
       photoAlt: 'Portrait of Dr. Ivan Albani in a suit and tie',
     },
     steps: {
-      title: 'Simple, from first contact to decision.',
+      eyebrow: 'From first contact to ongoing support',
+      title: 'Clarity at every stage.',
       items: [
-        { title: 'Initial conversation', text: 'You tell us about your case on WhatsApp or by email.' },
         {
-          title: 'Analysis and strategy',
-          text: 'We review the documents and present the safest path, with realistic timeframes.',
+          title: 'Tell us about your case',
+          text: 'Share your goal and the service you are looking for. We explain the next steps for the consultation and the documents needed for the review.',
         },
         {
-          title: 'Execution',
-          text: 'We prepare the file, submit it and deal with AIMA, Registry Offices, consulates and the Tax Authority.',
+          title: 'Understand your options',
+          text: 'In the consultation, we review your situation and explain the possible paths. The scope of work and the fees are agreed before you hire us.',
         },
         {
-          title: 'Follow-up',
-          text: 'You receive updates at every stage, until the document is in your hands.',
+          title: 'Get ongoing support',
+          text: 'Once hired, we carry out the agreed stages and guide you on documents, next steps and the progress of your case.',
         },
       ],
     },
@@ -258,15 +319,22 @@ export default {
     intro:
       'We are a law firm practising in Brazil, Portugal and the USA, committed to providing excellent legal and corporate compliance services. Our mission is to help individuals and companies navigate the Luso-Brazilian legal landscape with security and confidence.',
     ivan: {
+      eyebrow: 'Meet the lawyer',
       title: 'Dr. Ivan Albani',
-      credentials: 'Portuguese Bar licence OA 67498E · OAB/SC 62.722',
-      text: 'Admitted to the Portuguese Bar Association (OA-PT) and the Brazilian Bar Association (OAB-SC), Dr. Ivan Albani personally follows every case, from the initial analysis to the delivery of the document. His practice focuses on two areas: immigration and nationality, and corporate and company law, where he helps entrepreneurs and investors structure their businesses in Portugal, with legal and tax planning from the outset.',
+      credentials: 'OA 67498E · OAB/SC 62.722',
+      paragraphs: [
+        'I am a lawyer admitted in Brazil and in Portugal, practising immigration and business law.',
+        'My path also includes the experience of starting over in another country. As an immigrant, I know first-hand the questions and decisions that come with that move.',
+        'At Albani Advocacia, that experience adds to the legal work to guide individuals, families and entrepreneurs with clarity and responsibility.',
+      ],
       photoAlt: 'Portrait of Dr. Ivan Albani in a suit and tie',
     },
     story: {
       eyebrow: 'My story',
       title: 'The “Angels’ Lawyer”',
-      lead: 'Long before I knew the law, an aunt gave me the nickname “Angels’ Lawyer”. I was a talkative child who always had something to say. Years later, that nickname would take on a meaning no one could have imagined.',
+      teaser: 'From a difficult childhood to building the firm, discover the path that brought me here.',
+      open: 'Read my story',
+      lead: 'Long before I knew the law, an aunt gave me the nickname “Angels’ Lawyer”. I was a talkative child who always had something to say.',
       sections: [
         {
           title: 'Where I come from',
@@ -285,21 +353,11 @@ export default {
         {
           title: 'Building Albani Advocacia',
           paragraphs: [
-            'In 2022, I moved to Portugal. Being an immigrant brought a personal dimension to my work: I came to know, in practice, the questions and the challenges of building a life in another country.',
-            'I deepened my work in immigration and business law. In 2023, with a client base built through referrals and partnerships with experienced lawyers in Portugal, Albani Advocacia was born.',
-            'Today, I am a lawyer admitted in Brazil and in Portugal. My practice brings together immigration, company structuring and legal compliance, with attention to the needs of individuals, families and entrepreneurs.',
-          ],
-        },
-        {
-          title: 'What this story means in my work',
-          paragraphs: [
-            'I am Mari’s husband, father to Calebe and Ana Laura, a pastor and a writer in the making. My faith, my family and my path are part of who I am.',
-            'I know how much a fresh start can bring both hope and uncertainty. That experience shapes the way I work with clients: listening carefully, explaining the options clearly and handling each case with responsibility.',
+            'In 2022, I moved to Portugal. Being an immigrant brought a personal dimension to my work. I deepened my practice in immigration and business law. In 2023, with a client base built through referrals and partnerships with experienced lawyers in Portugal, Albani Advocacia was born.',
+            'I am Mari’s husband, father to Calebe and Ana Laura, a pastor and a writer in the making. I know how much a fresh start can bring both hope and uncertainty. That experience shapes the way I work with clients: listening carefully, explaining the options clearly and handling each case with responsibility.',
           ],
         },
       ],
-      closing:
-        'The nickname stayed in childhood. The commitment to put my voice at the service of people accompanies my work every day.',
       signature: 'Ivan Albani',
     },
     valuesTitle: 'Values',
