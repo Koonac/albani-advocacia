@@ -96,7 +96,7 @@ watch(mobileOpen, (v) => {
       >{{ c.ui.skip }}</a
     >
     <div class="container-site flex h-[4.5rem] items-center gap-3 lg:grid lg:h-20 lg:grid-cols-[1fr_auto_1fr] lg:gap-6">
-      <RouterLink :to="lp('home')" class="shrink-0 lg:justify-self-start" :aria-label="c.meta.siteName">
+      <RouterLink :to="lp('home')" class="shrink-0 lg:justify-self-center" :aria-label="c.meta.siteName">
         <img src="/img/logo-simbolo.webp" width="124" height="112" alt="" class="h-10 w-auto sm:h-11 lg:h-12" decoding="async" />
       </RouterLink>
 

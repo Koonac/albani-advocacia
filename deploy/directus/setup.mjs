@@ -244,7 +244,51 @@ const HOME_FIELDS = [
     },
     schema: {},
   },
-  divider('divisor_cta', 'Botão "Agendar consulta"', 'event', 3),
+  {
+    field: 'videos_extras',
+    type: 'json',
+    meta: {
+      interface: 'list',
+      special: ['cast-json'],
+      options: {
+        template: '{{titulo}} {{url}}',
+        addLabel: 'Adicionar vídeo',
+        fields: [
+          {
+            field: 'url',
+            name: 'Link do vídeo no YouTube',
+            type: 'string',
+            meta: {
+              field: 'url',
+              type: 'string',
+              interface: 'input',
+              required: true,
+              options: { placeholder: 'https://www.youtube.com/watch?v=...', trim: true, iconLeft: 'smart_display' },
+              width: 'full',
+            },
+          },
+          {
+            field: 'titulo',
+            name: 'Título (opcional)',
+            type: 'string',
+            meta: {
+              field: 'titulo',
+              type: 'string',
+              interface: 'input',
+              options: { placeholder: 'Se vazio, usa o título do YouTube' },
+              width: 'full',
+            },
+          },
+        ],
+      },
+      translations: pt('Outros vídeos'),
+      note: 'Aparecem em miniatura abaixo do vídeo principal; ao clicar, o vídeo toca no lugar dele. Arraste para mudar a ordem.',
+      sort: 3,
+      width: 'full',
+    },
+    schema: {},
+  },
+  divider('divisor_cta', 'Botão "Agendar consulta"', 'event', 4),
   {
     field: 'cta_tipo',
     type: 'string',
@@ -259,7 +303,7 @@ const HOME_FIELDS = [
       required: true,
       translations: pt('Para onde o botão leva'),
       note: 'Vale para todos os botões de agendar do site (topo, página inicial, artigos, perguntas frequentes...).',
-      sort: 4,
+      sort: 5,
       width: 'full',
     },
     schema: { default_value: 'whatsapp' },
@@ -277,7 +321,7 @@ const HOME_FIELDS = [
       conditions: [{ name: 'Com agenda', rule: { _and: [{ cta_tipo: { _eq: 'agenda' } }] }, hidden: false, required: true }],
       validation: { _and: [{ cta_link: { _regex: '^https://' } }] },
       validation_message: 'Cole o link completo, começando com https://',
-      sort: 5,
+      sort: 6,
       width: 'full',
     },
     schema: {},
@@ -309,14 +353,18 @@ async function ensureHome() {
   await api('PATCH', '/collections/pagina_inicial', {
     meta: {
       icon: 'tune',
-      note: 'Vídeo da página inicial e botão "Agendar consulta"',
+      note: 'Vídeos da página inicial e botão "Agendar consulta"',
       translations: [{ language: 'pt-BR', translation: 'Configurações do site', singular: 'Configurações do site', plural: 'Configurações do site' }],
     },
   })
 
   const existing = new Set((await api('GET', '/fields/pagina_inicial')).map((f) => f.field))
   for (const def of HOME_FIELDS) {
-    if (existing.has(def.field)) continue
+    if (existing.has(def.field)) {
+      // Instalações antigas: reaplica a ordem (campos novos entram no meio)
+      await api('PATCH', `/fields/pagina_inicial/${def.field}`, { meta: { sort: def.meta.sort } })
+      continue
+    }
     await api('POST', '/fields/pagina_inicial', def)
     console.log(`  campo ${def.field}: criado`)
   }

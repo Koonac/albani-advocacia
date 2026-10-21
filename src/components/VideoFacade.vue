@@ -11,8 +11,10 @@ const props = defineProps({
   playLabel: { type: String, required: true },
   // prefixo das miniaturas locais: <thumb>-640/-1280 em .avif e .webp
   thumb: { type: String, default: '/img/video-thumb' },
+  // já começa tocando (vídeo escolhido numa miniatura: o clique do usuário já aconteceu)
+  autoplay: { type: Boolean, default: false },
 })
-const active = ref(false)
+const active = ref(props.autoplay)
 </script>
 
 <template>

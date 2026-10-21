@@ -3,14 +3,14 @@ import { ref, computed } from 'vue'
 import { useSite } from '../composables/useSite.js'
 import { useSeo } from '../composables/useSeo.js'
 import { CONTACT } from '../config/site.js'
-import { HOME_VIDEO } from '../content/home.js'
+import { HOME_VIDEO, HOME_VIDEOS } from '../content/home.js'
 import AppIcon from '../components/AppIcon.vue'
 import AppDialog from '../components/AppDialog.vue'
 import HeroMap from '../components/HeroMap.vue'
 import VideoFacade from '../components/VideoFacade.vue'
 import ReviewsCarousel from '../components/ReviewsCarousel.vue'
 
-const { c, wa, waService, book, hasBooking } = useSite()
+const { c, wa, book, bookService, hasBooking } = useSite()
 useSeo(() => ({ key: 'home', title: c.value.meta.home.title, description: c.value.meta.home.description }))
 
 // Modal de serviço: guarda o índice (e não o objeto) para acompanhar a troca de idioma
@@ -22,6 +22,21 @@ function openService(i) {
   serviceDialog.value.open()
 }
 const pad = (i) => String(i + 1).padStart(2, '0')
+
+// Vídeo principal + "outros vídeos" do CMS: a miniatura clicada passa a tocar no player
+const videos = computed(() => [
+  { id: HOME_VIDEO.id, thumb: HOME_VIDEO.thumb, title: c.value.home.video.mainLabel, alt: c.value.home.video.thumbAlt },
+  ...HOME_VIDEOS.map((v) => ({ ...v, alt: v.title })),
+])
+const videoIndex = ref(0)
+const videoAutoplay = ref(false)
+const player = ref(null)
+const video = computed(() => videos.value[videoIndex.value])
+function pickVideo(i) {
+  videoIndex.value = i
+  videoAutoplay.value = true
+  player.value?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+}
 </script>
 
 <template>
@@ -45,14 +60,15 @@ const pad = (i) => String(i + 1).padStart(2, '0')
     </picture>
     <div class="hero-inner container-site">
       <div class="hero-copy">
-        <p class="eyebrow hero-eyebrow">{{ c.home.hero.eyebrow }}</p>
+        <p class="hero-brand font-display uppercase text-metal">{{ c.meta.siteName }}</p>
         <h1 class="hero-title text-ivory">
           {{ c.home.hero.headline }} <em class="not-italic text-[#d8ba7a]">{{ c.home.hero.headlineEm }}</em>
         </h1>
-        <p class="hero-lead">{{ c.home.hero.lead }}</p>
-        <p class="hero-description">{{ c.home.hero.description }}</p>
+        <p class="hero-lead">{{ c.home.hero.description }}</p>
         <div class="hero-actions">
-          <a href="#servicos" class="btn-brass">{{ c.home.hero.ctaPrimary }} <span aria-hidden="true">↗</span></a>
+          <a :href="book()" target="_blank" rel="noopener" class="btn-brass"
+            ><AppIcon :name="hasBooking ? 'calendar' : 'whatsapp'" :size="18" />{{ c.ui.book }}</a
+          >
           <a :href="wa()" target="_blank" rel="noopener" class="hero-link">{{ c.home.hero.ctaSecondary }} →</a>
         </div>
         <a
@@ -64,10 +80,6 @@ const pad = (i) => String(i + 1).padStart(2, '0')
           <AppIcon name="google" :size="18" />
           <span>{{ c.home.hero.proof }}</span>
         </a>
-        <p class="hero-credential">
-          <span class="tiny-line" aria-hidden="true"></span>{{ c.home.hero.credential }}<br />
-          <span class="text-[#d6b777]">{{ c.home.hero.credentialNumbers }}</span>
-        </p>
       </div>
 
       <!-- Foto + mapa ancorado à figura (unidades cqw: o triângulo BR/EUA/PT acompanha a foto em qualquer tela). -->
@@ -97,6 +109,9 @@ const pad = (i) => String(i + 1).padStart(2, '0')
         <div class="name-tag">
           <p class="font-display text-ivory">{{ c.home.hero.badge.name }}</p>
           <p class="mt-[3px] text-[0.625rem] text-[#d0b67f]">{{ c.home.hero.badge.role }}</p>
+          <p class="mt-2 border-t border-white/10 pt-2 text-[0.625rem] tracking-[0.04em] text-[#c5c6c3]" :title="c.home.hero.credential">
+            {{ c.home.hero.credentialNumbers }}
+          </p>
         </div>
       </div>
     </div>
@@ -110,11 +125,35 @@ const pad = (i) => String(i + 1).padStart(2, '0')
         <p class="kicker">{{ c.home.video.eyebrow }}</p>
         <h2 id="video-title" class="mt-5 text-[2rem] text-ivory sm:text-[2.5rem]">{{ c.home.video.title }}</h2>
       </div>
-      <div class="relative lg:col-span-8">
-        <div class="absolute -inset-px bg-gradient-to-br from-brass-light/50 via-brass/10 to-brass-deep/40" aria-hidden="true"></div>
-        <div class="relative">
-          <VideoFacade :id="HOME_VIDEO.id" :thumb="HOME_VIDEO.thumb" :title="c.home.video.iframeTitle" :thumb-alt="c.home.video.thumbAlt" :play-label="c.ui.playVideo" />
+      <div class="lg:col-span-8">
+        <div ref="player" class="relative scroll-mt-24">
+          <div class="absolute -inset-px bg-gradient-to-br from-brass-light/50 via-brass/10 to-brass-deep/40" aria-hidden="true"></div>
+          <div class="relative">
+            <VideoFacade
+              :key="video.id"
+              :id="video.id"
+              :thumb="video.thumb"
+              :title="video.id !== HOME_VIDEO.id ? video.title : c.home.video.iframeTitle"
+              :thumb-alt="video.alt"
+              :play-label="c.ui.playVideo"
+              :autoplay="videoAutoplay"
+            />
+          </div>
         </div>
+        <ul v-if="videos.length > 1" class="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4" :aria-label="c.home.video.more">
+          <li v-for="(v, i) in videos" :key="i">
+            <button type="button" class="video-pick group" :aria-current="i === videoIndex ? 'true' : undefined" @click="pickVideo(i)">
+              <span class="video-pick-thumb">
+                <picture>
+                  <source type="image/avif" :srcset="`${v.thumb}-640.avif`" />
+                  <img :src="`${v.thumb}-640.webp`" width="640" height="360" alt="" loading="lazy" decoding="async" class="h-full w-full object-cover" />
+                </picture>
+                <span class="video-pick-play" aria-hidden="true"><AppIcon name="play" :size="16" class="translate-x-px" /></span>
+              </span>
+              <span class="video-pick-title">{{ v.title }}</span>
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
@@ -175,21 +214,6 @@ const pad = (i) => String(i + 1).padStart(2, '0')
     </div>
   </section>
 
-  <!-- ETAPAS -->
-  <section class="section bg-[#1d2227]" aria-labelledby="etapas-title">
-    <div class="container-site">
-      <p class="eyebrow">{{ c.home.steps.eyebrow }}</p>
-      <h2 id="etapas-title" class="mt-6 text-[2.1875rem] text-ivory sm:text-[clamp(2rem,3.2vw,3rem)]">{{ c.home.steps.title }}</h2>
-      <ol class="steps mt-8 grid gap-8 md:mt-12 md:grid-cols-3 md:gap-10">
-        <li v-for="(s, i) in c.home.steps.items" :key="s.title" v-reveal="i * 90" class="step">
-          <span class="step-number" aria-hidden="true">{{ pad(i) }}</span>
-          <h3 class="step-title text-ivory">{{ s.title }}</h3>
-          <p class="step-text">{{ s.text }}</p>
-        </li>
-      </ol>
-    </div>
-  </section>
-
   <!-- ÁREAS DE ATUAÇÃO (grade 3x2; cada cartão abre o modal do serviço) -->
   <section id="servicos" class="section" aria-labelledby="areas-title">
     <div class="container-site">
@@ -232,8 +256,8 @@ const pad = (i) => String(i + 1).padStart(2, '0')
       <li v-for="b in service.bullets" :key="b">{{ b }}</li>
     </ul>
     <p class="border-t border-white/12 pt-5 !text-[0.75rem]">{{ c.home.services.dialogNote }}</p>
-    <a :href="waService(service.title)" target="_blank" rel="noopener" class="btn-brass">
-      <AppIcon name="whatsapp" :size="20" />{{ c.home.services.dialogCta }} <span aria-hidden="true">↗</span>
+    <a :href="bookService(service.title)" target="_blank" rel="noopener" class="btn-brass">
+      <AppIcon :name="hasBooking ? 'calendar' : 'whatsapp'" :size="20" />{{ c.ui.book }} <span aria-hidden="true">↗</span>
     </a>
   </AppDialog>
 
@@ -253,11 +277,18 @@ const pad = (i) => String(i + 1).padStart(2, '0')
     </div>
   </section>
 
-  <!-- CTA FINAL -->
+  <!-- CTA FINAL (com as etapas do atendimento logo acima do chamado) -->
   <section class="relative overflow-hidden" aria-labelledby="final-title">
     <hr class="rule-brass" />
     <div class="final-band">
       <div class="container-site section relative">
+        <ol class="steps relative mb-14 grid gap-8 md:mb-20 md:grid-cols-3 md:gap-10" :aria-label="c.home.steps.title">
+          <li v-for="(s, i) in c.home.steps.items" :key="s.title" v-reveal="i * 90" class="step">
+            <span class="step-number" aria-hidden="true">{{ pad(i) }}</span>
+            <h3 class="step-title text-ivory">{{ s.title }}</h3>
+            <p class="step-text">{{ s.text }}</p>
+          </li>
+        </ol>
         <img
           src="/img/logo-simbolo.webp"
           width="124"
@@ -339,6 +370,12 @@ const pad = (i) => String(i + 1).padStart(2, '0')
   z-index: 5;
   padding: 55px 0 100px;
 }
+.hero-brand {
+  margin-bottom: 26px;
+  font-size: 1.85rem;
+  line-height: 1;
+  letter-spacing: 0.14em;
+}
 .hero-eyebrow { margin-bottom: 23px; }
 .hero-title {
   font-size: clamp(42px, 4.4vw, 68px);
@@ -346,9 +383,10 @@ const pad = (i) => String(i + 1).padStart(2, '0')
   letter-spacing: -1.6px;
 }
 .hero-lead {
-  max-width: 430px;
-  margin: 25px 0 12px;
-  font-size: 19px;
+  max-width: 460px;
+  margin: 25px 0 0;
+  font-size: 17px;
+  line-height: 1.6;
   color: #e5dfd4;
 }
 .hero-description {
@@ -369,7 +407,10 @@ const pad = (i) => String(i + 1).padStart(2, '0')
   transition: color 0.2s ease;
 }
 .hero-link:hover { color: #ecd49d; }
+/* Traço alinhado à 1ª linha; o número da cédula fica centralizado sob o texto */
 .hero-credential {
+  display: flex;
+  align-items: flex-start;
   margin-top: 35px;
   font-size: 12px;
   line-height: 1.8;
@@ -379,8 +420,8 @@ const pad = (i) => String(i + 1).padStart(2, '0')
   display: inline-block;
   width: 24px;
   height: 1px;
-  margin-right: 9px;
-  vertical-align: middle;
+  flex-shrink: 0;
+  margin: 0.9em 9px 0 0;
   background: #c8a969;
 }
 .hero-figure {
@@ -444,9 +485,10 @@ const pad = (i) => String(i + 1).padStart(2, '0')
 @media (max-width: 760px) {
   .hero-inner { grid-template-columns: 1fr; gap: 0; min-height: 0; }
   .hero-copy { padding: 43px 0 12px; }
+  .hero-brand { margin-bottom: 20px; font-size: 1.35rem; }
   .hero-eyebrow { font-size: 9px; letter-spacing: 1.5px; margin-bottom: 22px; }
   .hero-title { font-size: 42px; line-height: 1.13; letter-spacing: -1px; max-width: 540px; }
-  .hero-lead { font-size: 17px; margin-top: 22px; }
+  .hero-lead { font-size: 15px; margin-top: 22px; }
   .hero-description { font-size: 14px; max-width: 100%; }
   .hero-credential { margin-top: 25px; }
   .hero-actions { margin-top: 24px; gap: 18px; }
@@ -469,6 +511,53 @@ const pad = (i) => String(i + 1).padStart(2, '0')
   }
   .hero::before { background: linear-gradient(#1a1d23 0%, rgba(26, 29, 35, 0.75) 50%, transparent); }
 }
+
+/* ---------- Outros vídeos ---------- */
+.video-pick {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+.video-pick-thumb {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #15191d;
+  outline: 1px solid rgba(255, 255, 255, 0.08);
+  transition: outline-color 0.2s ease;
+}
+.video-pick-thumb img { transition: transform 0.5s ease, opacity 0.2s ease; opacity: 0.8; }
+.video-pick:hover .video-pick-thumb img { transform: scale(1.04); opacity: 1; }
+.video-pick[aria-current] .video-pick-thumb { outline: 2px solid #caaa65; }
+.video-pick[aria-current] .video-pick-thumb img { opacity: 1; }
+.video-pick-play {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(232, 207, 142, 0.6);
+  border-radius: 999px;
+  background: rgba(21, 25, 29, 0.7);
+  color: #e8cf8e;
+}
+.video-pick-title {
+  display: -webkit-box;
+  margin-top: 8px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #babfc2;
+  transition: color 0.2s ease;
+}
+.video-pick:hover .video-pick-title,
+.video-pick[aria-current] .video-pick-title { color: #ecd49d; }
 
 /* ---------- Etapas ---------- */
 .step {

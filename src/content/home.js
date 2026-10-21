@@ -10,6 +10,9 @@ export const HOME_VIDEO = {
   thumb: cms.thumb || '/img/video-thumb',
 }
 
+// Outros vídeos (miniaturas abaixo do principal): [{ id, title, thumb }]
+export const HOME_VIDEOS = cms.videos || []
+
 // Destino dos botões "Agendar consulta": link de agendamento, ou '' para usar o WhatsApp.
 // Com o CMS, a escolha dele vale mesmo quando é o WhatsApp ('' no JSON).
 export const BOOKING_URL = 'bookingUrl' in cms ? cms.bookingUrl : CONTACT.bookingUrl

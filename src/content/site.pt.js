@@ -134,7 +134,6 @@ export default {
       lead: 'Para viver e empreender em Portugal ou nos Estados Unidos.',
       description:
         'Imigração, nacionalidade e negócios em Portugal. Vistos de imigrante e de não imigrante e abertura de LLC nos Estados Unidos.',
-      ctaPrimary: 'Conhecer os serviços',
       ctaSecondary: 'Fale com o escritório',
       credential: 'Advogado inscrito no Brasil e em Portugal',
       credentialNumbers: 'OA 67498E · OAB/SC 62.722',
@@ -149,6 +148,8 @@ export default {
       title: 'Antes de decidir, ouça quem vai cuidar do seu processo.',
       iframeTitle: 'Vídeo de apresentação | Albani Advocacia',
       thumbAlt: 'Dr. Ivan Albani no escritório, em vídeo de apresentação',
+      mainLabel: 'Apresentação do escritório',
+      more: 'Mais vídeos',
     },
     stats: [
       { strong: '5,0 ★', text: 'no Google (46 avaliações)' },
@@ -177,7 +178,6 @@ export default {
       footLead: 'Não encontrou o que procura?',
       footLink: 'Conte seu caso ao escritório →',
       dialogNote: 'O escopo, os responsáveis por cada etapa e as condições são definidos antes da contratação.',
-      dialogCta: 'Falar sobre este serviço',
       items: [
         {
           country: 'Portugal',
@@ -250,7 +250,6 @@ export default {
       photoAlt: 'Retrato do Dr. Ivan Albani, de terno e gravata',
     },
     steps: {
-      eyebrow: 'Do primeiro contato ao acompanhamento',
       title: 'Clareza em cada etapa.',
       items: [
         {

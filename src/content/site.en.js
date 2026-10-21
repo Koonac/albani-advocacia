@@ -129,7 +129,6 @@ export default {
       lead: 'To live and do business in Portugal or the United States.',
       description:
         'Immigration, nationality and business in Portugal. Immigrant and non-immigrant visas and LLC formation in the United States.',
-      ctaPrimary: 'Explore our services',
       ctaSecondary: 'Talk to the firm',
       credential: 'Lawyer admitted in Brazil and Portugal',
       credentialNumbers: 'OA 67498E · OAB/SC 62.722',
@@ -144,6 +143,8 @@ export default {
       title: 'Before you decide, hear from the person who will handle your case.',
       iframeTitle: 'Introduction video | Albani Advocacia',
       thumbAlt: 'Dr. Ivan Albani at the office, in an introduction video',
+      mainLabel: 'Introduction to the firm',
+      more: 'More videos',
     },
     stats: [
       { strong: '5.0 ★', text: 'on Google (46 reviews)' },
@@ -172,7 +173,6 @@ export default {
       footLead: 'Didn’t find what you’re looking for?',
       footLink: 'Tell the firm about your case →',
       dialogNote: 'The scope, who is responsible for each stage and the terms are agreed before you hire us.',
-      dialogCta: 'Talk about this service',
       items: [
         {
           country: 'Portugal',
@@ -245,7 +245,6 @@ export default {
       photoAlt: 'Portrait of Dr. Ivan Albani in a suit and tie',
     },
     steps: {
-      eyebrow: 'From first contact to ongoing support',
       title: 'Clarity at every stage.',
       items: [
         {

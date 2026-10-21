@@ -3,6 +3,8 @@
 // - vídeo da home: a miniatura (capa enviada no CMS ou, sem ela, a do próprio YouTube) é gerada
 //   em public/img/cms/, para nada carregar do YouTube antes do clique. Com o vídeo padrão e sem
 //   capa, fica fora do JSON e vale a miniatura local de public/img/.
+// - outros vídeos (`videos_extras`): miniaturas também geradas em public/img/cms/; só os itens
+//   com link aparecem no site.
 // - botão "Agendar consulta": `bookingUrl` vazio = WhatsApp; com link = página de agendamento.
 //   Sem CMS, a chave fica fora do JSON e vale CONTACT.bookingUrl (src/config/site.js).
 //
@@ -66,15 +68,52 @@ async function video() {
 
   // Nome muda junto com o vídeo/capa, para o cache do navegador não mostrar a miniatura antiga
   const name = `video-thumb-${home.video_capa ? home.video_capa.slice(0, 8) : videoId}`
+  await writeThumbs(source, name)
+  return { data: { videoId, thumb: `${IMG_URL}/${name}` }, msg: `página inicial: vídeo ${videoId}` }
+}
+
+async function writeThumbs(source, name) {
   mkdirSync(IMG_DIR, { recursive: true })
   for (const [w, h] of [[640, 360], [1280, 720]]) {
     const img = sharp(source).resize(w, h, { fit: 'cover' })
     await img.clone().webp({ quality: 80 }).toFile(resolve(IMG_DIR, `${name}-${w}.webp`))
     await img.clone().avif({ quality: 55 }).toFile(resolve(IMG_DIR, `${name}-${w}.avif`))
   }
-  return { data: { videoId, thumb: `${IMG_URL}/${name}` }, msg: `página inicial: vídeo ${videoId}` }
+}
+
+// "Outros vídeos": miniaturas abaixo do vídeo principal. Título em branco = o do YouTube (oEmbed).
+// Item sem link não aparece. Link inválido, repetido ou vídeo indisponível (privado/removido) é
+// ignorado com aviso, sem quebrar o build.
+async function extraVideos(mainId) {
+  const seen = new Set([mainId ?? CONTACT.videoId])
+  const videos = []
+  for (const item of Array.isArray(home.videos_extras) ? home.videos_extras : []) {
+    if (!item?.url?.trim()) continue
+    const id = item.url.match(VIDEO_ID_RE)?.[1]
+    if (!id) {
+      console.warn(`[cms] outro vídeo com link inválido ("${item?.url ?? ''}"): ignorado`)
+      continue
+    }
+    if (seen.has(id)) continue
+    seen.add(id)
+    const source = (await download(`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`)) ?? (await download(`https://i.ytimg.com/vi/${id}/hqdefault.jpg`))
+    if (!source) {
+      console.warn(`[cms] outro vídeo ${id}: miniatura indisponível, ignorado`)
+      continue
+    }
+    await writeThumbs(source, `video-thumb-${id}`)
+    videos.push({ id, title: await videoTitle(id, item.titulo), thumb: `${IMG_URL}/video-thumb-${id}` })
+  }
+  return { data: videos.length ? { videos } : {}, msg: `página inicial: ${videos.length} outro(s) vídeo(s)` }
+}
+
+async function videoTitle(id, custom) {
+  if (custom?.trim()) return custom.trim()
+  const r = await fetch(`https://www.youtube.com/oembed?format=json&url=${encodeURIComponent(`https://www.youtube.com/watch?v=${id}`)}`)
+  return r.ok ? (await r.json()).title : ''
 }
 
 const cta = booking()
 const vid = await video()
-done({ ...vid.data, bookingUrl: cta.url }, vid.msg, cta.msg)
+const extras = await extraVideos(vid.data.videoId)
+done({ ...vid.data, ...extras.data, bookingUrl: cta.url }, vid.msg, extras.msg, cta.msg)
