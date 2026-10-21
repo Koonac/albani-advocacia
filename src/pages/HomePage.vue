@@ -292,9 +292,10 @@ const pad = (i) => String(i + 1).padStart(2, '0')
   -webkit-mask-image: linear-gradient(#000 70%, transparent);
   mask-image: linear-gradient(#000 70%, transparent);
 }
-/* --cl = início do texto (borda interna do .container-site). A estátua termina em 25% da largura da
-   imagem (scripts/compose-hero-bg.cjs), então translate(-25%) a encosta à esquerda do texto, sem
-   ficar atrás dele. A largura é a menor que ainda cobre o hero inteiro (direita, esquerda e altura). */
+/* --cl = início do texto (borda interna do .container-site). O centro da estátua fica em ~21.5% da
+   largura da imagem (scripts/compose-hero-bg.cjs), então left: --cl/2 + translate(-21.5%) a centraliza
+   no espaço vazio à esquerda do texto. A largura é a menor que ainda cobre o hero inteiro (direita,
+   esquerda e altura). */
 .hero {
   --pad: 2rem;
   --cl: max(var(--pad), calc((100% - 80rem) / 2 + var(--pad)));
@@ -305,11 +306,11 @@ const pad = (i) => String(i + 1).padStart(2, '0')
 .hero-landmarks img {
   position: absolute;
   top: 58%;
-  left: calc(var(--cl) - 1.25rem);
-  width: max(calc((100% - var(--cl) + 1.25rem) / 0.75), calc((var(--cl) - 1.25rem) * 4), calc(100svh * 1.8));
+  left: calc(var(--cl) / 2);
+  width: max(calc((100% - var(--cl) / 2) / 0.785), calc(var(--cl) / 2 / 0.215), calc(100svh * 1.8));
   max-width: none;
   height: auto;
-  transform: translate(-25%, -58%);
+  transform: translate(-21.5%, -58%);
 }
 /* Escurece atrás do texto, mas deixa a faixa da estátua (antes do texto) mais clara */
 .hero::before {

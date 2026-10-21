@@ -33,9 +33,12 @@ function arc(a, b, bend = 0.28) {
 
 const arcs = [
   { id: 'br-pt', d: arc(P.br, P.pt, 0.22), delay: 0 },
-  { id: 'us-pt', d: arc(P.us, P.pt, 0.2), delay: 0.35 },
+  { id: 'us-pt', d: arc(P.us, P.pt, 0.2), delay: 0.35, back: true },
   { id: 'br-us', d: arc(P.br, P.us, 0.2), delay: 0.7 },
 ]
+// EUA–Portugal passa por trás da cabeça; os outros dois arcos ficam sobre a foto
+const backArcs = arcs.filter((a) => a.back)
+const frontArcs = arcs.filter((a) => !a.back)
 const points = [
   { id: 'pt', ...P.pt, main: true },
   { id: 'br', ...P.br },
@@ -66,7 +69,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <!-- Camada de fundo (atrás da foto): pontos de terra + arcos -->
+  <!-- Camada de fundo (atrás da foto): pontos de terra + arco de cima -->
   <div
     ref="root"
     class="hero-map map-geo pointer-events-none absolute z-0 select-none"
@@ -75,32 +78,35 @@ onBeforeUnmount(() => {
   >
     <img src="/img/world-dots.svg" :width="W" :height="H" alt="" class="map-dots absolute inset-0 h-full w-full" loading="eager" decoding="async" fetchpriority="low" />
     <svg :viewBox="`0 0 ${W} ${H}`" class="absolute inset-0 h-full w-full overflow-visible">
-      <defs>
-        <linearGradient id="arcGrad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="#8c6a2e" />
-          <stop offset=".5" stop-color="#e8cf8e" />
-          <stop offset="1" stop-color="#8c6a2e" />
-        </linearGradient>
-      </defs>
-      <g v-for="a in arcs" :key="a.id" :style="{ '--d': `${a.delay}s` }">
+      <g v-for="a in backArcs" :key="a.id" :style="{ '--d': `${a.delay}s` }">
         <path :d="a.d" pathLength="1000" class="arc-base" stroke="url(#arcGrad)" />
         <path :d="a.d" pathLength="1000" class="arc-comet-glow" />
         <path :d="a.d" pathLength="1000" class="arc-comet" />
       </g>
     </svg>
   </div>
-  <!-- Camada da frente (sobre a foto): pontos pulsantes + rótulos -->
+  <!-- Camada da frente (sobre a foto): arcos de baixo, pontos pulsantes + rótulos -->
   <div class="hero-map map-geo pointer-events-none absolute z-[2] select-none" :class="{ 'is-live': live, 'is-paused': paused }" aria-hidden="true">
     <!-- Brasil por cima da foto (recorte da mesma imagem): o contorno do país aparece sobre o terno -->
     <img src="/img/world-dots.svg" :width="W" :height="H" alt="" class="map-dots-br absolute inset-0 h-full w-full" loading="eager" decoding="async" fetchpriority="low" />
     <svg :viewBox="`0 0 ${W} ${H}`" class="absolute inset-0 h-full w-full overflow-visible">
       <defs>
+        <linearGradient id="arcGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#8c6a2e" />
+          <stop offset=".5" stop-color="#e8cf8e" />
+          <stop offset="1" stop-color="#8c6a2e" />
+        </linearGradient>
         <radialGradient id="glow">
           <stop offset="0" stop-color="#fff1c8" stop-opacity=".95" />
           <stop offset=".35" stop-color="#e8cf8e" stop-opacity=".55" />
           <stop offset="1" stop-color="#e8cf8e" stop-opacity="0" />
         </radialGradient>
       </defs>
+      <g v-for="a in frontArcs" :key="a.id" :style="{ '--d': `${a.delay}s` }">
+        <path :d="a.d" pathLength="1000" class="arc-base" stroke="url(#arcGrad)" />
+        <path :d="a.d" pathLength="1000" class="arc-comet-glow" />
+        <path :d="a.d" pathLength="1000" class="arc-comet" />
+      </g>
       <g v-for="(p, i) in points" :key="p.id" :style="{ '--d': `${i * 0.6}s` }">
         <circle :cx="p.x" :cy="p.y" :r="p.main ? 72 : 62" fill="url(#glow)" class="pt-glow" />
         <circle :cx="p.x" :cy="p.y" r="9" class="pt-ring" />
