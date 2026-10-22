@@ -42,13 +42,7 @@ await sharp(src('logo-simbolo.png')).trim({ threshold: 1 }).resize({ height: 112
 await sharp(src('logo-simbolo.png')).trim({ threshold: 1 }).resize({ height: 160 }).png().toFile(out('logo-simbolo.png'))
 await sharp(logo).trim({ threshold: 1 }).resize({ width: 640 }).webp({ quality: 88 }).toFile(out('logo-completo.webp'))
 
-// 5) Favicons (símbolo dourado sobre ardósia)
-const BG = { r: 27, g: 30, b: 36, alpha: 1 }
-for (const size of [32, 180, 512]) {
-  const inner = Math.round(size * 0.78)
-  const sym = await sharp(src('logo-simbolo.png')).trim({ threshold: 1 }).resize({ width: inner, height: inner, fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer()
-  await sharp({ create: { width: size, height: size, channels: 4, background: BG } }).composite([{ input: sym, gravity: 'center' }]).png().toFile(out(`favicon-${size}.png`))
-}
+// 5) Favicons: scripts/build-favicons.mjs (roda junto no `npm run assets`)
 
 // 6) Open Graph (mockup do logo sobre pedra escura)
 await sharp(src('logo-mockup-fundo-escuro.jpg')).resize(1200, 630, { fit: 'cover', position: 'centre' }).jpeg({ quality: 82, mozjpeg: true }).toFile(out('og-albani.jpg'))
