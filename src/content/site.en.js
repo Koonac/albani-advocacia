@@ -135,7 +135,7 @@ export default {
       proof: '★★★★★ 5.0 on Google · 46 reviews',
       badge: { name: 'Dr. Ivan Albani', role: 'Immigration and business law' },
       scrollNote: 'Explore our practice areas',
-      photoAlt: 'Dr. Ivan Albani, lawyer, wearing a black suit',
+      photoAlt: 'Dr. Ivan Albani, Portuguese-Brazilian lawyer in Portugal, wearing a black suit',
       mapLabels: { pt: 'Portugal', br: 'Brazil', us: 'USA' },
     },
     video: {

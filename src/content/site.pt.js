@@ -9,9 +9,9 @@ export default {
     home: {
       title: 'Advogado em Portugal para Brasileiros | Albani Advocacia',
       description:
-        'Advogado inscrito na Ordem dos Advogados de Portugal e na OAB: vistos D7 e D8, autorização de residência, nacionalidade portuguesa, AIMA e empresas em Portugal.',
+        'Advogado em Portugal para brasileiros, inscrito na Ordem dos Advogados e na OAB: vistos D7 e D8, residência, nacionalidade portuguesa, AIMA e empresas.',
       keywords:
-        'advogado em Portugal, advogado brasileiro em Portugal, advogado de imigração Portugal, morar em Portugal, visto para Portugal, visto D7, visto D8, nacionalidade portuguesa, autorização de residência, AIMA, abrir empresa em Portugal',
+        'advogado em Portugal para brasileiros, advogado em Portugal, advogado brasileiro em Portugal, advogado de imigração Portugal, morar em Portugal, visto para Portugal, visto D7, visto D8, nacionalidade portuguesa, autorização de residência, AIMA, abrir empresa em Portugal',
     },
     about: {
       title: 'Dr. Ivan Albani | Advogado em Portugal e no Brasil',
@@ -140,7 +140,7 @@ export default {
       proof: '★★★★★ 5,0 no Google · 46 avaliações',
       badge: { name: 'Dr. Ivan Albani', role: 'Imigração e direito empresarial' },
       scrollNote: 'Conheça nossas áreas',
-      photoAlt: 'Dr. Ivan Albani, advogado, de terno preto',
+      photoAlt: 'Dr. Ivan Albani, advogado luso-brasileiro em Portugal, de terno preto',
       mapLabels: { pt: 'Portugal', br: 'Brasil', us: 'EUA' },
     },
     video: {

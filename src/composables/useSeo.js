@@ -74,7 +74,20 @@ export function orgJsonLd(locale) {
           { '@type': 'Country', name: 'Brasil' },
           { '@type': 'Country', name: 'United States' },
         ],
-        knowsLanguage: ['pt', 'en'],
+        description:
+          locale === 'en'
+            ? 'Lawyer in Portugal for Brazilians, admitted to the Portuguese Bar (OA) and the Brazilian Bar (OAB): visas, residence permits, Portuguese citizenship and companies.'
+            : 'Advogado em Portugal para brasileiros, inscrito na Ordem dos Advogados (OA) e na OAB: vistos, autorização de residência, nacionalidade portuguesa e empresas.',
+        // Público principal: brasileiros que moram ou querem morar/empreender em Portugal
+        audience: {
+          '@type': 'Audience',
+          audienceType: locale === 'en' ? 'Brazilians living in or moving to Portugal' : 'Brasileiros que vivem ou querem viver em Portugal',
+          geographicArea: [
+            { '@type': 'Country', name: 'Brasil' },
+            { '@type': 'Country', name: 'Portugal' },
+          ],
+        },
+        knowsLanguage: ['pt-BR', 'pt-PT', 'en'],
         knowsAbout: KNOWS_ABOUT[locale] ?? KNOWS_ABOUT.pt,
         hasMap: CONTACT.googleMaps,
         aggregateRating: {
@@ -92,7 +105,8 @@ export function orgJsonLd(locale) {
         '@id': `${SITE_URL}/#ivan`,
         name: 'Ivan Albani',
         honorificPrefix: 'Dr.',
-        jobTitle: locale === 'en' ? 'Lawyer' : 'Advogado',
+        jobTitle: locale === 'en' ? 'Lawyer in Portugal for Brazilians' : 'Advogado em Portugal para brasileiros',
+        knowsLanguage: ['pt-BR', 'pt-PT', 'en'],
         email: CONTACT.emailOrdem,
         worksFor: { '@id': `${SITE_URL}/#office` },
         image: `${SITE_URL}/img/dr-ivan-busto-760.webp`,
