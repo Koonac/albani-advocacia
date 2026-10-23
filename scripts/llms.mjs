@@ -4,6 +4,7 @@
 import pt from '../src/content/site.pt.js'
 import en from '../src/content/site.en.js'
 import { SITE_URL, CONTACT } from '../src/config/site.js'
+import { RATING } from '../src/content/home.js'
 import { PAGES, postPath } from '../src/config/routes-map.js'
 import { POSTS, bodyHtml, categoryLabel } from '../src/content/posts/index.js'
 
@@ -49,7 +50,7 @@ const facts = () => [
   `- WhatsApp Portugal: ${CONTACT.whatsappPTLabel} (https://wa.me/${CONTACT.whatsappPT})`,
   `- WhatsApp Brasil: ${CONTACT.whatsappBRLabel} (https://wa.me/${CONTACT.whatsappBR})`,
   `- E-mail: ${CONTACT.email}`,
-  `- Avaliação no Google: ${CONTACT.rating.value}/5 em ${CONTACT.rating.count} avaliações (${CONTACT.googleMaps})`,
+  `- Avaliação no Google: ${RATING.value}/5 em ${RATING.count} avaliações (${CONTACT.googleMaps})`,
   `- Instagram: ${CONTACT.instagram} · YouTube: ${CONTACT.youtube}`,
 ]
 

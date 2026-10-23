@@ -3,14 +3,19 @@ import { ref, computed } from 'vue'
 import { useSite } from '../composables/useSite.js'
 import { useSeo } from '../composables/useSeo.js'
 import { CONTACT } from '../config/site.js'
-import { HOME_VIDEO, HOME_VIDEOS } from '../content/home.js'
+import { HOME_VIDEO, HOME_VIDEOS, REVIEWS } from '../content/home.js'
 import AppIcon from '../components/AppIcon.vue'
 import AppDialog from '../components/AppDialog.vue'
 import HeroMap from '../components/HeroMap.vue'
 import VideoFacade from '../components/VideoFacade.vue'
 import ReviewsCarousel from '../components/ReviewsCarousel.vue'
 
-const { c, wa, book, bookService, hasBooking } = useSite()
+const { c, locale, wa, book, bookService, hasBooking, rating } = useSite()
+
+// Depoimentos do CMS (sem texto em inglês, a versão EN mostra o português); sem CMS, os da copy
+const reviews = computed(() =>
+  REVIEWS ? REVIEWS.map((r) => ({ author: r.author, text: (locale.value === 'en' && r.en) || r.pt })) : c.value.home.reviews.items,
+)
 useSeo(() => ({ key: 'home', title: c.value.meta.home.title, description: c.value.meta.home.description }))
 
 // Modal de serviço: guarda o índice (e não o objeto) para acompanhar a troca de idioma
@@ -78,7 +83,7 @@ function pickVideo(i) {
           class="mt-7 inline-flex items-center gap-2.5 text-sm text-ivory/85 transition-colors hover:text-brass-light"
         >
           <AppIcon name="google" :size="18" />
-          <span>{{ c.home.hero.proof }}</span>
+          <span>{{ rating(c.home.hero.proof) }}</span>
         </a>
       </div>
 
@@ -167,8 +172,8 @@ function pickVideo(i) {
         class="flex flex-col gap-1.5 py-8 lg:py-10"
         :class="[i % 2 === 1 ? 'pl-5 border-l border-slate-line/70 lg:pl-8' : 'pr-4', i >= 2 ? 'border-t border-slate-line/70 lg:border-t-0' : '', i === 2 ? 'lg:border-l lg:border-slate-line/70 lg:pl-8' : '']"
       >
-        <dt class="font-display text-[1.55rem] leading-tight text-metal sm:text-[1.9rem]">{{ s.strong }}</dt>
-        <dd class="text-[0.95rem] text-mist">{{ s.text }}</dd>
+        <dt class="font-display text-[1.55rem] leading-tight text-metal sm:text-[1.9rem]">{{ rating(s.strong) }}</dt>
+        <dd class="text-[0.95rem] text-mist">{{ rating(s.text) }}</dd>
       </div>
     </dl>
   </section>
@@ -267,12 +272,12 @@ function pickVideo(i) {
       <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
           <h2 id="reviews-title" class="text-[2.2rem] text-ivory sm:text-[2.8rem]">{{ c.home.reviews.title }}</h2>
-          <p class="mt-4 flex items-center gap-2 text-brass-text"><AppIcon name="google" :size="18" />{{ c.home.reviews.sub }}</p>
+          <p class="mt-4 flex items-center gap-2 text-brass-text"><AppIcon name="google" :size="18" />{{ rating(c.home.reviews.sub) }}</p>
         </div>
         <a :href="CONTACT.googleReviews" target="_blank" rel="noopener" class="link-brass self-start font-semibold md:self-auto">{{ c.home.reviews.link }}</a>
       </div>
       <div class="mt-12">
-        <ReviewsCarousel :items="c.home.reviews.items" :source-label="c.ui.reviewsFrom" />
+        <ReviewsCarousel :items="reviews" :source-label="c.ui.reviewsFrom" />
       </div>
     </div>
   </section>

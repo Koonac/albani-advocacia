@@ -2,6 +2,7 @@ import { computed } from 'vue'
 import { useHead } from '@unhead/vue'
 import { SITE_URL, CONTACT, GOOGLE_SITE_VERIFICATION } from '../config/site.js'
 import { pathFor } from '../config/routes-map.js'
+import { RATING } from '../content/home.js'
 import { useSite } from './useSite.js'
 
 // Open Graph fica em JPG: WhatsApp, LinkedIn e alguns leitores de link não mostram prévia em WebP
@@ -92,8 +93,8 @@ export function orgJsonLd(locale) {
         hasMap: CONTACT.googleMaps,
         aggregateRating: {
           '@type': 'AggregateRating',
-          ratingValue: CONTACT.rating.value,
-          reviewCount: CONTACT.rating.count,
+          ratingValue: RATING.value,
+          reviewCount: RATING.count,
           bestRating: '5',
           worstRating: '1',
         },

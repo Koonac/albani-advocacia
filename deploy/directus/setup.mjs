@@ -1,7 +1,8 @@
 // Configura o Directus para o blog (idempotente: pode rodar de novo sem duplicar nada).
 // - coleção `posts` com campos PT/EN no mesmo formato que o site usa
 // - coleção singleton `pagina_inicial`, no painel "Configurações do site": vídeo do YouTube da
-//   home e destino do botão "Agendar consulta" (WhatsApp ou link de agendamento)
+//   home, destino do botão "Agendar consulta" (WhatsApp ou link de agendamento) e avaliações
+//   do Google (nota, total e depoimentos do carrossel)
 // - perfil "Editor" (Dr. Ivan): cria/edita posts, edita a página inicial e envia imagens,
 //   com o painel enxuto (CSS abaixo)
 // - usuário "build" com token estático só de leitura (BUILD_TOKEN), usado pelo fetch-posts/fetch-home
@@ -9,6 +10,8 @@
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { CONTACT } from '../../src/config/site.js'
+import sitePt from '../../src/content/site.pt.js'
+import siteEn from '../../src/content/site.en.js'
 import { api, findOne, login, pt, requireEnv, uploadFile } from './lib.mjs'
 
 const BRANDING = join(dirname(fileURLToPath(import.meta.url)), 'branding')
@@ -326,6 +329,76 @@ const HOME_FIELDS = [
     },
     schema: {},
   },
+  divider('divisor_avaliacoes', 'Avaliações do Google', 'star', 7),
+  {
+    field: 'avaliacoes_nota',
+    type: 'float',
+    meta: {
+      interface: 'input',
+      options: { min: 1, max: 5, step: 0.1, placeholder: '5.0' },
+      translations: pt('Nota no Google'),
+      note: 'Nota média que aparece no perfil do Google (de 1 a 5).',
+      sort: 8,
+      width: 'half',
+    },
+    schema: {},
+  },
+  {
+    field: 'avaliacoes_total',
+    type: 'integer',
+    meta: {
+      interface: 'input',
+      options: { min: 0, placeholder: '46' },
+      translations: pt('Quantidade de avaliações'),
+      note: 'Total de avaliações no Google. Atualize quando chegarem novas.',
+      sort: 9,
+      width: 'half',
+    },
+    schema: {},
+  },
+  {
+    field: 'depoimentos',
+    type: 'json',
+    meta: {
+      interface: 'list',
+      special: ['cast-json'],
+      options: {
+        template: '{{autor}}',
+        addLabel: 'Adicionar depoimento',
+        fields: [
+          {
+            field: 'autor',
+            name: 'Nome de quem avaliou',
+            type: 'string',
+            meta: { field: 'autor', type: 'string', interface: 'input', required: true, width: 'full' },
+          },
+          {
+            field: 'texto_pt',
+            name: 'Texto (português)',
+            type: 'text',
+            meta: { field: 'texto_pt', type: 'text', interface: 'input-multiline', required: true, width: 'full' },
+          },
+          {
+            field: 'texto_en',
+            name: 'Texto (inglês, opcional)',
+            type: 'text',
+            meta: {
+              field: 'texto_en',
+              type: 'text',
+              interface: 'input-multiline',
+              options: { placeholder: 'Se vazio, a versão em inglês do site mostra o texto em português' },
+              width: 'full',
+            },
+          },
+        ],
+      },
+      translations: pt('Depoimentos'),
+      note: 'Avaliações que passam no carrossel da página inicial. Arraste para mudar a ordem.',
+      sort: 10,
+      width: 'full',
+    },
+    schema: {},
+  },
 ]
 
 async function ensureHome() {
@@ -353,7 +426,7 @@ async function ensureHome() {
   await api('PATCH', '/collections/pagina_inicial', {
     meta: {
       icon: 'tune',
-      note: 'Vídeos da página inicial e botão "Agendar consulta"',
+      note: 'Vídeos da página inicial, botão "Agendar consulta" e avaliações do Google',
       translations: [{ language: 'pt-BR', translation: 'Configurações do site', singular: 'Configurações do site', plural: 'Configurações do site' }],
     },
   })
@@ -380,6 +453,16 @@ async function ensureHome() {
   if (!home?.video_url) {
     await api('PATCH', '/items/pagina_inicial', { video_url: `https://www.youtube.com/watch?v=${CONTACT.videoId}` })
     console.log('  vídeo atual da página inicial: gravado')
+  }
+  // Avaliações: abre preenchido com o que o site mostra hoje (nota, total e depoimentos PT/EN)
+  if (home?.avaliacoes_nota == null && home?.avaliacoes_total == null) {
+    await api('PATCH', '/items/pagina_inicial', { avaliacoes_nota: Number(CONTACT.rating.value), avaliacoes_total: CONTACT.rating.count })
+    console.log('  nota e total de avaliações atuais: gravados')
+  }
+  if (!home?.depoimentos?.length) {
+    const depoimentos = sitePt.home.reviews.items.map((r, i) => ({ autor: r.author, texto_pt: r.text, texto_en: siteEn.home.reviews.items[i]?.text ?? '' }))
+    await api('PATCH', '/items/pagina_inicial', { depoimentos })
+    console.log(`  ${depoimentos.length} depoimentos atuais: gravados`)
   }
 }
 

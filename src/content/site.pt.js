@@ -137,7 +137,7 @@ export default {
       ctaSecondary: 'Fale com o escritório',
       credential: 'Advogado inscrito no Brasil e em Portugal',
       credentialNumbers: 'OA 67498E · OAB/SC 62.722',
-      proof: '★★★★★ 5,0 no Google · 46 avaliações',
+      proof: '★★★★★ {nota} no Google · {total} avaliações',
       badge: { name: 'Dr. Ivan Albani', role: 'Imigração e direito empresarial' },
       scrollNote: 'Conheça nossas áreas',
       photoAlt: 'Dr. Ivan Albani, advogado luso-brasileiro em Portugal, de terno preto',
@@ -152,7 +152,7 @@ export default {
       more: 'Mais vídeos',
     },
     stats: [
-      { strong: '5,0 ★', text: 'no Google (46 avaliações)' },
+      { strong: '{nota} ★', text: 'no Google ({total} avaliações)' },
       { strong: '3 países', text: 'de atuação: Brasil, EUA e Portugal' },
       { strong: 'Dupla inscrição', text: 'Ordem dos Advogados de Portugal (OA-PT) e Ordem dos Advogados do Brasil (OAB-SC)' },
       { strong: 'Atendimento', text: 'em português e inglês' },
@@ -268,7 +268,7 @@ export default {
     },
     reviews: {
       title: 'Quem confiou, recomenda.',
-      sub: '5,0 ★ no Google · 46 avaliações',
+      sub: '{nota} ★ no Google · {total} avaliações',
       link: 'Ver todas as avaliações no Google →',
       items: [
         {

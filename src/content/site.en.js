@@ -132,7 +132,7 @@ export default {
       ctaSecondary: 'Talk to the firm',
       credential: 'Lawyer admitted in Brazil and Portugal',
       credentialNumbers: 'OA 67498E · OAB/SC 62.722',
-      proof: '★★★★★ 5.0 on Google · 46 reviews',
+      proof: '★★★★★ {nota} on Google · {total} reviews',
       badge: { name: 'Dr. Ivan Albani', role: 'Immigration and business law' },
       scrollNote: 'Explore our practice areas',
       photoAlt: 'Dr. Ivan Albani, Portuguese-Brazilian lawyer in Portugal, wearing a black suit',
@@ -147,7 +147,7 @@ export default {
       more: 'More videos',
     },
     stats: [
-      { strong: '5.0 ★', text: 'on Google (46 reviews)' },
+      { strong: '{nota} ★', text: 'on Google ({total} reviews)' },
       { strong: '3 countries', text: 'of practice: Brazil, USA and Portugal' },
       { strong: 'Dual admission', text: 'Portuguese Bar Association (OA-PT) and Brazilian Bar Association (OAB-SC)' },
       { strong: 'Service', text: 'in Portuguese and English' },
@@ -263,7 +263,7 @@ export default {
     },
     reviews: {
       title: 'Those who trusted us recommend us.',
-      sub: '5.0 ★ on Google · 46 reviews',
+      sub: '{nota} ★ on Google · {total} reviews',
       link: 'See all reviews on Google →',
       items: [
         {

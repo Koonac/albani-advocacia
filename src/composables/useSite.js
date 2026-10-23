@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n'
 import pt from '../content/site.pt.js'
 import en from '../content/site.en.js'
 import { waLink } from '../config/site.js'
-import { BOOKING_URL } from '../content/home.js'
+import { BOOKING_URL, RATING } from '../content/home.js'
 import { pathFor } from '../config/routes-map.js'
 
 const CONTENT = { pt, en }
@@ -19,5 +19,10 @@ export function useSite() {
   const book = () => BOOKING_URL || wa()
   const bookService = (service) => BOOKING_URL || waService(service)
   const formatDate = (iso) => d(new Date(`${iso}T12:00:00Z`), 'long')
-  return { c, locale, lp, wa, waService, book, bookService, hasBooking, formatDate }
+  // Textos com {nota}/{total} das avaliações do Google (CMS): "5,0" em PT, "5.0" em EN
+  const rating = (text) =>
+    text
+      .replace('{nota}', locale.value === 'pt' ? RATING.value.replace('.', ',') : RATING.value)
+      .replace('{total}', String(RATING.count))
+  return { c, locale, lp, wa, waService, book, bookService, hasBooking, formatDate, rating }
 }

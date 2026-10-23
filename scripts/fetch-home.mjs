@@ -5,6 +5,7 @@
 //   capa, fica fora do JSON e vale a miniatura local de public/img/.
 // - outros vídeos (`videos_extras`): miniaturas também geradas em public/img/cms/; só os itens
 //   com link aparecem no site.
+// - avaliações do Google: nota, total e depoimentos (PT/EN) do carrossel.
 // - botão "Agendar consulta": `bookingUrl` vazio = WhatsApp; com link = página de agendamento.
 //   Sem CMS, a chave fica fora do JSON e vale CONTACT.bookingUrl (src/config/site.js).
 //
@@ -113,7 +114,25 @@ async function videoTitle(id, custom) {
   return r.ok ? (await r.json()).title : ''
 }
 
+// Avaliações do Google: nota/total inválidos ou vazios ficam fora do JSON (vale CONTACT.rating);
+// depoimentos sem nome ou sem texto em PT são ignorados; sem nenhum, valem os da copy.
+function reviews() {
+  const data = {}
+  const value = Number(home.avaliacoes_nota)
+  const count = Number(home.avaliacoes_total)
+  if (home.avaliacoes_nota != null && value >= 1 && value <= 5 && Number.isInteger(count) && count > 0) {
+    data.rating = { value: value.toFixed(1), count }
+  }
+  const items = (Array.isArray(home.depoimentos) ? home.depoimentos : [])
+    .filter((d) => d?.autor?.trim() && d?.texto_pt?.trim())
+    .map((d) => ({ author: d.autor.trim(), pt: d.texto_pt.trim(), en: d.texto_en?.trim() ?? '' }))
+  if (items.length) data.reviews = items
+  const rating = data.rating ? `${data.rating.value} (${data.rating.count})` : 'padrão'
+  return { data, msg: `avaliações: nota ${rating}, ${items.length || 'padrão'} depoimento(s)` }
+}
+
 const cta = booking()
 const vid = await video()
 const extras = await extraVideos(vid.data.videoId)
-done({ ...vid.data, ...extras.data, bookingUrl: cta.url }, vid.msg, extras.msg, cta.msg)
+const rev = reviews()
+done({ ...vid.data, ...extras.data, ...rev.data, bookingUrl: cta.url }, vid.msg, extras.msg, rev.msg, cta.msg)
