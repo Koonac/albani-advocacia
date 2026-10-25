@@ -2,10 +2,11 @@ node_modules
 dist
 .vite-ssg-temp
 
-# CMS (gerados pelos scripts/fetch-posts.mjs e fetch-home.mjs)
+# CMS (gerados pelos scripts/fetch-posts.mjs, fetch-home.mjs e fetch-bio.mjs)
 src/content/posts/cms-posts.json
 public/img/blog/cms/
 src/content/home-cms.json
+src/content/bio-cms.json
 public/img/cms/
 
 # Deploy

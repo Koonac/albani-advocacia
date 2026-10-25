@@ -10,7 +10,7 @@ deploy/
 ├─ .env.example           variáveis (referência)
 ├─ builder/server.mjs     recebe o webhook, builda e publica
 ├─ directus/setup.mjs     cria coleção, perfis, token e Flow (idempotente)
-├─ directus/extensions/   extensões do painel (ex.: slug gerado a partir do título)
+├─ directus/extensions/   extensões do painel (slug gerado a partir do título; abas Português/English nos posts)
 ├─ directus/import-posts.mjs  importa os posts de src/content/posts/*.js
 └─ nginx/albani.conf      site + proxy do CMS
 ```
@@ -90,6 +90,7 @@ O certbot pede um e-mail, adiciona os blocos HTTPS ao `albani.conf` e agenda a r
 
 - O Dr. Ivan entra em `https://albani.kaedai.com.br/admin` (perfil **Editor**), abre **Posts do blog** e cria ou edita um post. Com status **Publicado**, o site é atualizado em cerca de 1 minuto.
 - **Rascunho** não aparece no site. **Arquivado** tira o post do ar.
+- Os botões da página `https://albaniadv.com/bio` (link da bio do Instagram) ficam em **Link na bio**: texto, destino, ícone, destaque e ordem (arrastando).
 - Não troque o slug de um post já publicado: o link antigo (e o Google) passa a dar 404.
 - Estado do último build: `docker compose exec builder wget -qO- http://localhost:9000/health`.
 
@@ -106,6 +107,8 @@ Se o `git pull` trouxe mudanças em `deploy/directus/` (extensões ou `setup.mjs
 docker compose up -d directus                                     # recria o container se o docker-compose.yml mudou; senão, use restart
 docker compose run --rm builder node deploy/directus/setup.mjs    # reaplica campos e configurações
 ```
+
+O Directus só carrega extensões novas ao iniciar, por isso o `restart` vem antes do `setup.mjs`: o setup só liga uma interface de extensão (abas, slug) se ela já estiver carregada, e senão mantém o campo comum.
 
 Se o `git pull` trouxe posts revistos em `src/content/posts/` (textos, pontos-chave, perguntas, capas e imagens), leve-os para o CMS:
 

@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node scripts/fetch-posts.mjs && node scripts/fetch-home.mjs && vite",
-    "build": "node scripts/fetch-posts.mjs && node scripts/fetch-home.mjs && vite-ssg build",
-    "build:static": "node scripts/fetch-posts.mjs --skip && node scripts/fetch-home.mjs --skip && vite-ssg build",
+    "dev": "node scripts/fetch-posts.mjs && node scripts/fetch-home.mjs && node scripts/fetch-bio.mjs && vite",
+    "build": "node scripts/fetch-posts.mjs && node scripts/fetch-home.mjs && node scripts/fetch-bio.mjs && vite-ssg build",
+    "build:static": "node scripts/fetch-posts.mjs --skip && node scripts/fetch-home.mjs --skip && node scripts/fetch-bio.mjs --skip && vite-ssg build",
     "preview": "vite preview --port 4173",
     "assets": "node scripts/build-map.mjs && node scripts/optimize-images.mjs && node scripts/build-favicons.mjs && node scripts/optimize-blog-images.mjs",
     "blog:imagens": "node scripts/gerar-imagens-blog.mjs && node scripts/optimize-blog-images.mjs"

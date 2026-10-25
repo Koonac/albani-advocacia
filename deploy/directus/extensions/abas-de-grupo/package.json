@@ -1,0 +1,13 @@
+{
+  "name": "directus-extension-abas-de-grupo",
+  "description": "Grupo de campos em abas: cada grupo filho vira uma aba (ex.: Português / English nos posts)",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "directus:extension": {
+    "type": "interface",
+    "path": "index.js",
+    "source": "index.js",
+    "host": "^11.0.0"
+  }
+}

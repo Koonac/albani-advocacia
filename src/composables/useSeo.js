@@ -126,7 +126,7 @@ export function orgJsonLd(locale) {
  * Head por página e idioma: title, description, keywords, robots, canonical, hreflang (pt/en/x-default),
  * Open Graph, Twitter e JSON-LD opcional. title/description/keywords não informados vêm de
  * `meta[key]` da copy (src/content/site.{pt,en}.js).
- * @param {() => {key:string, params?:object, title?:string, description?:string, keywords?:string, type?:string, published?:string, modified?:string, section?:string, jsonLd?:object, image?:string}} getter
+ * @param {() => {key:string, params?:object, title?:string, description?:string, keywords?:string, robots?:string, type?:string, published?:string, modified?:string, section?:string, jsonLd?:object, image?:string}} getter
  */
 export function useSeo(getter) {
   const { c, locale } = useSite()
@@ -144,7 +144,7 @@ export function useSeo(getter) {
     meta: [
       { name: 'description', content: () => s.value.description },
       { name: 'keywords', content: () => s.value.keywords },
-      { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
+      { name: 'robots', content: () => s.value.robots ?? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
       { name: 'author', content: 'Dr. Ivan Albani' },
       ...(GOOGLE_SITE_VERIFICATION ? [{ name: 'google-site-verification', content: GOOGLE_SITE_VERIFICATION }] : []),
       { property: 'og:site_name', content: 'Albani Advocacia' },

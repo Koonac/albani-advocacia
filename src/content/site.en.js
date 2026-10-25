@@ -44,6 +44,10 @@ export default {
         'Book a consultation with a lawyer in Portugal via WhatsApp (Portugal or Brazil) or email. Office in Palmela, Setúbal district.',
       keywords: 'contact lawyer Portugal, immigration lawyer consultation, lawyer Palmela, lawyer Setúbal, WhatsApp lawyer Portugal',
     },
+    bio: {
+      title: 'Dr. Ivan Albani | Lawyer in Portugal for Brazilians',
+      description: 'Book a consultation, chat on WhatsApp and read the guides on visas, residence, citizenship and business in Portugal.',
+    },
     categoryKeywords: {
       imigracao: 'Portugal immigration, Portugal visa, residence permit Portugal, AIMA',
       nacionalidade: 'Portuguese citizenship, Portuguese nationality, Portuguese passport',
@@ -580,6 +584,15 @@ export default {
     updatedOn: 'Updated',
     toc: 'In this article',
     faqTitle: 'Frequently asked questions',
+  },
+
+  bio: {
+    title: 'Dr. Ivan Albani',
+    credentials: 'OA 67498E · OAB/SC 62.722',
+    linksLabel: 'Links',
+    latestPosts: 'Latest articles',
+    socialLabel: 'Social media',
+    site: 'albaniadv.com',
   },
 
   faq: {

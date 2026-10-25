@@ -3,6 +3,7 @@
 // - coleção singleton `pagina_inicial`, no painel "Configurações do site": vídeo do YouTube da
 //   home, destino do botão "Agendar consulta" (WhatsApp ou link de agendamento) e avaliações
 //   do Google (nota, total e depoimentos do carrossel)
+// - coleção singleton `link_bio` ("Link na bio"): topo e links da página /bio
 // - perfil "Editor" (Dr. Ivan): cria/edita posts, edita a página inicial e envia imagens,
 //   com o painel enxuto (CSS abaixo)
 // - usuário "build" com token estático só de leitura (BUILD_TOKEN), usado pelo fetch-posts/fetch-home
@@ -12,6 +13,7 @@ import { fileURLToPath } from 'node:url'
 import { CONTACT } from '../../src/config/site.js'
 import sitePt from '../../src/content/site.pt.js'
 import siteEn from '../../src/content/site.en.js'
+import { BIO_DEFAULT_LINKS } from '../../src/content/bio-links.js'
 import { api, findOne, login, pt, requireEnv, uploadFile } from './lib.mjs'
 
 const BRANDING = join(dirname(fileURLToPath(import.meta.url)), 'branding')
@@ -37,13 +39,14 @@ const SLUG_NOTE = {
 }
 const SLUG_PLACEHOLDER = { pt: 'ex.: visto-d7-ou-d8', en: 'e.g. d7-or-d8-visa' }
 
+// Grupo de cada idioma, dentro do grupo "idiomas" (abas; ver ensureLanguageTabs)
 function localeFields(l, label, sort) {
   const group = `grupo_${l}`
   return [
     {
       field: group,
       type: 'alias',
-      meta: { interface: 'group-detail', special: ['alias', 'no-data', 'group'], options: { start: 'open' }, translations: pt(label), sort, width: 'full' },
+      meta: { interface: 'group-raw', special: ['alias', 'no-data', 'group'], group: 'idiomas', translations: pt(label), sort, width: 'full' },
     },
     {
       field: `title_${l}`,
@@ -242,9 +245,36 @@ const FIELDS = [
     },
     schema: {},
   },
-  ...localeFields('pt', 'Português', 5),
-  ...localeFields('en', 'English', 6),
+  {
+    field: 'idiomas',
+    type: 'alias',
+    meta: { interface: 'group-raw', special: ['alias', 'no-data', 'group'], translations: pt('Idiomas'), sort: 5, width: 'full' },
+  },
+  ...localeFields('pt', 'Português', 1),
+  ...localeFields('en', 'English', 2),
 ]
+
+/** Extensões do painel carregadas e ativas (pelo nome do package.json) */
+async function loadedExtensions() {
+  const extensions = await api('GET', '/extensions')
+  return new Set(extensions.filter((e) => e.meta?.enabled !== false).map((e) => e.schema?.name ?? e.name))
+}
+
+// Português e English em abas, com a interface "Abas" (deploy/directus/extensions/abas-de-grupo).
+// Vale também para instalações antigas, em que os dois grupos ficavam soltos, um embaixo do outro.
+// Sem a extensão carregada, ficam como antes: dois grupos recolhíveis, já abertos.
+const TABS_EXTENSION = 'directus-extension-abas-de-grupo'
+
+async function ensureLanguageTabs() {
+  const tabs = (await loadedExtensions()).has(TABS_EXTENSION)
+  await api('PATCH', '/fields/posts/idiomas', { meta: { interface: tabs ? 'abas-de-grupo' : 'group-raw', sort: 5 } })
+  for (const [l, sort] of [['pt', 1], ['en', 2]]) {
+    await api('PATCH', `/fields/posts/grupo_${l}`, {
+      meta: tabs ? { group: 'idiomas', sort, interface: 'group-raw', options: null } : { group: 'idiomas', sort, interface: 'group-detail', options: { start: 'open' } },
+    })
+  }
+  console.log(tabs ? 'idiomas: Português e English em abas' : `idiomas: extensão ${TABS_EXTENSION} não carregada, grupos um embaixo do outro`)
+}
 
 // Slugs com a interface "Slug do título" (deploy/directus/extensions/slug-do-titulo), que
 // preenche o slug a partir do título enquanto se digita. Vale também para instalações antigas.
@@ -252,8 +282,7 @@ const FIELDS = [
 const SLUG_EXTENSION = 'directus-extension-slug-do-titulo'
 
 async function ensureSlugInterface() {
-  const extensions = await api('GET', '/extensions')
-  const installed = extensions.some((e) => (e.schema?.name ?? e.name) === SLUG_EXTENSION && e.meta?.enabled !== false)
+  const installed = (await loadedExtensions()).has(SLUG_EXTENSION)
   for (const l of ['pt', 'en']) {
     const meta = installed
       ? { interface: 'slug-do-titulo', options: { source: `title_${l}`, placeholder: SLUG_PLACEHOLDER[l] }, note: SLUG_NOTE[l] }
@@ -571,6 +600,117 @@ async function ensureHome() {
   }
 }
 
+// Link na bio (/bio): singleton com o nome no topo da página e a lista de links, na ordem do painel.
+// O fetch-bio.mjs valida os destinos; a validação aqui é só orientação para quem edita.
+const BIO_ICON_CHOICES = [
+  { text: 'Agenda', value: 'agenda' },
+  { text: 'WhatsApp', value: 'whatsapp' },
+  { text: 'Site', value: 'site' },
+  { text: 'Artigo / blog', value: 'blog' },
+  { text: 'Instagram', value: 'instagram' },
+  { text: 'YouTube', value: 'youtube' },
+  { text: 'Facebook', value: 'facebook' },
+  { text: 'LinkedIn', value: 'linkedin' },
+  { text: 'Google', value: 'google' },
+  { text: 'Localização', value: 'localizacao' },
+  { text: 'E-mail', value: 'email' },
+  { text: 'Estrela', value: 'estrela' },
+  { text: 'Link (seta)', value: 'link' },
+]
+
+const listField = (field, name, type, meta) => ({ field, name, type, meta: { field, type, width: 'full', ...meta } })
+
+const BIO_FIELDS = [
+  divider('divisor_topo', 'Topo da página', 'account_circle', 0),
+  {
+    field: 'titulo',
+    type: 'string',
+    meta: { interface: 'input', options: { placeholder: 'Dr. Ivan Albani' }, translations: pt('Nome'), note: 'Vazio: "Dr. Ivan Albani".', sort: 1, width: 'full' },
+    schema: {},
+  },
+  divider('divisor_links', 'Links', 'link', 4),
+  {
+    field: 'links',
+    type: 'json',
+    meta: {
+      interface: 'list',
+      special: ['cast-json'],
+      options: {
+        template: '{{rotulo_pt}}',
+        addLabel: 'Adicionar link',
+        fields: [
+          listField('rotulo_pt', 'Texto do botão', 'string', { interface: 'input', required: true, options: { placeholder: 'ex.: Agendar consulta' } }),
+          listField('rotulo_en', 'Texto do botão (inglês, opcional)', 'string', {
+            interface: 'input',
+            options: { placeholder: 'Se vazio, a versão em inglês mostra o texto em português' },
+          }),
+          listField('url', 'Destino', 'string', {
+            interface: 'input',
+            required: true,
+            options: { placeholder: 'https://... ou /blog', trim: true, iconLeft: 'link' },
+            note: 'Link completo (https://...), página do site (/blog, /contato, /blog/nome-do-artigo), "agendar" (mesmo destino do botão Agendar consulta do site) ou "whatsapp".',
+          }),
+          listField('icone', 'Ícone', 'string', { interface: 'select-dropdown', options: { choices: BIO_ICON_CHOICES }, width: 'half' }),
+          listField('destaque', 'Botão em destaque (dourado)', 'boolean', { interface: 'boolean', options: { label: 'Destacar' }, width: 'half' }),
+        ],
+      },
+      translations: pt('Links'),
+      note: 'Botões da página, de cima para baixo. Arraste para mudar a ordem. Use o destaque em 1 ou 2 links, no máximo.',
+      sort: 5,
+      width: 'full',
+    },
+    schema: {},
+  },
+  {
+    field: 'mostrar_artigos',
+    type: 'boolean',
+    meta: {
+      interface: 'boolean',
+      options: { label: 'Mostrar os 3 artigos mais recentes do blog abaixo dos links' },
+      translations: pt('Artigos recentes'),
+      sort: 6,
+      width: 'full',
+    },
+    schema: { default_value: true },
+  },
+]
+
+async function ensureBio() {
+  try {
+    await api('GET', '/collections/link_bio')
+    console.log('coleção link_bio: já existe')
+  } catch {
+    await api('POST', '/collections', {
+      collection: 'link_bio',
+      meta: {
+        icon: 'link',
+        note: 'Página com os links da bio do Instagram (albaniadv.com/bio)',
+        singleton: true,
+        sort: 3,
+        translations: [{ language: 'pt-BR', translation: 'Link na bio', singular: 'Link na bio', plural: 'Link na bio' }],
+      },
+      schema: {},
+      fields: [{ field: 'id', type: 'integer', meta: { hidden: true, readonly: true, interface: 'input' }, schema: { is_primary_key: true, has_auto_increment: true } }],
+    })
+    console.log('coleção link_bio: criada')
+  }
+
+  const existing = new Set((await api('GET', '/fields/link_bio')).map((f) => f.field))
+  for (const def of BIO_FIELDS) {
+    if (existing.has(def.field)) continue
+    await api('POST', '/fields/link_bio', def)
+    console.log(`  campo ${def.field}: criado`)
+  }
+
+  // Já abre preenchido com os links que o site mostra sem CMS
+  const bio = await api('GET', '/items/link_bio')
+  if (!bio?.links?.length) {
+    const links = BIO_DEFAULT_LINKS.map((l) => ({ rotulo_pt: l.label.pt, rotulo_en: l.label.en, url: l.url, icone: l.icon, destaque: l.featured }))
+    await api('PATCH', '/items/link_bio', { links, mostrar_artigos: bio?.mostrar_artigos ?? true })
+    console.log(`  ${links.length} links padrão: gravados`)
+  }
+}
+
 /** Política + papel com as permissões dadas; devolve o id do papel */
 async function ensureRole({ name, icon, description, appAccess, permissions }) {
   let policy = await findOne('/policies', { name })
@@ -622,7 +762,7 @@ async function ensureFlow() {
     headers: [{ header: 'x-rebuild-secret', value: process.env.REBUILD_SECRET }],
     body: '{}',
   }
-  const flowOptions = { type: 'action', scope: ['items.create', 'items.update', 'items.delete'], collections: ['posts', 'pagina_inicial'] }
+  const flowOptions = { type: 'action', scope: ['items.create', 'items.update', 'items.delete'], collections: ['posts', 'pagina_inicial', 'link_bio'] }
   const flow = await findOne('/flows', { name })
   if (flow) {
     await api('PATCH', `/flows/${flow.id}`, { options: flowOptions })
@@ -782,7 +922,9 @@ await login()
 await ensureBranding()
 await ensureCollection()
 await ensureSlugInterface()
+await ensureLanguageTabs()
 await ensureHome()
+await ensureBio()
 const editorRole = await ensureRole({
   name: 'Editor',
   icon: 'edit_note',
@@ -791,6 +933,7 @@ const editorRole = await ensureRole({
   permissions: [
     ...crud('posts'),
     ...['create', 'read', 'update'].map((action) => ({ collection: 'pagina_inicial', action })),
+    ...['create', 'read', 'update'].map((action) => ({ collection: 'link_bio', action })),
     ...crud('directus_files'),
     { collection: 'directus_folders', action: 'read' },
   ],
@@ -803,6 +946,7 @@ const buildRole = await ensureRole({
   permissions: [
     { collection: 'posts', action: 'read' },
     { collection: 'pagina_inicial', action: 'read' },
+    { collection: 'link_bio', action: 'read' },
     { collection: 'directus_files', action: 'read' },
   ],
 })

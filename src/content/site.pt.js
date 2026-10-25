@@ -48,6 +48,10 @@ export default {
       keywords:
         'contato advogado Portugal, consulta advogado imigração, advogado Palmela, advogado Setúbal, WhatsApp advogado Portugal',
     },
+    bio: {
+      title: 'Dr. Ivan Albani | Advogado em Portugal para brasileiros',
+      description: 'Agende uma consulta, fale no WhatsApp e acesse os guias sobre vistos, residência, nacionalidade e empresas em Portugal.',
+    },
     // Meta keywords dos artigos, por categoria (somadas ao título do artigo)
     categoryKeywords: {
       imigracao: 'imigração Portugal, visto para Portugal, autorização de residência, AIMA',
@@ -585,6 +589,16 @@ export default {
     updatedOn: 'Atualizado em',
     toc: 'Neste artigo',
     faqTitle: 'Perguntas frequentes',
+  },
+
+  // Página /bio (link na bio). O nome pode ser trocado no painel ("Link na bio").
+  bio: {
+    title: 'Dr. Ivan Albani',
+    credentials: 'OA 67498E · OAB/SC 62.722',
+    linksLabel: 'Links',
+    latestPosts: 'Artigos recentes',
+    socialLabel: 'Redes sociais',
+    site: 'albaniadv.com',
   },
 
   faq: {
