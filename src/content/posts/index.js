@@ -1,7 +1,9 @@
 // Os artigos vêm do CMS (Directus): `scripts/fetch-posts.mjs` roda antes do dev/build e grava
 // os posts publicados em `cms-posts.json` (fora do git). Se o arquivo estiver vazio, porque o
 // build foi feito sem CMS, valem os arquivos JS desta pasta (formato: id, category, date,
-// slug.pt/en, title.pt/en, excerpt.pt/en, body.pt/en = lista de parágrafos).
+// slug.pt/en, title.pt/en, excerpt.pt/en, body.pt/en = lista de parágrafos ou HTML).
+// Opcionais: cover (caminho da imagem), updated (data da última revisão) e, por idioma, keyPoints
+// (lista de frases), faq ([{ q, a }]) e seo ({ title, description }).
 // O build gera automaticamente a página PT e EN de cada artigo e atualiza o sitemap.
 import cmsPosts from './cms-posts.json'
 import goldenVisa from './golden-visa-portugal.js'
@@ -40,11 +42,46 @@ export const coverFor = (post) => post.cover || COVER_BY_CATEGORY[post.category]
 
 const escapeHtml = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
-/** Corpo em HTML: posts do CMS já vêm em HTML sanitizado; posts locais são listas de parágrafos */
+/** Corpo em HTML: posts do CMS já vêm em HTML sanitizado; posts locais são HTML ou listas de parágrafos */
 export const bodyHtml = (post, locale) => {
   const body = post.body[locale]
   return Array.isArray(body) ? body.map((p) => `<p>${escapeHtml(p)}</p>`).join('') : body
 }
+
+const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'", '#x27': "'", nbsp: ' ' }
+const htmlText = (html) =>
+  html
+    .replace(/<[^>]+>/g, '')
+    .replace(/&(amp|lt|gt|quot|#39|#x27|nbsp);/g, (_, e) => ENTITIES[e])
+    .trim()
+
+const anchorId = (text) =>
+  text
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '') || 'secao'
+
+/** Corpo com âncoras nos H2 + sumário ({ id, text }) para o "Neste artigo". Tabelas ganham rolagem própria no celular */
+export const articleBody = (post, locale) => {
+  const toc = []
+  const html = bodyHtml(post, locale)
+    .replace(/<h2>([\s\S]*?)<\/h2>/g, (_, inner) => {
+      const text = htmlText(inner)
+      const base = anchorId(text)
+      let id = base
+      for (let n = 2; toc.some((t) => t.id === id); n++) id = `${base}-${n}`
+      toc.push({ id, text })
+      return `<h2 id="${id}">${inner}</h2>`
+    })
+    .replace(/<table>/g, '<div class="table-wrap"><table>')
+    .replace(/<\/table>/g, '</table></div>')
+  return { html, toc }
+}
+
+export const keyPointsFor = (post, locale) => (post.keyPoints?.[locale] ?? []).filter((t) => t?.trim())
+export const faqFor = (post, locale) => (post.faq?.[locale] ?? []).filter((i) => i?.q?.trim() && i?.a?.trim())
 
 export const readingMinutes = (post, locale) => {
   const text = bodyHtml(post, locale).replace(/<[^>]+>/g, ' ')

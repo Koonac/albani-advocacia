@@ -107,6 +107,16 @@ docker compose up -d directus                                     # recria o con
 docker compose run --rm builder node deploy/directus/setup.mjs    # reaplica campos e configurações
 ```
 
+Se o `git pull` trouxe posts revistos em `src/content/posts/` (textos, pontos-chave, perguntas, capas e imagens), leve-os para o CMS:
+
+```bash
+docker compose run --rm builder node deploy/directus/import-posts.mjs --atualizar
+```
+
+O `--atualizar` sobrescreve o conteúdo dos posts que já existem no CMS com a versão dos arquivos (status e data de publicação ficam como estão) e sobe as imagens de `public/img/blog/` para a biblioteca. Edições feitas no painel nesses posts são perdidas, por isso use só quando os arquivos forem a versão mais recente.
+
+As imagens dos artigos são geradas no ComfyUI (`npm run blog:imagens`, no PC com acesso ao servidor ComfyUI) a partir de `assets-src/blog/prompts.json`, e os WebP resultantes vão para o git em `public/img/blog/` (os PNG originais, em `assets-src/blog/`, ficam fora do git).
+
 ## Trocar para o domínio definitivo
 
 1. Crie o DNS do novo domínio.

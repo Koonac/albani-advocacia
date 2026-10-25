@@ -6,7 +6,7 @@ import en from '../src/content/site.en.js'
 import { SITE_URL, CONTACT } from '../src/config/site.js'
 import { RATING } from '../src/content/home.js'
 import { PAGES, postPath } from '../src/config/routes-map.js'
-import { POSTS, bodyHtml, categoryLabel } from '../src/content/posts/index.js'
+import { POSTS, bodyHtml, categoryLabel, keyPointsFor, faqFor } from '../src/content/posts/index.js'
 
 // Mesma regra de src/config/features.js (lá via import.meta.env, que não existe aqui)
 const enabled = (flag) => !flag || (flag === 'nacionalidadeBisnetos' && process.env.VITE_FEATURE_BISNETOS === 'true')
@@ -16,7 +16,8 @@ const PAGE_ORDER = ['home', 'about', 'areas', 'faq', 'blog', 'contact']
 
 const htmlToText = (html) =>
   html
-    .replace(/<\/(p|h2|h3|li|blockquote)>/gi, '\n\n')
+    .replace(/<\/(p|h2|h3|li|blockquote|tr)>/gi, '\n\n')
+    .replace(/<\/t[hd]>/gi, ' | ')
     .replace(/<br\s*\/?>/gi, '\n')
     .replace(/<li[^>]*>/gi, '- ')
     .replace(/<[^>]+>/g, '')
@@ -136,9 +137,11 @@ export function buildLlmsFullTxt() {
       '',
       `${url(postPath(p, 'pt'))} · ${categoryLabel(p.category, 'pt')} · ${p.date} · Dr. Ivan Albani`,
       '',
+      ...keyPointsFor(p, 'pt').flatMap((k, i, all) => (i === all.length - 1 ? [`- ${k}`, ''] : [`- ${k}`])),
       htmlToText(bodyHtml(p, 'pt')),
       '',
     )
+    for (const i of faqFor(p, 'pt')) out.push(`**${i.q}**`, '', i.a, '')
   }
   return out.join('\n')
 }

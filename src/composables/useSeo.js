@@ -126,7 +126,7 @@ export function orgJsonLd(locale) {
  * Head por página e idioma: title, description, keywords, robots, canonical, hreflang (pt/en/x-default),
  * Open Graph, Twitter e JSON-LD opcional. title/description/keywords não informados vêm de
  * `meta[key]` da copy (src/content/site.{pt,en}.js).
- * @param {() => {key:string, params?:object, title?:string, description?:string, keywords?:string, type?:string, published?:string, section?:string, jsonLd?:object, image?:string}} getter
+ * @param {() => {key:string, params?:object, title?:string, description?:string, keywords?:string, type?:string, published?:string, modified?:string, section?:string, jsonLd?:object, image?:string}} getter
  */
 export function useSeo(getter) {
   const { c, locale } = useSite()
@@ -159,6 +159,7 @@ export function useSeo(getter) {
       { property: 'og:locale', content: () => (locale.value === 'en' ? 'en_US' : 'pt_BR') },
       { property: 'og:locale:alternate', content: () => (locale.value === 'en' ? 'pt_BR' : 'en_US') },
       { property: 'article:published_time', content: () => (isArticle() ? s.value.published : undefined) },
+      { property: 'article:modified_time', content: () => (isArticle() ? s.value.modified : undefined) },
       { property: 'article:section', content: () => (isArticle() ? s.value.section : undefined) },
       { property: 'article:author', content: () => (isArticle() ? `${SITE_URL}${pathFor('about', locale.value)}` : undefined) },
       { name: 'twitter:card', content: 'summary_large_image' },

@@ -26,7 +26,9 @@ const CATEGORY_CHOICES = [
   { text: 'Investimento', value: 'investimento' },
 ]
 
-const TOOLBAR = ['bold', 'italic', 'h2', 'h3', 'bullist', 'numlist', 'blockquote', 'customLink', 'customImage', 'removeformat', 'undo', 'redo', 'code', 'fullscreen']
+const TOOLBAR = ['bold', 'italic', 'h2', 'h3', 'bullist', 'numlist', 'blockquote', 'customLink', 'customImage', 'table', 'hr', 'removeformat', 'undo', 'redo', 'code', 'fullscreen']
+const BODY_NOTE =
+  'Divida o artigo em seções com "Título 2" (viram o sumário "Neste artigo"; perguntas funcionam bem, ex.: "Quem pode pedir o visto D7?") e "Título 3" para subseções. Use listas, links para outros artigos e fontes oficiais, tabelas para comparar e o botão de imagem para ilustrar no meio do texto.'
 const SLUG_RE = '^[a-z0-9]+(-[a-z0-9]+)*$'
 
 const SLUG_NOTE = {
@@ -81,7 +83,93 @@ function localeFields(l, label, sort) {
     {
       field: `body_${l}`,
       type: 'text',
-      meta: { group, interface: 'input-rich-text-html', options: { toolbar: TOOLBAR }, required: true, translations: pt('Texto'), sort: 5, width: 'full' },
+      meta: { group, interface: 'input-rich-text-html', options: { toolbar: TOOLBAR }, required: true, translations: pt('Texto'), note: BODY_NOTE, sort: 5, width: 'full' },
+      schema: {},
+    },
+    {
+      field: `key_points_${l}`,
+      type: 'json',
+      meta: {
+        group,
+        interface: 'list',
+        special: ['cast-json'],
+        options: {
+          template: '{{texto}}',
+          addLabel: 'Adicionar ponto-chave',
+          fields: [
+            {
+              field: 'texto',
+              name: 'Ponto-chave',
+              type: 'text',
+              meta: { field: 'texto', type: 'text', interface: 'input-multiline', required: true, width: 'full' },
+            },
+          ],
+        },
+        translations: pt('Pontos-chave (opcional)'),
+        note: 'Aparecem num quadro antes do texto: 3 a 5 frases curtas com o essencial do artigo. Arraste para mudar a ordem.',
+        sort: 6,
+        width: 'full',
+      },
+      schema: {},
+    },
+    {
+      field: `faq_${l}`,
+      type: 'json',
+      meta: {
+        group,
+        interface: 'list',
+        special: ['cast-json'],
+        options: {
+          template: '{{pergunta}}',
+          addLabel: 'Adicionar pergunta',
+          fields: [
+            {
+              field: 'pergunta',
+              name: 'Pergunta',
+              type: 'string',
+              meta: { field: 'pergunta', type: 'string', interface: 'input', required: true, width: 'full' },
+            },
+            {
+              field: 'resposta',
+              name: 'Resposta',
+              type: 'text',
+              meta: { field: 'resposta', type: 'text', interface: 'input-multiline', required: true, width: 'full' },
+            },
+          ],
+        },
+        translations: pt('Perguntas frequentes (opcional)'),
+        note: 'Aparecem no fim do artigo e entram nos dados estruturados (FAQ) que o Google e as IAs leem. Respostas diretas, de 1 a 3 frases.',
+        sort: 7,
+        width: 'full',
+      },
+      schema: {},
+    },
+    {
+      field: `seo_title_${l}`,
+      type: 'string',
+      meta: {
+        group,
+        interface: 'input',
+        options: { softLength: 60, placeholder: 'Vazio: usa o título do artigo' },
+        translations: pt('Título para o Google (opcional)'),
+        note: 'Título azul no resultado de busca. Até 60 caracteres.',
+        sort: 8,
+        width: 'full',
+      },
+      schema: {},
+    },
+    {
+      field: `seo_description_${l}`,
+      type: 'text',
+      meta: {
+        group,
+        interface: 'input-multiline',
+        options: { softLength: 160, placeholder: 'Vazio: usa o resumo' },
+        translations: pt('Descrição para o Google (opcional)'),
+        note: 'Texto abaixo do título no resultado de busca e na prévia do link no WhatsApp. Até 160 caracteres.',
+        sort: 9,
+        width: 'full',
+      },
       schema: {},
     },
   ]
@@ -119,6 +207,19 @@ const FIELDS = [
     field: 'date',
     type: 'date',
     meta: { interface: 'datetime', display: 'datetime', required: true, translations: pt('Data de publicação'), sort: 2, width: 'half' },
+    schema: {},
+  },
+  {
+    field: 'updated',
+    type: 'date',
+    meta: {
+      interface: 'datetime',
+      display: 'datetime',
+      translations: pt('Atualizado em (opcional)'),
+      note: 'Preencha ao revisar um artigo publicado (ex.: mudou a lei). Aparece como "Atualizado em" e o Google usa como data de modificação.',
+      sort: 2,
+      width: 'half',
+    },
     schema: {},
   },
   {
@@ -197,6 +298,10 @@ async function ensureCollection() {
     if (existing.has(def.field)) continue
     await api('POST', '/fields/posts', def)
     console.log(`  campo ${def.field}: criado`)
+  }
+  // Instalações antigas: barra do editor (tabela, linha) e orientação de estrutura no campo Texto
+  for (const l of ['pt', 'en']) {
+    await api('PATCH', `/fields/posts/body_${l}`, { meta: { options: { toolbar: TOOLBAR }, note: BODY_NOTE } })
   }
 
   const relations = await api('GET', '/relations/posts')

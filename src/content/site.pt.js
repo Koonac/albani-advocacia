@@ -581,6 +581,10 @@ export default {
     endCtaTitle: 'Tem dúvidas sobre o seu caso?',
     endCta: 'Agendar consulta pelo WhatsApp',
     filterLabel: 'Filtrar artigos por categoria',
+    keyPoints: 'Pontos-chave',
+    updatedOn: 'Atualizado em',
+    toc: 'Neste artigo',
+    faqTitle: 'Perguntas frequentes',
   },
 
   faq: {

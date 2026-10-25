@@ -47,8 +47,8 @@ async function cleanBody(html) {
     if (!local.has(id)) local.set(id, await downloadAsset(id, `${id}-body.webp`, 1600))
   }
   return sanitizeHtml(html, {
-    allowedTags: ['p', 'br', 'h2', 'h3', 'ul', 'ol', 'li', 'strong', 'b', 'em', 'i', 'a', 'blockquote', 'img'],
-    allowedAttributes: { a: ['href', 'target', 'rel'], img: ['src', 'alt', 'width', 'height', 'loading'] },
+    allowedTags: ['p', 'br', 'hr', 'h2', 'h3', 'ul', 'ol', 'li', 'strong', 'b', 'em', 'i', 'a', 'blockquote', 'img', 'table', 'thead', 'tbody', 'tr', 'th', 'td'],
+    allowedAttributes: { a: ['href', 'target', 'rel'], img: ['src', 'alt', 'width', 'height', 'loading'], th: ['colspan', 'rowspan'], td: ['colspan', 'rowspan'] },
     allowedSchemes: ['http', 'https', 'mailto', 'tel'],
     transformTags: {
       img: (tagName, attribs) => {
@@ -62,6 +62,23 @@ async function cleanBody(html) {
     },
     exclusiveFilter: (frame) => frame.tag === 'p' && !frame.text.trim() && !frame.mediaChildren?.length,
   })
+}
+
+const text = (v) => String(v ?? '').trim()
+
+/** Campo opcional por idioma; só entra no post se algum idioma tiver conteúdo */
+function byLocale(it, read) {
+  const value = { pt: read(it, 'pt'), en: read(it, 'en') }
+  const filled = (v) => (Array.isArray(v) ? v.length : v)
+  return filled(value.pt) || filled(value.en) ? value : undefined
+}
+const keyPoints = (it, l) => (it[`key_points_${l}`] ?? []).map((k) => text(k?.texto)).filter(Boolean)
+const faq = (it, l) =>
+  (it[`faq_${l}`] ?? []).map((f) => ({ q: text(f?.pergunta), a: text(f?.resposta) })).filter((f) => f.q && f.a)
+const seo = (it) => {
+  const title = byLocale(it, (x, l) => text(x[`seo_title_${l}`]))
+  const description = byLocale(it, (x, l) => text(x[`seo_description_${l}`]))
+  return title || description ? { title, description } : undefined
 }
 
 const items = await api('/items/posts?filter[status][_eq]=published&limit=-1&sort=-date')
@@ -87,6 +104,9 @@ for (const it of items) {
   }
   if (it.subtitle_pt || it.subtitle_en) post.subtitle = { pt: it.subtitle_pt || '', en: it.subtitle_en || '' }
   if (it.cover) post.cover = await downloadAsset(it.cover, `${it.cover}.webp`, 1200)
+  if (it.updated) post.updated = String(it.updated).slice(0, 10)
+  const extras = { keyPoints: byLocale(it, keyPoints), faq: byLocale(it, faq), seo: seo(it) }
+  for (const [k, v] of Object.entries(extras)) if (v) post[k] = v
   posts.push(post)
 }
 

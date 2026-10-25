@@ -576,6 +576,10 @@ export default {
     endCtaTitle: 'Questions about your case?',
     endCta: 'Book a consultation on WhatsApp',
     filterLabel: 'Filter articles by category',
+    keyPoints: 'Key takeaways',
+    updatedOn: 'Updated',
+    toc: 'In this article',
+    faqTitle: 'Frequently asked questions',
   },
 
   faq: {
