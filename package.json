@@ -8,7 +8,8 @@
     "build": "node scripts/fetch-posts.mjs && node scripts/fetch-home.mjs && vite-ssg build",
     "build:static": "node scripts/fetch-posts.mjs --skip && node scripts/fetch-home.mjs --skip && vite-ssg build",
     "preview": "vite preview --port 4173",
-    "assets": "node scripts/build-map.mjs && node scripts/optimize-images.mjs && node scripts/build-favicons.mjs"
+    "assets": "node scripts/build-map.mjs && node scripts/optimize-images.mjs && node scripts/build-favicons.mjs && node scripts/optimize-blog-images.mjs",
+    "blog:imagens": "node scripts/gerar-imagens-blog.mjs && node scripts/optimize-blog-images.mjs"
   },
   "dependencies": {
     "@fontsource-variable/instrument-sans": "^5.3.0",

@@ -11,3 +11,6 @@ public/img/cms/
 # Deploy
 .env
 deploy/data/
+
+# Originais das imagens do blog (ComfyUI, ~3 MB cada): no git ficam só os prompts e os WebP de public/img/blog/
+assets-src/blog/*.png
