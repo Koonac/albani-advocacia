@@ -48,9 +48,14 @@ function booking() {
   return { url, msg: `botão de agendar: ${url}` }
 }
 
+// Falha de rede conta como "sem imagem": um YouTube fora do ar não pode impedir a publicação do site
 async function download(url, init) {
-  const r = await fetch(url, init)
-  return r.ok ? Buffer.from(await r.arrayBuffer()) : null
+  try {
+    const r = await fetch(url, init)
+    return r.ok ? Buffer.from(await r.arrayBuffer()) : null
+  } catch {
+    return null
+  }
 }
 
 async function video() {
@@ -83,8 +88,8 @@ async function writeThumbs(source, name) {
 }
 
 // "Outros vídeos": miniaturas abaixo do vídeo principal. Título em branco = o do YouTube (oEmbed).
-// Item sem link não aparece. Link inválido, repetido ou vídeo indisponível (privado/removido) é
-// ignorado com aviso, sem quebrar o build.
+// Item sem link não aparece. Link inválido, igual ao vídeo principal, repetido ou vídeo
+// indisponível (privado/removido) é ignorado com aviso, sem quebrar o build.
 async function extraVideos(mainId) {
   const seen = new Set([mainId ?? CONTACT.videoId])
   const videos = []
@@ -95,7 +100,10 @@ async function extraVideos(mainId) {
       console.warn(`[cms] outro vídeo com link inválido ("${item?.url ?? ''}"): ignorado`)
       continue
     }
-    if (seen.has(id)) continue
+    if (seen.has(id)) {
+      console.warn(`[cms] outro vídeo ${id}: igual ao vídeo principal ou repetido na lista, ignorado`)
+      continue
+    }
     seen.add(id)
     const source = (await download(`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`)) ?? (await download(`https://i.ytimg.com/vi/${id}/hqdefault.jpg`))
     if (!source) {
@@ -110,8 +118,12 @@ async function extraVideos(mainId) {
 
 async function videoTitle(id, custom) {
   if (custom?.trim()) return custom.trim()
-  const r = await fetch(`https://www.youtube.com/oembed?format=json&url=${encodeURIComponent(`https://www.youtube.com/watch?v=${id}`)}`)
-  return r.ok ? (await r.json()).title : ''
+  try {
+    const r = await fetch(`https://www.youtube.com/oembed?format=json&url=${encodeURIComponent(`https://www.youtube.com/watch?v=${id}`)}`)
+    return r.ok ? (await r.json()).title : ''
+  } catch {
+    return ''
+  }
 }
 
 // Avaliações do Google: nota/total inválidos ou vazios ficam fora do JSON (vale CONTACT.rating);

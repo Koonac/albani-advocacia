@@ -19,13 +19,12 @@ export default defineConfig({
     formatting: 'none',
     script: 'async',
     onFinished() {
-      // sitemap.xml com alternates hreflang PT/EN; artigos usam a própria data, páginas a do build
-      const today = new Date().toISOString().slice(0, 10)
+      // sitemap.xml com alternates hreflang PT/EN. lastmod só nos artigos, que têm data real: a data
+      // do build mudaria a cada publicação em todas as páginas, e o Google passa a ignorar o campo
       const urls = allRoutePairs()
         .flatMap(({ pt, en, date }) => [pt, en].map((loc) => ({ loc, pt, en, date })))
         .map(({ loc, pt, en, date }) => `  <url>
-    <loc>${SITE_URL}${loc}</loc>
-    <lastmod>${date ?? today}</lastmod>
+    <loc>${SITE_URL}${loc}</loc>${date ? `\n    <lastmod>${date}</lastmod>` : ''}
     <xhtml:link rel="alternate" hreflang="pt" href="${SITE_URL}${pt}"/>
     <xhtml:link rel="alternate" hreflang="en" href="${SITE_URL}${en}"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL}${pt}"/>

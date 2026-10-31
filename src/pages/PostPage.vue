@@ -238,6 +238,10 @@ useSeo(() => {
               <AppIcon :name="hasBooking ? 'calendar' : 'whatsapp'" :size="20" />{{ hasBooking ? c.ui.book : c.blog.endCta }}
             </a>
           </div>
+          <p class="mt-4 text-sm leading-relaxed text-mist">
+            <RouterLink :to="lp('about')" class="link-brass">{{ c.blog.authorName }}</RouterLink>
+            {{ c.blog.authorNote.before }}<RouterLink :to="lp('home')" class="link-brass">{{ c.blog.authorNote.link }}</RouterLink>{{ c.blog.authorNote.after }}
+          </p>
         </aside>
 
         <aside v-if="showToc" class="toc-aside hidden xl:block">

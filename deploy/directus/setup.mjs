@@ -260,6 +260,29 @@ async function loadedExtensions() {
   return new Set(extensions.filter((e) => e.meta?.enabled !== false).map((e) => e.schema?.name ?? e.name))
 }
 
+// Colunas da lista de posts. O painel só escolhe sozinho campos soltos, e o título fica dentro do
+// grupo do idioma: sem isto a lista não mostra de qual post se trata. A vista global vale para
+// quem ainda não tem a sua; a vista pessoal (gravada ao abrir a lista) tem prioridade sobre ela,
+// por isso as que estão sem o título também são corrigidas. As demais ficam como a pessoa deixou.
+const POST_COLUMNS = ['title_pt', 'category', 'status', 'date', 'updated']
+
+async function ensurePostColumns() {
+  const views = await api('GET', '/presets?filter[collection][_eq]=posts&filter[bookmark][_null]=true&limit=-1&fields=id,user,role,layout_query,layout_options')
+  const withColumns = (view) => ({
+    layout: 'tabular',
+    layout_query: { ...view?.layout_query, tabular: { sort: ['-date'], page: 1, ...view?.layout_query?.tabular, fields: POST_COLUMNS } },
+    layout_options: { ...view?.layout_options, tabular: { ...view?.layout_options?.tabular, widths: { title_pt: 460 } } },
+  })
+
+  const shared = views.find((v) => !v.user && !v.role)
+  if (shared) await api('PATCH', `/presets/${shared.id}`, withColumns(shared))
+  else await api('POST', '/presets', { collection: 'posts', user: null, role: null, ...withColumns() })
+
+  const personal = views.filter((v) => v.user && !v.layout_query?.tabular?.fields?.includes('title_pt'))
+  for (const view of personal) await api('PATCH', `/presets/${view.id}`, withColumns(view))
+  console.log(`lista de posts: título na primeira coluna (${personal.length} vista(s) pessoal(is) corrigida(s))`)
+}
+
 // Português e English em abas, com a interface "Abas" (deploy/directus/extensions/abas-de-grupo).
 // Vale também para instalações antigas, em que os dois grupos ficavam soltos, um embaixo do outro.
 // Sem a extensão carregada, ficam como antes: dois grupos recolhíveis, já abertos.
@@ -419,7 +442,7 @@ const HOME_FIELDS = [
         ],
       },
       translations: pt('Outros vídeos'),
-      note: 'Aparecem em miniatura abaixo do vídeo principal; ao clicar, o vídeo toca no lugar dele. Arraste para mudar a ordem.',
+      note: 'Aparecem em miniatura abaixo do vídeo principal; ao clicar, o vídeo toca no lugar dele. Use vídeos públicos, diferentes do principal e entre si: repetidos não aparecem. Arraste para mudar a ordem.',
       sort: 3,
       width: 'full',
     },
@@ -568,8 +591,8 @@ async function ensureHome() {
   const existing = new Set((await api('GET', '/fields/pagina_inicial')).map((f) => f.field))
   for (const def of HOME_FIELDS) {
     if (existing.has(def.field)) {
-      // Instalações antigas: reaplica a ordem (campos novos entram no meio)
-      await api('PATCH', `/fields/pagina_inicial/${def.field}`, { meta: { sort: def.meta.sort } })
+      // Instalações antigas: reaplica a ordem (campos novos entram no meio) e a orientação do campo
+      await api('PATCH', `/fields/pagina_inicial/${def.field}`, { meta: { sort: def.meta.sort, note: def.meta.note } })
       continue
     }
     await api('POST', '/fields/pagina_inicial', def)
@@ -923,6 +946,7 @@ await ensureBranding()
 await ensureCollection()
 await ensureSlugInterface()
 await ensureLanguageTabs()
+await ensurePostColumns()
 await ensureHome()
 await ensureBio()
 const editorRole = await ensureRole({

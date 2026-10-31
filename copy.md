@@ -80,7 +80,7 @@
 ### Destaque Golden Visa
 - Eyebrow: Autorização de Residência para Investimento
 - Título: **Golden Visa: residência europeia para quem investe em Portugal.**
-- Texto: Para quem investe a partir de 500 mil euros em Portugal, a Autorização de Residência para Investimento abre o caminho para a nacionalidade portuguesa após 5 anos, sem obrigação de morar no país. Basta vir a Portugal pelo menos uma vez por ano.
+- Texto: Para quem investe a partir de 500 mil euros em Portugal, a Autorização de Residência para Investimento dá residência sem obrigação de morar no país: basta vir a Portugal pelo menos uma vez por ano. O tempo de residência legal pode abrir o caminho para a nacionalidade portuguesa, hoje com prazo de 7 anos para brasileiros.
 - Bullets:
   - Residência para você e a sua família
   - Circulação livre no espaço Schengen

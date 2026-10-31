@@ -1,22 +1,52 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useSite } from '../composables/useSite.js'
-import { useSeo } from '../composables/useSeo.js'
-import { CONTACT } from '../config/site.js'
+import { useSeo, orgJsonLd } from '../composables/useSeo.js'
+import { CONTACT, SITE_URL } from '../config/site.js'
+import { postPath } from '../config/routes-map.js'
 import { HOME_VIDEO, HOME_VIDEOS, REVIEWS } from '../content/home.js'
+import { POSTS } from '../content/posts/index.js'
 import AppIcon from '../components/AppIcon.vue'
 import AppDialog from '../components/AppDialog.vue'
+import FaqList from '../components/FaqList.vue'
 import HeroMap from '../components/HeroMap.vue'
 import VideoFacade from '../components/VideoFacade.vue'
 import ReviewsCarousel from '../components/ReviewsCarousel.vue'
 
-const { c, locale, wa, book, bookService, hasBooking, rating } = useSite()
+const { c, locale, lp, wa, book, bookService, hasBooking, rating } = useSite()
 
 // Depoimentos do CMS (sem texto em inglês, a versão EN mostra o português); sem CMS, os da copy
 const reviews = computed(() =>
   REVIEWS ? REVIEWS.map((r) => ({ author: r.author, text: (locale.value === 'en' && r.en) || r.pt })) : c.value.home.reviews.items,
 )
-useSeo(() => ({ key: 'home', title: c.value.meta.home.title, description: c.value.meta.home.description }))
+useSeo(() => {
+  const org = orgJsonLd(locale.value)
+  return {
+    key: 'home',
+    title: c.value.meta.home.title,
+    description: c.value.meta.home.description,
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@graph': [
+        ...org['@graph'],
+        {
+          '@type': 'FAQPage',
+          '@id': `${SITE_URL}${lp('home')}#perguntas`,
+          inLanguage: locale.value === 'en' ? 'en' : 'pt-BR',
+          mainEntity: c.value.home.faq.items.map((i) => ({ '@type': 'Question', name: i.q, acceptedAnswer: { '@type': 'Answer', text: i.a } })),
+        },
+      ],
+    },
+  }
+})
+
+// Guias do blog na home: cada um é um link interno direto para o artigo (o título vem da copy)
+const guides = computed(() =>
+  c.value.home.guide.guides.flatMap((g) => {
+    const post = POSTS.find((p) => p.slug.pt === g.slug)
+    return post ? [{ label: g.label, to: postPath(post, locale.value) }] : []
+  }),
+)
 
 // Modal de serviço: guarda o índice (e não o objeto) para acompanhar a troca de idioma
 const serviceDialog = ref(null)
@@ -178,6 +208,32 @@ function pickVideo(i) {
     </dl>
   </section>
 
+  <!-- APRESENTAÇÃO: quem é o escritório + guias do blog (links internos para os artigos) -->
+  <section class="section !py-14 lg:!py-20" aria-labelledby="guia-title">
+    <div class="container-site grid gap-10 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-7">
+        <p class="eyebrow">{{ c.home.guide.eyebrow }}</p>
+        <h2 id="guia-title" class="mt-6 text-[2rem] leading-tight text-ivory sm:text-[2.5rem]">{{ c.home.guide.title }}</h2>
+        <p v-for="(p, i) in c.home.guide.paragraphs" :key="i" class="mt-5 max-w-2xl leading-relaxed text-ivory/85">{{ p }}</p>
+        <p class="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+          <RouterLink :to="lp('areas')" class="link-brass font-semibold">{{ c.home.guide.areasLink }}</RouterLink>
+          <RouterLink :to="lp('about')" class="link-brass font-semibold">{{ c.home.guide.aboutLink }}</RouterLink>
+        </p>
+      </div>
+      <nav class="lg:col-span-5" aria-labelledby="guias-title">
+        <h3 id="guias-title" class="font-display text-[1.35rem] text-brass-text">{{ c.home.guide.guidesTitle }}</h3>
+        <ul class="mt-3 border-t border-slate-line">
+          <li v-for="g in guides" :key="g.to" class="border-b border-slate-line">
+            <RouterLink :to="g.to" class="group flex items-center justify-between gap-4 py-2.5 text-[0.95rem] text-ivory/90 transition-colors hover:text-brass-light">
+              <span>{{ g.label }}</span>
+              <AppIcon name="arrow" :size="15" class="shrink-0 text-brass/50 transition-colors group-hover:text-brass-light" />
+            </RouterLink>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+
   <!-- DORES -->
   <section class="section relative isolate overflow-hidden" aria-labelledby="dores-title">
     <img
@@ -220,7 +276,7 @@ function pickVideo(i) {
   </section>
 
   <!-- ÁREAS DE ATUAÇÃO (grade 3x2; cada cartão abre o modal do serviço) -->
-  <section id="servicos" class="section" aria-labelledby="areas-title">
+  <section id="servicos" class="section border-y border-slate-line/70 bg-slate-deep/70 !py-12 lg:!py-16" aria-labelledby="areas-title">
     <div class="container-site">
       <div class="mb-8 md:mb-11 md:flex md:items-end md:justify-between md:gap-14">
         <div>
@@ -279,6 +335,15 @@ function pickVideo(i) {
       <div class="mt-12">
         <ReviewsCarousel :items="reviews" :source-label="c.ui.reviewsFrom" />
       </div>
+    </div>
+  </section>
+
+  <!-- PERGUNTAS (também entram no JSON-LD FAQPage, no useSeo acima) -->
+  <section id="perguntas" class="section !pt-0 !pb-14 lg:!pb-20" aria-labelledby="perguntas-title">
+    <div class="container-site max-w-4xl">
+      <h2 id="perguntas-title" class="mb-8 text-[2rem] leading-tight text-ivory sm:text-[2.5rem]">{{ c.home.faq.title }}</h2>
+      <FaqList :items="c.home.faq.items" />
+      <RouterLink :to="lp('faq')" class="link-brass mt-7 inline-block font-semibold">{{ c.home.faq.link }}</RouterLink>
     </div>
   </section>
 

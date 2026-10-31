@@ -1,5 +1,5 @@
 <script setup>
-// Mapa-múndi pontilhado + arcos animados Brasil · EUA · Portugal.
+// Mapa-múndi pontilhado + arcos animados Brasil · EUA · Portugal, com sinais nos dois sentidos.
 // - Pontos de terra: SVG estático pré-gerado (scripts/build-map.mjs) servido como <img> (cacheável,
 //   zero JS de geografia no runtime).
 // - Arcos, cometas e pulsos: SVG inline leve, animado só com CSS (GPU-friendly).
@@ -31,10 +31,22 @@ function arc(a, b, bend = 0.28) {
   return `M${a.x} ${a.y} Q${(mx + nx * k).toFixed(1)} ${(my + ny * k).toFixed(1)} ${b.x} ${b.y}`
 }
 
+// Os três países se comunicam: cada arco tem um sinal em cada sentido. Os 6 sinais saem a cada 0.8s;
+// os dois de um mesmo arco, com meio ciclo (2.4s) de diferença, para se cruzarem no caminho.
+const link = (id, a, b, bend, delay, i, back = false) => ({
+  id,
+  d: arc(a, b, bend),
+  delay,
+  back,
+  signals: [
+    { d: arc(a, b, bend), wait: 2.4 + i * 0.8 },
+    { d: arc(b, a, bend), wait: 4.8 + i * 0.8 },
+  ],
+})
 const arcs = [
-  { id: 'br-pt', d: arc(P.br, P.pt, 0.22), delay: 0 },
-  { id: 'us-pt', d: arc(P.us, P.pt, 0.2), delay: 0.35, back: true },
-  { id: 'br-us', d: arc(P.br, P.us, 0.2), delay: 0.7 },
+  link('br-pt', P.br, P.pt, 0.22, 0, 0),
+  link('us-pt', P.us, P.pt, 0.2, 0.35, 1, true),
+  link('br-us', P.br, P.us, 0.2, 0.7, 2),
 ]
 // EUA–Portugal passa por trás da cabeça; os outros dois arcos ficam sobre a foto
 const backArcs = arcs.filter((a) => a.back)
@@ -80,8 +92,10 @@ onBeforeUnmount(() => {
     <svg :viewBox="`0 0 ${W} ${H}`" class="absolute inset-0 h-full w-full overflow-visible">
       <g v-for="a in backArcs" :key="a.id" :style="{ '--d': `${a.delay}s` }">
         <path :d="a.d" pathLength="1000" class="arc-base" stroke="url(#arcGrad)" />
-        <path :d="a.d" pathLength="1000" class="arc-comet-glow" />
-        <path :d="a.d" pathLength="1000" class="arc-comet" />
+        <g v-for="s in a.signals" :key="s.wait" :style="{ '--wait': `${s.wait}s` }">
+          <path :d="s.d" pathLength="1000" class="arc-comet-glow" />
+          <path :d="s.d" pathLength="1000" class="arc-comet" />
+        </g>
       </g>
     </svg>
   </div>
@@ -104,8 +118,10 @@ onBeforeUnmount(() => {
       </defs>
       <g v-for="a in frontArcs" :key="a.id" :style="{ '--d': `${a.delay}s` }">
         <path :d="a.d" pathLength="1000" class="arc-base" stroke="url(#arcGrad)" />
-        <path :d="a.d" pathLength="1000" class="arc-comet-glow" />
-        <path :d="a.d" pathLength="1000" class="arc-comet" />
+        <g v-for="s in a.signals" :key="s.wait" :style="{ '--wait': `${s.wait}s` }">
+          <path :d="s.d" pathLength="1000" class="arc-comet-glow" />
+          <path :d="s.d" pathLength="1000" class="arc-comet" />
+        </g>
       </g>
       <g v-for="(p, i) in points" :key="p.id" :style="{ '--d': `${i * 0.6}s` }">
         <circle :cx="p.x" :cy="p.y" :r="p.main ? 72 : 62" fill="url(#glow)" class="pt-glow" />
@@ -194,10 +210,10 @@ onBeforeUnmount(() => {
 .arc-comet { stroke: #fff1c8; stroke-width: 3; }
 .arc-comet-glow { stroke: #e8cf8e; stroke-width: 10.5; }
 .is-live .arc-comet {
-  animation: comet 4.8s cubic-bezier(0.45, 0, 0.25, 1) calc(2.4s + var(--d) * 2.6) infinite;
+  animation: comet 4.8s cubic-bezier(0.45, 0, 0.25, 1) var(--wait) infinite;
 }
 .is-live .arc-comet-glow {
-  animation: comet-glow 4.8s cubic-bezier(0.45, 0, 0.25, 1) calc(2.4s + var(--d) * 2.6) infinite;
+  animation: comet-glow 4.8s cubic-bezier(0.45, 0, 0.25, 1) var(--wait) infinite;
 }
 @keyframes comet {
   0% { stroke-dashoffset: 1070; opacity: 0; }

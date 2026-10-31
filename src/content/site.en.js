@@ -109,7 +109,7 @@ export default {
 
   footer: {
     signature:
-      'Law firm focused on immigration and corporate law. Practising in Brazil 🇧🇷, the USA 🇺🇸 and Portugal 🇵🇹.',
+      'Lawyer in Portugal for Brazilians. A firm focused on immigration and corporate law, practising in Brazil 🇧🇷, the USA 🇺🇸 and Portugal 🇵🇹.',
     credentials: 'Dr. Ivan Albani · Portuguese Bar licence OA 67498E · OAB/SC 62.722',
     address: 'Estrada Nacional 379, Hab. 1, São Julião, 2950-302 Palmela, Portugal',
     whatsappPT: 'WhatsApp Portugal',
@@ -128,11 +128,11 @@ export default {
   home: {
     hero: {
       eyebrow: 'Brazil · Portugal · United States',
-      headline: 'Your next step starts with',
-      headlineEm: 'sound legal guidance.',
+      headline: 'Lawyer in Portugal',
+      headlineEm: 'for Brazilians.',
       lead: 'To live and do business in Portugal or the United States.',
       description:
-        'Immigration, nationality and business in Portugal. Immigrant and non-immigrant visas and LLC formation in the United States.',
+        'Your next step starts with sound legal guidance: immigration, nationality and business in Portugal, with a lawyer admitted to the Portuguese and Brazilian Bars. Also US visas and LLC formation.',
       ctaSecondary: 'Talk to the firm',
       credential: 'Lawyer admitted in Brazil and Portugal',
       credentialNumbers: 'OA 67498E · OAB/SC 62.722',
@@ -156,6 +156,27 @@ export default {
       { strong: 'Dual admission', text: 'Portuguese Bar Association (OA-PT) and Brazilian Bar Association (OAB-SC)' },
       { strong: 'Service', text: 'in Portuguese and English' },
     ],
+    guide: {
+      eyebrow: 'For Brazilians in Portugal',
+      title: 'A Brazilian lawyer in Portugal, admitted in both countries.',
+      paragraphs: [
+        'Living in Portugal, securing residence, applying for citizenship or opening a company involves Portuguese rules and, almost always, Brazilian documents. Albani Advocacia is a law firm in Portugal for Brazilians who need guidance along the way, whether still in Brazil or already in Portugal.',
+        'Dr. Ivan Albani is Brazilian, has lived in Portugal since 2022 and is admitted to the Portuguese Bar (67498E) and the Brazilian Bar OAB/SC (62.722). He knows this move first-hand because he made it himself. The firm works in Portuguese and English, and its office is in Palmela, in the Setúbal district.',
+      ],
+      areasLink: 'See all practice areas →',
+      aboutLink: 'Meet Dr. Ivan →',
+      guidesTitle: 'Guides for Brazilians in Portugal',
+      guides: [
+        { slug: 'visto-d7-ou-d8-qual-e-o-certo-para-voce', label: 'D7 and D8 visas: which to choose' },
+        { slug: 'processo-parado-na-aima-o-que-fazer', label: 'Stalled AIMA application' },
+        { slug: 'nacionalidade-portuguesa-para-netos-de-portugueses', label: 'Portuguese nationality for grandchildren' },
+        { slug: 'golden-visa-portugal-residencia-por-investimento', label: 'Golden Visa in Portugal' },
+        { slug: 'apostila-de-haia-quando-precisa-e-como-pedir', label: 'Hague apostille for Brazilian documents' },
+        { slug: 'troca-carta-de-conducao-brasileira-em-portugal', label: 'Exchanging a Brazilian licence in Portugal' },
+        { slug: 'abrir-empresa-em-portugal-sendo-brasileiro', label: 'Opening a company in Portugal as a Brazilian' },
+        { slug: 'holding-em-portugal-quando-faz-sentido', label: 'Holding company in Portugal' },
+      ],
+    },
     pains: {
       title: 'Do any of these situations sound familiar?',
       items: [
@@ -231,7 +252,7 @@ export default {
     golden: {
       eyebrow: 'Residence Permit for Investment',
       title: 'Golden Visa: European residence for those who invest in Portugal.',
-      text: 'For those investing from 500 thousand euros in Portugal, the Residence Permit for Investment opens the path to Portuguese nationality after 5 years, with no obligation to live in the country. You only need to come to Portugal at least once a year.',
+      text: 'For those investing from 500 thousand euros in Portugal, the Residence Permit for Investment grants residence with no obligation to live in the country: one visit a year is enough. Time spent as a legal resident can open the path to Portuguese nationality, now a 7-year period for Brazilians.',
       bullets: [
         'Residence for you and your family',
         'Free movement within the Schengen area',
@@ -262,6 +283,28 @@ export default {
         {
           title: 'Get ongoing support',
           text: 'Once hired, we carry out the agreed stages and guide you on documents, next steps and the progress of your case.',
+        },
+      ],
+    },
+    faq: {
+      title: 'Questions from people looking for a lawyer in Portugal',
+      link: 'See all frequently asked questions →',
+      items: [
+        {
+          q: 'What does a lawyer in Portugal for Brazilians do?',
+          a: 'They guide and support Brazilians with visas, residence permits, AIMA cases, Portuguese citizenship, documents, companies and property, applying Portuguese law and handling the documents that come from Brazil.',
+        },
+        {
+          q: 'Can a Brazilian lawyer practise in Portugal?',
+          a: 'To practise law in Portugal, you must be admitted to the Portuguese Bar. Dr. Ivan Albani holds that admission (licence 67498E) as well as the Brazilian one, OAB/SC (62.722).',
+        },
+        {
+          q: 'Do I need a lawyer to apply for a visa or residence in Portugal?',
+          a: 'As a rule, it is not mandatory. Legal support helps you choose the right route, prepare the documents and act when a case stalls or an application is refused.',
+        },
+        {
+          q: 'Can I contact the firm from Brazil?',
+          a: 'Yes. You can reach us on the Brazilian WhatsApp (+55 48 98458-6987), the Portuguese WhatsApp (+351 931 759 247) or by email (juridico@albaniadv.com).',
         },
       ],
     },
@@ -326,7 +369,7 @@ export default {
       title: 'Dr. Ivan Albani',
       credentials: 'OA 67498E · OAB/SC 62.722',
       paragraphs: [
-        'I am a lawyer admitted in Brazil and in Portugal, practising immigration and business law.',
+        'I am a Brazilian lawyer admitted in Brazil and in Portugal, practising immigration and business law.',
         'My path also includes the experience of starting over in another country. As an immigrant, I know first-hand the questions and decisions that come with that move.',
         'At Albani Advocacia, that experience adds to the legal work to guide individuals, families and entrepreneurs with clarity and responsibility.',
       ],
@@ -381,7 +424,7 @@ export default {
 
   areas: {
     headline: 'Practice areas',
-    intro: 'Comprehensive legal services for individuals and companies who live, invest or do business between Brazil and Portugal.',
+    intro: 'Comprehensive legal services for Brazilians and companies who live, invest or do business between Brazil and Portugal.',
     serviceCta: 'Talk about this service',
     alsoLabel: 'Also',
     filterAll: 'All',
@@ -580,6 +623,7 @@ export default {
     endCtaTitle: 'Questions about your case?',
     endCta: 'Book a consultation on WhatsApp',
     filterLabel: 'Filter articles by category',
+    authorNote: { before: 'is a ', link: 'lawyer in Portugal for Brazilians', after: ', admitted to the Portuguese Bar (67498E) and the Brazilian Bar OAB/SC (62.722).' },
     keyPoints: 'Key takeaways',
     updatedOn: 'Updated',
     toc: 'In this article',
