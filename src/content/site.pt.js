@@ -7,14 +7,14 @@ export default {
     // Títulos até ~60 caracteres e descriptions até ~160, com as buscas principais no início.
     // `keywords` alimenta a meta keywords (ignorada pelo Google, lida por Bing e outros buscadores).
     home: {
-      title: 'Advogado em Portugal para Brasileiros | Albani Advocacia',
+      title: 'Advogado Internacional em Portugal | Albani Advocacia',
       description:
-        'Advogado em Portugal para brasileiros, inscrito na Ordem dos Advogados e na OAB: vistos D7 e D8, residência, nacionalidade portuguesa, AIMA e empresas.',
+        'Advogado internacional em Portugal, inscrito na OA e na OAB. Atendimento online a brasileiros e estrangeiros: vistos, residência, nacionalidade e empresas.',
       keywords:
-        'advogado em Portugal para brasileiros, advogado em Portugal, advogado brasileiro em Portugal, advogado de imigração Portugal, morar em Portugal, visto para Portugal, visto D7, visto D8, nacionalidade portuguesa, autorização de residência, AIMA, abrir empresa em Portugal',
+        'advogado internacional, advogado internacional em Portugal, advogado em Portugal, advogado Portugal, advogado online Portugal, advogado em Portugal para brasileiros, advogado brasileiro em Portugal, advogado de imigração Portugal, morar em Portugal, visto para Portugal, visto D7, visto D8, nacionalidade portuguesa, autorização de residência, AIMA, abrir empresa em Portugal',
     },
     about: {
-      title: 'Dr. Ivan Albani | Advogado Brasileiro em Portugal',
+      title: 'Dr. Ivan Albani | Advogado em Portugal e no Brasil',
       description:
         'Conheça o Dr. Ivan Albani, advogado brasileiro em Portugal, inscrito na Ordem dos Advogados (67498E) e na OAB/SC (62.722): imigração e direito empresarial.',
       keywords:
@@ -49,7 +49,7 @@ export default {
         'contato advogado Portugal, consulta advogado imigração, advogado Palmela, advogado Setúbal, WhatsApp advogado Portugal',
     },
     bio: {
-      title: 'Dr. Ivan Albani | Advogado em Portugal para brasileiros',
+      title: 'Dr. Ivan Albani | Advogado Internacional em Portugal',
       description: 'Agende uma consulta, fale no WhatsApp e acesse os guias sobre vistos, residência, nacionalidade e empresas em Portugal.',
     },
     // Meta keywords dos artigos, por categoria (somadas ao título do artigo)
@@ -114,7 +114,7 @@ export default {
 
   footer: {
     signature:
-      'Advogado em Portugal para brasileiros. Escritório com foco em direito imigratório e empresarial, com atuação no Brasil 🇧🇷, nos EUA 🇺🇸 e em Portugal 🇵🇹.',
+      'Advogado internacional em Portugal. Escritório com foco em direito imigratório e empresarial, com atuação no Brasil 🇧🇷, nos EUA 🇺🇸 e em Portugal 🇵🇹.',
     credentials: 'Dr. Ivan Albani · Cédula Profissional OA 67498E · OAB/SC 62.722',
     address: 'Estrada Nacional 379, Hab. 1, São Julião, 2950-302 Palmela, Portugal',
     whatsappPT: 'WhatsApp Portugal',
@@ -133,8 +133,8 @@ export default {
   home: {
     hero: {
       eyebrow: 'Brasil · Portugal · Estados Unidos',
-      headline: 'Advogado em Portugal',
-      headlineEm: 'para brasileiros.',
+      headline: 'Advogado internacional',
+      headlineEm: 'em Portugal.',
       lead: 'Para viver e empreender em Portugal ou nos Estados Unidos.',
       description:
         'Seu próximo passo começa com orientação jurídica: imigração, nacionalidade e negócios em Portugal, com advogado inscrito na Ordem dos Advogados e na OAB. Também vistos e abertura de LLC nos Estados Unidos.',
@@ -163,15 +163,15 @@ export default {
     ],
     // Apresentação com o termo principal de busca e links para os guias do blog (caminho do Google até eles)
     guide: {
-      eyebrow: 'Para brasileiros em Portugal',
+      eyebrow: 'Para brasileiros e estrangeiros em Portugal',
       title: 'Advogado brasileiro em Portugal, inscrito nos dois países.',
       paragraphs: [
-        'Viver, regularizar a residência, pedir a nacionalidade ou abrir uma empresa em Portugal envolve regras portuguesas e, quase sempre, documentos brasileiros. A Albani Advocacia é um escritório de advocacia em Portugal para brasileiros que precisam de orientação nesse caminho, ainda no Brasil ou já em território português.',
+        'Viver, regularizar a residência, pedir a nacionalidade ou abrir uma empresa em Portugal envolve regras portuguesas e documentos do país de origem. A Albani Advocacia é um escritório de advocacia internacional em Portugal que orienta brasileiros e clientes de outras nacionalidades nesse caminho, ainda no país de origem ou já em território português.',
         'O Dr. Ivan Albani é brasileiro, vive em Portugal desde 2022 e está inscrito na Ordem dos Advogados portuguesa (67498E) e na OAB/SC (62.722). Conhece a mudança de perto, porque também passou por ela. O atendimento é em português e inglês, e o escritório fica em Palmela, no distrito de Setúbal.',
       ],
       areasLink: 'Ver todas as áreas de atuação →',
       aboutLink: 'Conhecer o Dr. Ivan →',
-      guidesTitle: 'Guias para brasileiros em Portugal',
+      guidesTitle: 'Guias para quem quer viver em Portugal',
       // slug PT do artigo; artigo que sair do blog simplesmente some da lista
       guides: [
         { slug: 'visto-d7-ou-d8-qual-e-o-certo-para-voce', label: 'Vistos D7 e D8: qual escolher' },
@@ -299,8 +299,8 @@ export default {
       link: 'Ver todas as perguntas frequentes →',
       items: [
         {
-          q: 'O que faz um advogado em Portugal para brasileiros?',
-          a: 'Orienta e acompanha brasileiros em vistos, autorização de residência, processos na AIMA, nacionalidade portuguesa, documentos, empresas e imóveis, aplicando a lei portuguesa e cuidando dos documentos que vêm do Brasil.',
+          q: 'O que faz um advogado internacional em Portugal?',
+          a: 'Orienta e acompanha brasileiros e estrangeiros em vistos, autorização de residência, processos na AIMA, nacionalidade portuguesa, documentos, empresas e imóveis, aplicando a lei portuguesa e cuidando dos documentos que vêm do país de origem, como o Brasil.',
         },
         {
           q: 'Um advogado brasileiro pode atuar em Portugal?',
@@ -432,7 +432,7 @@ export default {
 
   areas: {
     headline: 'Áreas de atuação',
-    intro: 'Serviços jurídicos completos para brasileiros e empresas que vivem, investem ou empreendem entre Brasil e Portugal.',
+    intro: 'Serviços jurídicos completos para brasileiros, estrangeiros e empresas que vivem, investem ou empreendem em Portugal, no Brasil e nos Estados Unidos.',
     serviceCta: 'Falar sobre este serviço',
     alsoLabel: 'Também',
     filterAll: 'Todos',
@@ -632,7 +632,7 @@ export default {
     endCta: 'Agendar consulta pelo WhatsApp',
     filterLabel: 'Filtrar artigos por categoria',
     // Nota de autoria no fim do artigo: `link` leva à página inicial
-    authorNote: { before: 'é ', link: 'advogado em Portugal para brasileiros', after: ', inscrito na Ordem dos Advogados (67498E) e na OAB/SC (62.722).' },
+    authorNote: { before: 'é ', link: 'advogado internacional em Portugal', after: ', inscrito na Ordem dos Advogados (67498E) e na OAB/SC (62.722).' },
     keyPoints: 'Pontos-chave',
     updatedOn: 'Atualizado em',
     toc: 'Neste artigo',
@@ -930,7 +930,7 @@ export default {
 
   contact: {
     headline: 'Vamos conversar sobre o seu caso.',
-    intro: 'Atendemos brasileiros em Portugal e no Brasil. Respondemos com rapidez: escolha o canal mais conveniente.',
+    intro: 'Atendemos brasileiros e clientes de todas as nacionalidades, em Portugal e no Brasil. Respondemos com rapidez: escolha o canal mais conveniente.',
     cards: [
       { key: 'waPT', title: 'WhatsApp Portugal', value: '+351 931 759 247', button: 'Conversar agora' },
       { key: 'waBR', title: 'WhatsApp Brasil', value: '+55 48 98458-6987', button: 'Conversar agora' },

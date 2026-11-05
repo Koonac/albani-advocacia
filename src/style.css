@@ -228,8 +228,8 @@
     background: linear-gradient(90deg, rgba(140, 106, 46, 0), rgba(201, 165, 90, 0.7) 30%, rgba(232, 207, 142, 0.9) 50%, rgba(201, 165, 90, 0.7) 70%, rgba(140, 106, 46, 0));
   }
 
-  .section { padding-block: 5rem; }
-  @media (min-width: 1024px) { .section { padding-block: 7.5rem; } }
+  .section { padding-block: 4rem; }
+  @media (min-width: 1024px) { .section { padding-block: 6rem; } }
 
   /* Corpo de artigo — coluna mais larga e tipografia confortável para leitura */
   .prose-albani {

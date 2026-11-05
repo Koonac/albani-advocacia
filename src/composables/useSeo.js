@@ -77,12 +77,15 @@ export function orgJsonLd(locale) {
         ],
         description:
           locale === 'en'
-            ? 'Lawyer in Portugal for Brazilians, admitted to the Portuguese Bar (OA) and the Brazilian Bar (OAB): visas, residence permits, Portuguese citizenship and companies.'
-            : 'Advogado em Portugal para brasileiros, inscrito na Ordem dos Advogados (OA) e na OAB: vistos, autorização de residência, nacionalidade portuguesa e empresas.',
-        // Público principal: brasileiros que moram ou querem morar/empreender em Portugal
+            ? 'International lawyer in Portugal, admitted to the Portuguese Bar (OA) and the Brazilian Bar (OAB), serving Brazilians and clients of every nationality online: visas, residence permits, Portuguese citizenship and companies.'
+            : 'Advogado internacional em Portugal, inscrito na Ordem dos Advogados (OA) e na OAB, com atendimento online a brasileiros e clientes de todas as nacionalidades: vistos, autorização de residência, nacionalidade portuguesa e empresas.',
+        // Público principal: brasileiros e estrangeiros que moram ou querem morar/empreender em Portugal
         audience: {
           '@type': 'Audience',
-          audienceType: locale === 'en' ? 'Brazilians living in or moving to Portugal' : 'Brasileiros que vivem ou querem viver em Portugal',
+          audienceType:
+            locale === 'en'
+              ? 'Brazilians and foreigners living in or moving to Portugal'
+              : 'Brasileiros e estrangeiros que vivem ou querem viver em Portugal',
           geographicArea: [
             { '@type': 'Country', name: 'Brasil' },
             { '@type': 'Country', name: 'Portugal' },
@@ -106,7 +109,7 @@ export function orgJsonLd(locale) {
         '@id': `${SITE_URL}/#ivan`,
         name: 'Ivan Albani',
         honorificPrefix: 'Dr.',
-        jobTitle: locale === 'en' ? 'Lawyer in Portugal for Brazilians' : 'Advogado em Portugal para brasileiros',
+        jobTitle: locale === 'en' ? 'International Lawyer in Portugal' : 'Advogado internacional em Portugal',
         knowsLanguage: ['pt-BR', 'pt-PT', 'en'],
         email: CONTACT.emailOrdem,
         worksFor: { '@id': `${SITE_URL}/#office` },

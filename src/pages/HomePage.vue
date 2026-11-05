@@ -154,7 +154,7 @@ function pickVideo(i) {
   </section>
 
   <!-- VÍDEO -->
-  <section class="section !pt-14 lg:!pt-20" aria-labelledby="video-title">
+  <section class="section !pt-12 lg:!pt-16" aria-labelledby="video-title">
     <div class="container-site grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-14">
       <div class="lg:col-span-4">
         <p class="kicker">{{ c.home.video.eyebrow }}</p>
@@ -209,7 +209,7 @@ function pickVideo(i) {
   </section>
 
   <!-- APRESENTAÇÃO: quem é o escritório + guias do blog (links internos para os artigos) -->
-  <section class="section !py-14 lg:!py-20" aria-labelledby="guia-title">
+  <section class="section !py-12 lg:!py-16" aria-labelledby="guia-title">
     <div class="container-site grid gap-10 lg:grid-cols-12 lg:gap-16">
       <div class="lg:col-span-7">
         <p class="eyebrow">{{ c.home.guide.eyebrow }}</p>
@@ -276,7 +276,7 @@ function pickVideo(i) {
   </section>
 
   <!-- ÁREAS DE ATUAÇÃO (grade 3x2; cada cartão abre o modal do serviço) -->
-  <section id="servicos" class="section border-y border-slate-line/70 bg-slate-deep/70 !py-12 lg:!py-16" aria-labelledby="areas-title">
+  <section id="servicos" class="section border-y border-slate-line/70 bg-slate-deep/70 !py-10 lg:!py-14" aria-labelledby="areas-title">
     <div class="container-site">
       <div class="mb-8 md:mb-11 md:flex md:items-end md:justify-between md:gap-14">
         <div>
@@ -339,7 +339,7 @@ function pickVideo(i) {
   </section>
 
   <!-- PERGUNTAS (também entram no JSON-LD FAQPage, no useSeo acima) -->
-  <section id="perguntas" class="section !pt-0 !pb-14 lg:!pb-20" aria-labelledby="perguntas-title">
+  <section id="perguntas" class="section !pt-0 !pb-12 lg:!pb-16" aria-labelledby="perguntas-title">
     <div class="container-site max-w-4xl">
       <h2 id="perguntas-title" class="mb-8 text-[2rem] leading-tight text-ivory sm:text-[2.5rem]">{{ c.home.faq.title }}</h2>
       <FaqList :items="c.home.faq.items" />

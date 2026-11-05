@@ -4,11 +4,11 @@ export default {
   meta: {
     siteName: 'Albani Advocacia',
     home: {
-      title: 'Portugal Immigration Lawyer | Albani Advocacia',
+      title: 'International Lawyer in Portugal | Albani Advocacia',
       description:
-        'Lawyer admitted to the Portuguese and Brazilian Bars: D7 and D8 visas, residence permits, Portuguese citizenship, AIMA cases and setting up a company in Portugal.',
+        'International lawyer in Portugal, admitted to the Portuguese and Brazilian Bars. Online consultations: visas, residence permits, citizenship and companies.',
       keywords:
-        'Portugal immigration lawyer, lawyer in Portugal, move to Portugal, Portugal visa, D7 visa, D8 digital nomad visa, Portuguese citizenship, residence permit Portugal, AIMA, company formation Portugal',
+        'international lawyer Portugal, international lawyer in Portugal, lawyer in Portugal, online lawyer Portugal, Portugal immigration lawyer,move to Portugal, Portugal visa, D7 visa, D8 digital nomad visa, Portuguese citizenship, residence permit Portugal, AIMA, company formation Portugal',
     },
     about: {
       title: 'Dr. Ivan Albani | Lawyer in Portugal and Brazil',
@@ -45,7 +45,7 @@ export default {
       keywords: 'contact lawyer Portugal, immigration lawyer consultation, lawyer Palmela, lawyer Setúbal, WhatsApp lawyer Portugal',
     },
     bio: {
-      title: 'Dr. Ivan Albani | Lawyer in Portugal for Brazilians',
+      title: 'Dr. Ivan Albani | International Lawyer in Portugal',
       description: 'Book a consultation, chat on WhatsApp and read the guides on visas, residence, citizenship and business in Portugal.',
     },
     categoryKeywords: {
@@ -109,7 +109,7 @@ export default {
 
   footer: {
     signature:
-      'Lawyer in Portugal for Brazilians. A firm focused on immigration and corporate law, practising in Brazil 🇧🇷, the USA 🇺🇸 and Portugal 🇵🇹.',
+      'International lawyer in Portugal. A firm focused on immigration and corporate law, practising in Brazil 🇧🇷, the USA 🇺🇸 and Portugal 🇵🇹.',
     credentials: 'Dr. Ivan Albani · Portuguese Bar licence OA 67498E · OAB/SC 62.722',
     address: 'Estrada Nacional 379, Hab. 1, São Julião, 2950-302 Palmela, Portugal',
     whatsappPT: 'WhatsApp Portugal',
@@ -128,8 +128,8 @@ export default {
   home: {
     hero: {
       eyebrow: 'Brazil · Portugal · United States',
-      headline: 'Lawyer in Portugal',
-      headlineEm: 'for Brazilians.',
+      headline: 'International lawyer',
+      headlineEm: 'in Portugal.',
       lead: 'To live and do business in Portugal or the United States.',
       description:
         'Your next step starts with sound legal guidance: immigration, nationality and business in Portugal, with a lawyer admitted to the Portuguese and Brazilian Bars. Also US visas and LLC formation.',
@@ -157,15 +157,15 @@ export default {
       { strong: 'Service', text: 'in Portuguese and English' },
     ],
     guide: {
-      eyebrow: 'For Brazilians in Portugal',
+      eyebrow: 'For Brazilians and foreigners in Portugal',
       title: 'A Brazilian lawyer in Portugal, admitted in both countries.',
       paragraphs: [
-        'Living in Portugal, securing residence, applying for citizenship or opening a company involves Portuguese rules and, almost always, Brazilian documents. Albani Advocacia is a law firm in Portugal for Brazilians who need guidance along the way, whether still in Brazil or already in Portugal.',
+        'Living in Portugal, securing residence, applying for citizenship or opening a company involves Portuguese rules and documents from your home country. Albani Advocacia is an international law firm in Portugal that guides Brazilians and clients of other nationalities along the way, whether still in their home country or already in Portugal.',
         'Dr. Ivan Albani is Brazilian, has lived in Portugal since 2022 and is admitted to the Portuguese Bar (67498E) and the Brazilian Bar OAB/SC (62.722). He knows this move first-hand because he made it himself. The firm works in Portuguese and English, and its office is in Palmela, in the Setúbal district.',
       ],
       areasLink: 'See all practice areas →',
       aboutLink: 'Meet Dr. Ivan →',
-      guidesTitle: 'Guides for Brazilians in Portugal',
+      guidesTitle: 'Guides for living in Portugal',
       guides: [
         { slug: 'visto-d7-ou-d8-qual-e-o-certo-para-voce', label: 'D7 and D8 visas: which to choose' },
         { slug: 'processo-parado-na-aima-o-que-fazer', label: 'Stalled AIMA application' },
@@ -291,8 +291,8 @@ export default {
       link: 'See all frequently asked questions →',
       items: [
         {
-          q: 'What does a lawyer in Portugal for Brazilians do?',
-          a: 'They guide and support Brazilians with visas, residence permits, AIMA cases, Portuguese citizenship, documents, companies and property, applying Portuguese law and handling the documents that come from Brazil.',
+          q: 'What does an international lawyer in Portugal do?',
+          a: 'They guide and support Brazilians and other foreigners with visas, residence permits, AIMA cases, Portuguese citizenship, documents, companies and property, applying Portuguese law and handling the documents that come from their home country, such as Brazil.',
         },
         {
           q: 'Can a Brazilian lawyer practise in Portugal?',
@@ -424,7 +424,7 @@ export default {
 
   areas: {
     headline: 'Practice areas',
-    intro: 'Comprehensive legal services for Brazilians and companies who live, invest or do business between Brazil and Portugal.',
+    intro: 'Comprehensive legal services for Brazilians, foreigners and companies who live, invest or do business in Portugal, Brazil and the United States.',
     serviceCta: 'Talk about this service',
     alsoLabel: 'Also',
     filterAll: 'All',
@@ -623,7 +623,7 @@ export default {
     endCtaTitle: 'Questions about your case?',
     endCta: 'Book a consultation on WhatsApp',
     filterLabel: 'Filter articles by category',
-    authorNote: { before: 'is a ', link: 'lawyer in Portugal for Brazilians', after: ', admitted to the Portuguese Bar (67498E) and the Brazilian Bar OAB/SC (62.722).' },
+    authorNote: { before: 'is a ', link: 'international lawyer in Portugal', after: ', admitted to the Portuguese Bar (67498E) and the Brazilian Bar OAB/SC (62.722).' },
     keyPoints: 'Key takeaways',
     updatedOn: 'Updated',
     toc: 'In this article',
@@ -920,7 +920,7 @@ export default {
 
   contact: {
     headline: 'Let’s talk about your case.',
-    intro: 'We reply quickly. Choose the most convenient channel.',
+    intro: 'We serve Brazilians and clients of every nationality, in Portugal and Brazil. We reply quickly. Choose the most convenient channel.',
     cards: [
       { key: 'waPT', title: 'WhatsApp Portugal', value: '+351 931 759 247', button: 'Chat now' },
       { key: 'waBR', title: 'WhatsApp Brazil', value: '+55 48 98458-6987', button: 'Chat now' },
