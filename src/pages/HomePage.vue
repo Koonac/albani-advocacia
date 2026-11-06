@@ -209,7 +209,7 @@ function pickVideo(i) {
   </section>
 
   <!-- APRESENTAÇÃO: quem é o escritório + guias do blog (links internos para os artigos) -->
-  <section class="section !py-12 lg:!py-16" aria-labelledby="guia-title">
+  <section class="section !pt-12 !pb-4 lg:!pt-16 lg:!pb-6" aria-labelledby="guia-title">
     <div class="container-site grid gap-10 lg:grid-cols-12 lg:gap-16">
       <div class="lg:col-span-7">
         <p class="eyebrow">{{ c.home.guide.eyebrow }}</p>
@@ -234,8 +234,9 @@ function pickVideo(i) {
     </div>
   </section>
 
-  <!-- DORES -->
-  <section class="section relative isolate overflow-hidden" aria-labelledby="dores-title">
+  <!-- DORES + PERGUNTAS lado a lado (perguntas também entram no JSON-LD FAQPage, no useSeo acima).
+       Desktop: duas colunas com fio vertical; celular: empilhadas, dores primeiro. -->
+  <section id="perguntas" class="section relative isolate overflow-hidden !pt-6 lg:!pt-8" aria-labelledby="dores-title">
     <img
       src="/img/logo-completo.webp"
       width="640"
@@ -245,11 +246,9 @@ function pickVideo(i) {
       loading="lazy"
       class="pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[min(64rem,130vw)] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-[0.07]"
     />
-    <div class="container-site grid gap-12 lg:grid-cols-12">
-      <div class="lg:col-span-5">
-        <h2 id="dores-title" class="text-[2.2rem] text-ivory sm:text-[2.8rem] lg:sticky lg:top-32">{{ c.home.pains.title }}</h2>
-      </div>
-      <div class="lg:col-span-7">
+    <div class="container-site grid gap-16 lg:grid-cols-2 lg:gap-0">
+      <div class="lg:pr-14">
+        <h2 id="dores-title" class="mb-8 text-[2rem] leading-tight text-ivory sm:text-[2.5rem]">{{ c.home.pains.title }}</h2>
         <ul>
           <li
             v-for="(p, i) in c.home.pains.items"
@@ -271,6 +270,11 @@ function pickVideo(i) {
             <AppIcon name="whatsapp" :size="20" />{{ c.home.pains.cta }}
           </a>
         </div>
+      </div>
+      <div class="lg:border-l lg:border-slate-line lg:pl-14" aria-labelledby="perguntas-title" role="region">
+        <h2 id="perguntas-title" class="mb-8 text-[2rem] leading-tight text-ivory sm:text-[2.5rem]">{{ c.home.faq.title }}</h2>
+        <FaqList :items="c.home.faq.items" />
+        <RouterLink :to="lp('faq')" class="link-brass mt-7 inline-block font-semibold">{{ c.home.faq.link }}</RouterLink>
       </div>
     </div>
   </section>
@@ -338,14 +342,6 @@ function pickVideo(i) {
     </div>
   </section>
 
-  <!-- PERGUNTAS (também entram no JSON-LD FAQPage, no useSeo acima) -->
-  <section id="perguntas" class="section !pt-0 !pb-12 lg:!pb-16" aria-labelledby="perguntas-title">
-    <div class="container-site max-w-4xl">
-      <h2 id="perguntas-title" class="mb-8 text-[2rem] leading-tight text-ivory sm:text-[2.5rem]">{{ c.home.faq.title }}</h2>
-      <FaqList :items="c.home.faq.items" />
-      <RouterLink :to="lp('faq')" class="link-brass mt-7 inline-block font-semibold">{{ c.home.faq.link }}</RouterLink>
-    </div>
-  </section>
 
   <!-- CTA FINAL (com as etapas do atendimento logo acima do chamado) -->
   <section class="relative overflow-hidden" aria-labelledby="final-title">
