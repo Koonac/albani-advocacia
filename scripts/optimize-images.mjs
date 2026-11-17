@@ -20,15 +20,16 @@ async function responsive(input, name, widths, { avif = true, prep } = {}) {
   }
 }
 
-// 1) Dr. Ivan corpo inteiro: usa a versão com borda limpa gerada por scripts/defringe.py
+// 1) Dr. Ivan em pé (hero do Início): recorte transparente já cortado no bounding box.
+//    Se um recorte futuro vier com franja escura, limpe antes com scripts/defringe.py
 //    (python scripts/defringe.py assets-src/dr-ivan-corpo-transparente.png assets-src/dr-ivan-corpo-limpo.png)
 const corpoClean = await sharp(src('dr-ivan-corpo-limpo.png')).png().toBuffer()
 const { width: cw, height: ch } = await sharp(corpoClean).metadata()
-await responsive(corpoClean, 'dr-ivan-corpo', [420, 640, 772])
+await responsive(corpoClean, 'dr-ivan-corpo', [420, 640, 994])
 console.log('corpo', cw, ch)
 
-// 2) Busto (fundo preto) — página Sobre e teaser
-await responsive(src('dr-ivan-busto-fundo-preto.png'), 'dr-ivan-busto', [480, 760, 1120])
+// 2) Dr. Ivan sentado (fundo transparente) — página Sobre, bio-link e SEO
+await responsive(src('dr-ivan-busto.png'), 'dr-ivan-busto', [480, 760, 1120])
 
 // 3) Avatar
 await sharp(src('dr-ivan-restaurante.png')).resize(96, 96).webp({ quality: 82 }).toFile(out('dr-ivan-avatar-96.webp'))

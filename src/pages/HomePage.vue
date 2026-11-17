@@ -123,18 +123,18 @@ function pickVideo(i) {
         <picture class="relative z-[1] block">
           <source
             type="image/avif"
-            srcset="/img/dr-ivan-corpo-420.avif 420w, /img/dr-ivan-corpo-640.avif 640w, /img/dr-ivan-corpo-772.avif 772w"
+            srcset="/img/dr-ivan-corpo-420.avif 420w, /img/dr-ivan-corpo-640.avif 640w, /img/dr-ivan-corpo-994.avif 994w"
             sizes="(min-width: 1024px) 40rem, 80vw"
           />
           <source
             type="image/webp"
-            srcset="/img/dr-ivan-corpo-420.webp 420w, /img/dr-ivan-corpo-640.webp 640w, /img/dr-ivan-corpo-772.webp 772w"
+            srcset="/img/dr-ivan-corpo-420.webp 420w, /img/dr-ivan-corpo-640.webp 640w, /img/dr-ivan-corpo-994.webp 994w"
             sizes="(min-width: 1024px) 40rem, 80vw"
           />
           <img
             src="/img/dr-ivan-corpo-640.webp"
-            width="772"
-            height="1223"
+            width="994"
+            height="1544"
             :alt="c.home.hero.photoAlt"
             fetchpriority="high"
             decoding="async"
